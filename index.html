@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0f766e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>عيادة العيون - د. عبد الله الشميري</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style id="anti-wm">#netlify-badge,.netlify-badge,[id*="netlify" i],[class*="netlify" i],iframe[src*="netlify" i],a[href*="netlify.app" i],#tiiny-badge,.tiiny-badge,[id*="tiiny" i],[class*="tiiny" i],a[href*="tiiny.host" i]{display:none!important;visibility:hidden!important;opacity:0!important;width:0!important;height:0!important;position:absolute!important;left:-9999px!important}</style>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--bg:#f0f4f9;--surface:#fff;--ink:#0f172a;--muted:#64748b;--line:#e5ebf3;--primary:#0f766e;--primary-dark:#115e59;--primary-tint:#ecfdf5;--primary-soft:#d1fae5;--gold:#c9a227;--gold-dark:#b45309;--gold-soft:#fef3c7;--red:#dc2626;--q-bg:linear-gradient(135deg,#eff6ff,#e0eaff);--q-ink:#1e3a8a;--a-bg:linear-gradient(135deg,#ecfdf5,#d1fae5);--a-ink:#065f46;--wa:#25d366;--r:16px;--r-lg:22px}
+html{-webkit-text-size-adjust:100%;overscroll-behavior-y:none}
+body{font-family:"Cairo","Segoe UI",Tahoma,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:15px;min-height:100vh;overflow-x:hidden}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;-webkit-tap-highlight-color:transparent}
+input,select{font-family:inherit;outline:none}
+
+/* SPLASH */
+#splash{position:fixed;inset:0;z-index:99999;background:radial-gradient(ellipse at top,#115e59 0%,#0f766e 40%,#0b3a35 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 24px;color:#fff;overflow:hidden;transition:opacity .8s,visibility .8s}
+#splash.hide{opacity:0;visibility:hidden}
+.splash-c{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;width:100%;max-width:340px}
+.sp-logo-w{position:relative;width:170px;height:170px;margin-bottom:30px;display:flex;align-items:center;justify-content:center}
+.sp-ring{position:absolute;border-radius:50%;border:2px solid transparent;animation:ringRot 3s linear infinite}
+.sp-ring.r1{inset:0;border-top-color:#fbbf24;border-right-color:#fbbf24}
+.sp-ring.r2{inset:14px;border-top-color:rgba(251,191,36,.5);border-left-color:rgba(251,191,36,.5);animation-duration:4s;animation-direction:reverse}
+.sp-ring.r3{inset:28px;border-bottom-color:rgba(255,255,255,.3);animation-duration:5s}
+@keyframes ringRot{to{transform:rotate(360deg)}}
+.sp-logo{width:110px;height:110px;border-radius:30px;background:linear-gradient(135deg,#fbbf24,#d97706 50%,#b45309);display:flex;align-items:center;justify-content:center;font-size:56px;box-shadow:0 20px 60px rgba(251,191,36,.4),0 0 0 4px rgba(255,255,255,.15);position:relative;z-index:2;animation:logoF 2.5s ease-in-out infinite;overflow:hidden}
+.sp-logo img{width:100%;height:100%;object-fit:cover;border-radius:30px}
+@keyframes logoF{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(1.03)}}
+.sp-brand{font-size:12px;font-weight:700;color:#fcd34d;letter-spacing:3px;margin-bottom:6px}
+.sp-title{font-size:22px;font-weight:900;line-height:1.3;margin-bottom:4px;background:linear-gradient(135deg,#fff,#fcd34d,#fef3c7);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.sp-sub{font-size:13px;color:rgba(255,255,255,.75);font-weight:600;margin-bottom:36px}
+.sp-prog-w{width:100%;max-width:260px;margin-bottom:18px}
+.sp-prog{height:5px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden}
+.sp-prog-b{height:100%;width:0%;background:linear-gradient(90deg,#fbbf24,#f59e0b,#dc2626);border-radius:999px;transition:width .4s cubic-bezier(.4,0,.2,1);box-shadow:0 0 16px rgba(251,191,36,.8);position:relative;overflow:hidden}
+.sp-prog-b::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);animation:shim 1.5s infinite}
+@keyframes shim{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.sp-status{font-size:13.5px;font-weight:700;color:rgba(255,255,255,.95);min-height:24px;display:flex;align-items:center;justify-content:center;gap:8px}
+.sp-spin{width:14px;height:14px;border:2px solid rgba(251,191,36,.3);border-top-color:#fbbf24;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sp-pct{font-family:monospace;font-size:11px;color:rgba(255,255,255,.4);font-weight:700;letter-spacing:2px;margin-top:12px}
+.sp-foot{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:0;right:0;text-align:center;font-size:10.5px;color:rgba(255,255,255,.35)}
+
+/* Refresh Bar */
+.refresh-bar{position:fixed;top:0;left:0;right:0;height:3px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none}
+.refresh-bar.show{opacity:1}
+.refresh-bar-fill{height:100%;width:0%;background:linear-gradient(90deg,#fbbf24,#f59e0b,#dc2626);transition:width .3s;box-shadow:0 0 10px rgba(251,191,36,.8)}
+
+#app{opacity:0;transition:opacity .5s}
+#app.show{opacity:1}
+
+.hero{background:linear-gradient(135deg,#0f766e,#115e59 55%,#134e4a);color:#fff;padding:calc(20px + env(safe-area-inset-top)) 18px 20px;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(15,118,110,.35);border-bottom:3px solid rgba(201,162,39,.5)}
+.hero::before{content:"";position:absolute;top:-50%;right:-20%;width:80%;height:200%;background:radial-gradient(circle,rgba(251,191,36,.15),transparent 60%);pointer-events:none}
+.hero-in{max-width:920px;margin:0 auto;display:flex;align-items:center;gap:14px;position:relative;z-index:1;flex-wrap:wrap}
+.doc-photo{width:76px;height:76px;border-radius:22px;flex-shrink:0;background:linear-gradient(135deg,#fbbf24,#d97706);display:flex;align-items:center;justify-content:center;font-size:40px;box-shadow:0 10px 28px rgba(0,0,0,.35),0 0 0 3px rgba(255,255,255,.25),0 0 0 7px rgba(201,162,39,.3);overflow:hidden;position:relative}
+.doc-photo img{width:100%;height:100%;object-fit:cover;border-radius:22px}
+.doc-info{flex:1;min-width:200px}
+.doc-name{font-size:21px;font-weight:900;line-height:1.15;margin-bottom:4px;background:linear-gradient(135deg,#fff,#fcd34d 55%,#fef3c7);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.doc-title{font-size:12px;font-weight:700;color:#fcd34d;display:inline-flex;align-items:center;gap:5px;margin-bottom:9px}
+.doc-title::before{content:"✦";color:#fbbf24}
+.doc-badges{display:flex;gap:6px;flex-wrap:wrap;font-size:11px}
+.doc-badge{background:rgba(255,255,255,.16);backdrop-filter:blur(8px);padding:4px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.22);display:inline-flex;align-items:center;gap:5px;font-weight:600}
+.doc-badge b{color:#fcd34d;font-family:monospace;font-size:12.5px}
+.doc-badge.clickable{cursor:pointer}
+.cloud-dot{width:8px;height:8px;border-radius:50%;background:#94a3b8}
+.cloud-dot.ok{background:#4ade80;box-shadow:0 0 10px rgba(74,222,128,.9)}
+.cloud-dot.sync{background:#fbbf24;animation:pulse 1s infinite}
+.cloud-dot.err{background:#f87171}
+@keyframes pulse{50%{opacity:.4}}
+
+.tabs{position:fixed;bottom:0;left:0;right:0;z-index:50;background:rgba(255,255,255,.97);backdrop-filter:blur(20px) saturate(180%);border-top:1px solid var(--line);box-shadow:0 -4px 24px rgba(15,23,42,.08);padding-bottom:env(safe-area-inset-bottom)}
+.tabs-in{max-width:920px;margin:0 auto;display:flex}
+.tab{flex:1;padding:10px 4px 12px;font-size:11px;font-weight:700;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:3px;position:relative;transition:.2s;background:none;border:none;font-family:inherit}
+.tab .tab-ico{font-size:22px;filter:grayscale(.8);opacity:.55;transition:.25s;line-height:1}
+.tab .tab-lbl{font-size:10.5px;letter-spacing:.3px}
+.tab.active{color:var(--primary)}
+.tab.active .tab-ico{filter:grayscale(0);opacity:1;transform:translateY(-2px) scale(1.15)}
+.tab.active::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:32px;height:3px;background:linear-gradient(90deg,var(--primary),var(--gold));border-radius:0 0 3px 3px}
+.tab-count{position:absolute;top:6px;inset-inline-end:calc(50% - 22px);background:var(--red);color:#fff;font-family:monospace;font-size:9px;font-weight:800;padding:1px 5px;border-radius:999px;min-width:16px;text-align:center;line-height:1.4}
+
+.wrap{max-width:920px;margin:0 auto;padding:16px 14px calc(90px + env(safe-area-inset-bottom))}
+.page{display:none}
+.page.active{display:block;animation:pageIn .35s cubic-bezier(.4,0,.2,1)}
+@keyframes pageIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+.welcome{background:linear-gradient(135deg,#fff,#f0fdfa);border:1.5px solid #a7f3d0;border-radius:var(--r-lg);padding:18px;margin-bottom:16px;box-shadow:0 2px 8px rgba(15,23,42,.04);position:relative;overflow:hidden}
+.welcome::after{content:"";position:absolute;inset-inline-end:-40px;top:-40px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(15,118,110,.08),transparent 70%)}
+.welcome h2{font-size:18px;font-weight:900;color:var(--primary-dark);margin-bottom:5px;display:flex;align-items:center;gap:9px;position:relative}
+.welcome h2 .greet-ico{font-size:22px;animation:wave 2.5s ease-in-out infinite;display:inline-block}
+@keyframes wave{0%,100%{transform:rotate(0)}25%{transform:rotate(16deg)}75%{transform:rotate(-10deg)}}
+.welcome p{color:var(--muted);font-size:13px;position:relative}
+.welcome .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;position:relative}
+.stat{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+.stat b{display:block;font-family:monospace;font-size:22px;font-weight:800;color:var(--primary);line-height:1;margin-bottom:4px}
+.stat span{font-size:11px;color:var(--muted);font-weight:600}
+.stat.offer b{color:var(--red)}
+
+.quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.qa-btn{padding:14px;border-radius:var(--r);font-weight:800;font-size:12.5px;display:flex;align-items:center;gap:11px;box-shadow:0 1px 3px rgba(15,23,42,.04);cursor:pointer;transition:.2s;border:1.5px solid transparent;text-align:right}
+.qa-btn .qa-ico{width:42px;height:42px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;background:rgba(255,255,255,.25)}
+.qa-btn .qa-txt{display:flex;flex-direction:column;align-items:flex-start;gap:2px;flex:1}
+.qa-btn .qa-txt small{font-weight:500;opacity:.85;font-size:10.5px}
+.qa-btn.green{background:linear-gradient(135deg,#0f766e,#115e59);color:#fff}
+.qa-btn.gold{background:linear-gradient(135deg,#c9a227,#b45309);color:#fff}
+.qa-btn.red{background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff}
+.qa-btn:active{transform:scale(.97)}
+
+.mcb{margin-bottom:18px;background:linear-gradient(135deg,#0f766e 0%,#115e59 50%,#134e4a 100%);border-radius:24px;padding:24px 20px;color:#fff;position:relative;overflow:hidden;box-shadow:0 12px 40px rgba(15,118,110,.35),inset 0 1px 0 rgba(255,255,255,.15);border:1px solid rgba(251,191,36,.3)}
+.mcb::before{content:"";position:absolute;top:-50%;right:-30%;width:80%;height:200%;background:radial-gradient(circle,rgba(251,191,36,.15),transparent 60%);pointer-events:none;animation:cGlow 6s ease-in-out infinite}
+@keyframes cGlow{0%,100%{transform:translate(0,0)}50%{transform:translate(-20px,20px)}}
+.mcb-icon{width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,#fbbf24,#d97706);display:flex;align-items:center;justify-content:center;font-size:34px;margin-bottom:16px;box-shadow:0 10px 30px rgba(251,191,36,.4),inset 0 -3px 10px rgba(0,0,0,.15);position:relative;z-index:2;animation:mcbP 3s ease-in-out infinite;overflow:hidden}
+.mcb-icon img{width:100%;height:100%;object-fit:cover;border-radius:20px}
+@keyframes mcbP{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.mcb-title{font-size:19px;font-weight:900;margin-bottom:6px;position:relative;z-index:2;line-height:1.3;background:linear-gradient(135deg,#fff,#fcd34d 60%,#fef3c7);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.mcb-sub{font-size:12.5px;color:rgba(255,255,255,.85);font-weight:600;margin-bottom:6px;position:relative;z-index:2}
+.mcb-hrs{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:#fcd34d;background:rgba(251,191,36,.15);padding:5px 12px;border-radius:999px;border:1px solid rgba(251,191,36,.3);margin-bottom:16px;position:relative;z-index:2}
+.mcb-actions{display:grid;grid-template-columns:1.6fr 1fr;gap:10px;position:relative;z-index:2}
+.mcb-btn{padding:14px 12px;border-radius:14px;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:.2s;border:none;font-family:inherit;position:relative;overflow:hidden}
+.mcb-btn:active{transform:scale(.97)}
+.mcb-btn.wa{background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;box-shadow:0 8px 24px rgba(37,211,102,.4)}
+.mcb-btn.wa::after{content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);animation:mcbS 3s infinite}
+@keyframes mcbS{0%{left:-100%}50%,100%{left:100%}}
+.mcb-btn.call{background:rgba(255,255,255,.12);color:#fff;border:1.5px solid rgba(255,255,255,.25);backdrop-filter:blur(10px)}
+.mcb-status{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;color:#4ade80;position:relative;z-index:2;margin-top:12px}
+.mcb-status .mcb-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 12px #4ade80;animation:sP 1.5s infinite}
+@keyframes sP{0%,100%{opacity:1}50%{opacity:.4}}
+
+.section-title{font-size:15.5px;font-weight:800;margin:22px 0 5px;display:flex;align-items:center;gap:9px}
+.section-title::before{content:"";width:4px;height:18px;border-radius:2px;background:linear-gradient(180deg,var(--primary),var(--gold))}
+.section-title.red::before{background:linear-gradient(180deg,#dc2626,#b91c1c)}
+.section-sub{color:var(--muted);font-size:12.5px;margin:0 0 12px;padding-inline-start:13px}
+
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);margin-bottom:12px;padding:8px 12px;background:var(--surface);border-radius:10px;border:1px solid var(--line);flex-wrap:wrap}
+.breadcrumb a{color:var(--primary);font-weight:700;text-decoration:none;cursor:pointer}
+.breadcrumb .sep{opacity:.5}
+.breadcrumb .current{color:var(--ink);font-weight:800}
+
+.groups-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:11px}
+.group-card{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:14px;cursor:pointer;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(15,23,42,.04);transition:.25s;position:relative;overflow:hidden}
+.group-card::after{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--primary),var(--gold));transform:scaleY(0);transform-origin:top;transition:.3s;border-radius:4px}
+.group-card:hover{border-color:#5eead4;box-shadow:0 6px 20px rgba(15,118,110,.12);transform:translateY(-2px)}
+.group-card:active{transform:scale(.98)}
+.group-card:hover::after{transform:scaleY(1)}
+.gc-icon{width:50px;height:50px;border-radius:14px;flex-shrink:0;background:linear-gradient(135deg,var(--primary-soft),#6ee7b7);display:flex;align-items:center;justify-content:center;font-size:26px}
+.gc-info{flex:1;min-width:0}
+.gc-ar{font-size:15px;font-weight:800;margin-bottom:2px;line-height:1.25}
+.gc-en{font-size:10.5px;color:var(--muted);font-style:italic;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gc-count{font-family:monospace;font-weight:800;font-size:14.5px;color:var(--primary);background:var(--primary-tint);padding:5px 12px;border-radius:9px;flex-shrink:0;min-width:46px;text-align:center;border:1px solid #99f6e4}
+
+.group-header{display:flex;align-items:center;gap:12px;padding:16px;background:linear-gradient(135deg,#fff,#f0fdfa);border:1.5px solid #a7f3d0;border-radius:var(--r-lg);margin-bottom:14px}
+.gh-back{width:42px;height:42px;border-radius:12px;flex-shrink:0;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;cursor:pointer;border:none}
+.gh-back:active{transform:scale(.95)}
+.gh-icon{width:56px;height:56px;border-radius:15px;flex-shrink:0;background:linear-gradient(135deg,var(--primary-soft),#6ee7b7);display:flex;align-items:center;justify-content:center;font-size:28px}
+.gh-ar{font-size:18px;font-weight:900;color:var(--primary-dark);margin-bottom:2px}
+.gh-en{font-size:11px;color:var(--muted);font-style:italic;font-weight:500}
+.gh-meta{display:flex;gap:9px;margin-top:5px;font-size:11.5px;color:var(--muted);flex-wrap:wrap}
+.gh-meta b{color:var(--primary);font-family:monospace;font-weight:800}
+
+.search-bar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.search-input{flex:1;min-width:200px;position:relative}
+.search-input input{width:100%;padding:12px 42px 12px 14px;border:1.5px solid var(--line);border-radius:13px;background:var(--surface);font-size:14px;font-weight:500;transition:.2s}
+.search-input input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(15,118,110,.1)}
+.search-input::before{content:"🔍";position:absolute;inset-inline-start:14px;top:50%;transform:translateY(-50%);font-size:15px;opacity:.5;pointer-events:none}
+.filter-select{padding:12px 14px;border:1.5px solid var(--line);border-radius:13px;background:var(--surface);font-size:13px;font-weight:600;color:#334155;cursor:pointer;min-width:140px;font-family:inherit}
+.range-box{display:flex;align-items:center;gap:5px;background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1.5px solid #fde68a;border-radius:13px;padding:6px 8px 6px 6px;flex-wrap:wrap;width:100%;margin-bottom:14px}
+.range-box .lbl{font-size:11.5px;font-weight:800;color:var(--gold-dark);padding:0 4px}
+.range-box input{width:60px;padding:7px 6px;border:1.5px solid #fcd34d;border-radius:8px;background:#fff;font-size:13px;font-weight:800;font-family:monospace;color:var(--gold-dark);text-align:center}
+.range-go{padding:8px 14px;border-radius:8px;font-size:12px;font-weight:800;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#fff;cursor:pointer}
+.range-mini{width:30px;height:30px;padding:0;border-radius:8px;background:#fff;border:1.5px solid #fde68a;color:var(--gold-dark);font-size:12px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.quick-chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;padding:8px 10px;background:var(--surface);border:1px dashed #a7f3d0;border-radius:11px;align-items:center}
+.quick-chips .lbl{font-size:11.5px;font-weight:700;color:var(--muted);margin-inline-end:4px}
+.chip{padding:5px 12px;border-radius:999px;font-size:11px;font-weight:800;background:var(--primary-tint);border:1.5px solid #99f6e4;color:var(--primary-dark);cursor:pointer;font-family:monospace}
+.chip:hover{background:var(--primary);color:#fff}
+.results-info{padding:11px 14px;background:linear-gradient(135deg,#f0fdfa,#fff);border:1px solid #a7f3d0;border-radius:11px;margin-bottom:14px;font-size:12.5px;font-weight:600;color:var(--primary-dark)}
+.results-info b{font-family:monospace;font-size:14px}
+
+.q-list{display:flex;flex-direction:column;gap:12px}
+.q-card{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.04)}
+.q-head{display:flex;align-items:center;gap:9px;padding:11px 14px;background:linear-gradient(180deg,#f8fafc,#f1f5f9);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.q-num{font-family:monospace;font-weight:800;font-size:12.5px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:5px 14px;border-radius:9px}
+.q-cats{display:flex;gap:4px;flex-wrap:wrap;flex:1;min-width:0}
+.q-cat{font-size:10px;font-weight:700;padding:3px 9px;border-radius:6px;background:var(--primary-tint);color:var(--primary-dark);border:1px solid #99f6e4;display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.q-cat.topic{background:#ede9fe;color:#5b21b6;border-color:#c4b5fd}
+.q-actions{display:flex;gap:5px;flex-wrap:wrap;margin-inline-start:auto}
+.btn-mini{padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;background:#fff;border:1.5px solid var(--line);color:#334155;cursor:pointer;display:inline-flex;align-items:center;gap:4px;transition:.2s}
+.btn-mini.tr{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-color:#bfdbfe;color:#1d4ed8}
+.btn-mini.tr.on{background:linear-gradient(135deg,#059669,#047857);color:#fff;border-color:#047857}
+.btn-mini.tr.cancel{background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff;border-color:#b91c1c}
+.btn-mini.wa{background:linear-gradient(135deg,#dcfce7,#bbf7d0);border-color:#86efac;color:#166534}
+.q-body{padding:16px;background:var(--q-bg);position:relative}
+.q-body::before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#3b82f6,#1d4ed8)}
+.q-tag{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;color:#1d4ed8;background:#dbeafe;padding:4px 11px;border-radius:7px;margin-bottom:11px}
+.q-text{font-size:14.5px;line-height:1.9;color:var(--q-ink);font-weight:600;white-space:pre-wrap;word-break:break-word;margin-bottom:14px}
+.q-card.ar .q-text{direction:rtl;text-align:right}
+.opts-title{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:#1e40af;background:#dbeafe;padding:4px 12px;border-radius:7px;margin-bottom:10px}
+.opts-list{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.option-box{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:11px;border:2px solid;font-weight:600;font-size:14px;line-height:1.7}
+.option-box .opt-letter{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:monospace;font-weight:900;font-size:15px;flex-shrink:0}
+.option-box .opt-text{flex:1;word-break:break-word;white-space:pre-wrap}
+.option-box .opt-icon{font-size:20px;font-weight:900;display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%}
+.option-box.correct{background:linear-gradient(135deg,#dcfce7,#bbf7d0);border-color:#16a34a;color:#14532d}
+.option-box.correct .opt-letter{background:linear-gradient(135deg,#16a34a,#15803d);color:#fff}
+.option-box.correct .opt-text{font-weight:800}
+.option-box.correct .opt-icon{background:#16a34a;color:#fff}
+.option-box.wrong{background:linear-gradient(135deg,#fee2e2,#fecaca);border-color:#ef4444;color:#7f1d1d}
+.option-box.wrong .opt-letter{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff}
+.option-box.wrong .opt-icon{background:#ef4444;color:#fff}
+.option-box.neutral{background:rgba(255,255,255,.88);border-color:#bfdbfe;color:#334155}
+.option-box.neutral .opt-letter{background:#e2e8f0;color:#334155}
+.q-ans{padding:14px 16px;background:var(--a-bg);border-top:3px solid var(--a-ink)}
+.a-tag{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;color:#fff;background:linear-gradient(135deg,#059669,#047857);padding:4px 11px;border-radius:7px;margin-inline-end:9px}
+.a-text{font-size:14px;line-height:1.9;color:var(--a-ink);font-weight:700;white-space:pre-wrap;word-break:break-word}
+.gap{display:flex;align-items:center;gap:10px;padding:7px 13px;color:var(--gold-dark);font-size:11px;font-weight:600}
+.gap::before,.gap::after{content:"";flex:1;height:1px;background:repeating-linear-gradient(90deg,#fde68a 0,#fde68a 5px,transparent 5px,transparent 10px)}
+.gap .tag{background:var(--gold-soft);padding:4px 12px;border-radius:999px;font-family:monospace;font-weight:800;white-space:nowrap;border:1px solid #fde68a}
+
+.offers-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.offer-card{background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 4px 20px rgba(15,23,42,.08);border:1.5px solid #e5ebf3;transition:.3s;animation:oIn .5s ease-out backwards}
+@keyframes oIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+.offer-card:active{transform:scale(.99)}
+.offer-banner{position:relative;height:180px;background:linear-gradient(135deg,#0f766e,#115e59 50%,#134e4a);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.offer-banner img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.offer-banner::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,.6) 100%);z-index:1}
+.offer-banner-placeholder{font-size:76px;filter:drop-shadow(0 10px 20px rgba(0,0,0,.3));position:relative;z-index:0;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.offer-badge{position:absolute;top:14px;inset-inline-start:14px;z-index:2;padding:6px 14px;border-radius:999px;font-size:11px;font-weight:900;color:#fff;background:linear-gradient(135deg,#dc2626,#b91c1c);box-shadow:0 6px 20px rgba(220,38,38,.5);display:inline-flex;align-items:center;gap:5px}
+.offer-badge::before{content:"⭐"}
+.offer-discount{position:absolute;top:14px;inset-inline-end:14px;z-index:2;background:linear-gradient(135deg,#fbbf24,#d97706);color:#fff;padding:8px 16px;border-radius:14px;font-family:monospace;font-weight:900;font-size:18px;box-shadow:0 8px 24px rgba(217,119,6,.5);line-height:1;text-align:center}
+.offer-discount small{display:block;font-size:9px;font-weight:700;margin-top:3px;opacity:.9;letter-spacing:1px}
+.offer-clinic{position:absolute;bottom:12px;inset-inline-start:14px;inset-inline-end:14px;z-index:2;display:flex;align-items:center;gap:8px;color:#fff;font-size:12.5px;font-weight:800;text-shadow:0 2px 8px rgba(0,0,0,.6)}
+.offer-clinic .oc-icon{width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.25);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;font-size:16px;border:1px solid rgba(255,255,255,.3);flex-shrink:0}
+.offer-body{padding:18px}
+.offer-title{font-size:17px;font-weight:900;color:var(--ink);line-height:1.35;margin-bottom:8px}
+.offer-desc{font-size:13.5px;color:var(--muted);line-height:1.75;margin-bottom:14px}
+.offer-prices{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:13px;background:linear-gradient(135deg,#fef3c7,#fde68a);margin-bottom:14px;border:1.5px solid #fcd34d}
+.offer-prices .new-price{font-family:monospace;font-size:20px;font-weight:900;color:#dc2626;display:flex;align-items:center;gap:4px}
+.offer-prices .new-price small{font-size:11px;font-weight:700;color:#b45309}
+.offer-prices .old-price{font-family:monospace;font-size:14px;font-weight:700;color:#94a3b8;text-decoration:line-through}
+.offer-prices .save{margin-inline-start:auto;font-size:11px;font-weight:800;color:#fff;background:linear-gradient(135deg,#dc2626,#b91c1c);padding:4px 10px;border-radius:7px}
+.offer-meta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e5ebf3}
+.offer-meta-item{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;color:var(--muted);background:#f8fafc;padding:5px 10px;border-radius:8px;border:1px solid var(--line)}
+.offer-meta-item.expiring{background:#fef2f2;color:#dc2626;border-color:#fecaca}
+.offer-meta-item b{color:var(--primary);font-family:monospace}
+.offer-actions{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:8px}
+.offer-btn{padding:12px 8px;border-radius:12px;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:5px;cursor:pointer;transition:.2s;border:none;font-family:inherit;white-space:nowrap}
+.offer-btn:active{transform:scale(.96)}
+.offer-btn.wa{background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;box-shadow:0 4px 14px rgba(37,211,102,.35)}
+.offer-btn.call{background:linear-gradient(135deg,#0f766e,#115e59);color:#fff;box-shadow:0 4px 14px rgba(15,118,110,.3)}
+.offer-btn.share{background:#f1f5f9;color:#334155;border:1.5px solid var(--line)}
+
+.empty{text-align:center;padding:55px 22px;color:var(--muted);background:var(--surface);border:2px dashed var(--line);border-radius:var(--r-lg);font-size:13.5px}
+.empty .empty-ico{font-size:52px;display:block;margin-bottom:14px;opacity:.5}
+.empty b{color:var(--primary);font-weight:800;font-size:15.5px;display:block;margin-bottom:5px}
+
+.toast{position:fixed;bottom:calc(90px + env(safe-area-inset-bottom));left:50%;transform:translate(-50%,100px);background:#0f172a;color:#fff;padding:12px 22px;border-radius:999px;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:.3s;z-index:9999;box-shadow:0 12px 32px rgba(0,0,0,.3);max-width:90%;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.ok{background:linear-gradient(135deg,#059669,#047857)}
+.toast.err{background:linear-gradient(135deg,#dc2626,#b91c1c)}
+.toast.wa{background:linear-gradient(135deg,#25d366,#128c7e)}
+
+@media (max-width:640px){
+  .hero{padding:calc(16px + env(safe-area-inset-top)) 12px 16px}
+  .doc-photo{width:68px;height:68px;font-size:36px}
+  .doc-name{font-size:18px}
+  .doc-title{font-size:11.5px}
+  .wrap{padding:14px 12px calc(90px + env(safe-area-inset-bottom))}
+  .quick-actions{grid-template-columns:1fr}
+  .groups-grid{grid-template-columns:1fr}
+  .q-body{padding:13px}
+  .option-box{padding:10px 12px;font-size:13.5px}
+  .option-box .opt-letter{width:30px;height:30px;font-size:13.5px}
+  .offer-banner{height:160px}
+  .offer-title{font-size:16px}
+  .offer-actions{grid-template-columns:1fr 1fr}
+  .offer-btn.wa{grid-column:1/-1}
+  .mcb{padding:20px 16px;border-radius:20px}
+  .mcb-icon{width:56px;height:56px;font-size:30px}
+  .mcb-title{font-size:17px}
+  .mcb-actions{grid-template-columns:1fr}
+  .sp-logo{width:90px;height:90px;font-size:46px}
+  .sp-logo-w{width:140px;height:140px}
+  .sp-title{font-size:20px}
+}
+</style>
+</head>
+<body>
+
+<div id="splash">
+  <div class="splash-c">
+    <div class="sp-logo-w">
+      <div class="sp-ring r1"></div>
+      <div class="sp-ring r2"></div>
+      <div class="sp-ring r3"></div>
+      <div class="sp-logo" id="splashLogo">👁️</div>
+    </div>
+    <div class="sp-brand" id="splashBrand">عيادة العيون</div>
+    <div class="sp-title" id="splashTitle">بنك أسئلة البورد العربي</div>
+    <div class="sp-sub" id="splashSub">د. عبد الله الشميري</div>
+    <div class="sp-prog-w"><div class="sp-prog"><div class="sp-prog-b" id="splashBar"></div></div></div>
+    <div class="sp-status"><span class="sp-spin"></span><span id="splashText">جاري تحديث البيانات</span></div>
+    <div class="sp-pct" id="splashPct">0%</div>
+  </div>
+  <div class="sp-foot">الإصدار 4.0 · التطبيق الاحترافي</div>
+</div>
+
+<div class="refresh-bar" id="refreshBar"><div class="refresh-bar-fill" id="refreshBarFill"></div></div>
+
+<div id="app">
+<header class="hero">
+  <div class="hero-in">
+    <div class="doc-photo" id="docPhoto">👁️</div>
+    <div class="doc-info">
+      <h1 class="doc-name" id="docName">د. عبد الله الشميري</h1>
+      <div class="doc-title" id="docTitle">استشاري طب وجراحة العيون</div>
+      <div class="doc-badges">
+        <div class="doc-badge clickable" id="cloudBadge"><span class="cloud-dot sync" id="cloudDot"></span><span id="cloudText">جارٍ الاتصال</span></div>
+        <div class="doc-badge">📋 <b id="cntHdr">0</b></div>
+        <div class="doc-badge">🎁 <b id="cntOffers">0</b></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="tabs-in">
+    <button class="tab active" data-tab="home" onclick="navigate('#home')"><span class="tab-ico">🏠</span><span class="tab-lbl">الرئيسية</span></button>
+    <button class="tab" data-tab="groups" onclick="navigate('#groups')"><span class="tab-ico">📚</span><span class="tab-lbl">الأسئلة</span></button>
+    <button class="tab" data-tab="offers" onclick="navigate('#offers')"><span class="tab-ico">🎁</span><span class="tab-lbl">العروض</span><span class="tab-count" id="tabOffersCount">0</span></button>
+    <button class="tab" data-tab="search" onclick="navigate('#search')"><span class="tab-ico">🔍</span><span class="tab-lbl">البحث</span></button>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="page active" id="pageHome" style="display:none">
+    <div id="medicalContactBox"></div>
+    <div class="welcome">
+      <h2><span class="greet-ico">👋</span> أهلاً وسهلاً بك</h2>
+      <p>تصفح الأسئلة والعروض الطبية من مكان واحد</p>
+      <div class="stats">
+        <div class="stat"><b id="sTotal">0</b><span>سؤال</span></div>
+        <div class="stat offer"><b id="sOffers">0</b><span>عرض طبي</span></div>
+        <div class="stat"><b id="sRange" style="font-size:11px">—</b><span>النطاق</span></div>
+      </div>
+    </div>
+    <div class="quick-actions">
+      <button class="qa-btn red" onclick="navigate('#offers')"><div class="qa-ico">🎁</div><div class="qa-txt">العروض الطبية<small>خصومات حصرية</small></div></button>
+      <button class="qa-btn green" onclick="navigate('#groups')"><div class="qa-ico">📚</div><div class="qa-txt">تصفح الأسئلة<small>حسب التخصصات</small></div></button>
+      <button class="qa-btn gold" onclick="navigate('#search')"><div class="qa-ico">🔍</div><div class="qa-txt">البحث المتقدم<small>بالكلمة أو الرقم</small></div></button>
+      <button class="qa-btn green" onclick="scrollToTopAndSync()"><div class="qa-ico">🔄</div><div class="qa-txt">تحديث البيانات<small>جلب آخر التحديثات</small></div></button>
+    </div>
+    <h3 class="section-title red">🎁 عروض طبية مميزة</h3>
+    <p class="section-sub">أحدث العروض في العيادة</p>
+    <div class="offers-grid" id="homeOffers"></div>
+    <h3 class="section-title">📊 أكثر التخصصات</h3>
+    <p class="section-sub">اضغط أي مجموعة لتدخل إليها</p>
+    <div class="groups-grid" id="topCats"></div>
+  </div>
+
+  <div class="page" id="pageGroups" style="display:none">
+    <div class="breadcrumb"><a onclick="navigate('#home')">🏠 الرئيسية</a><span class="sep">›</span><span class="current">📚 المجموعات</span></div>
+    <h3 class="section-title">📚 جميع المجموعات الطبية</h3>
+    <p class="section-sub">اضغط أي مجموعة لتدخل إليها</p>
+    <div class="groups-grid" id="groupsGrid"></div>
+  </div>
+
+  <div class="page" id="pageGroupDetail" style="display:none">
+    <div class="breadcrumb"><a onclick="navigate('#home')">🏠</a><span class="sep">›</span><a onclick="navigate('#groups')">📚</a><span class="sep">›</span><span class="current" id="breadcrumbCurrent">—</span></div>
+    <div class="group-header">
+      <button class="gh-back" onclick="navigate('#groups')">←</button>
+      <div class="gh-icon" id="ghIcon">📚</div>
+      <div class="gh-info">
+        <div class="gh-ar" id="ghAr"></div>
+        <div class="gh-en" id="ghEn"></div>
+        <div class="gh-meta" id="ghMeta"></div>
+      </div>
+    </div>
+    <div class="search-bar"><div class="search-input"><input type="text" id="groupSearchInput" placeholder="ابحث داخل هذه المجموعة..."></div></div>
+    <div class="q-list" id="groupQuestions"></div>
+  </div>
+
+  <div class="page" id="pageOffers" style="display:none">
+    <div class="breadcrumb"><a onclick="navigate('#home')">🏠</a><span class="sep">›</span><span class="current">🎁 العروض الطبية</span></div>
+    <h3 class="section-title red">🎁 العروض الطبية الحصرية</h3>
+    <p class="section-sub">أحدث العروض والخصومات في العيادة</p>
+    <div id="offersList"></div>
+  </div>
+
+  <div class="page" id="pageSearch" style="display:none">
+    <div class="breadcrumb"><a onclick="navigate('#home')">🏠</a><span class="sep">›</span><span class="current">🔍 البحث</span></div>
+    <h3 class="section-title">🔍 البحث المتقدم</h3>
+    <p class="section-sub">ابحث بالنص، الرقم التسلسلي، أو التخصص</p>
+    <div class="search-bar">
+      <div class="search-input"><input type="text" id="searchInput" placeholder="ابحث بنص السؤال..."></div>
+      <select class="filter-select" id="catFilter"><option value="">كل التخصصات</option></select>
+    </div>
+    <div class="range-box">
+      <span class="lbl">🎯 النطاق</span>
+      <input type="number" id="rFrom" placeholder="من">
+      <span style="color:var(--gold-dark);font-weight:800">←</span>
+      <input type="number" id="rTo" placeholder="إلى">
+      <button class="range-go" id="rangeGo">عرض</button>
+      <button class="range-mini" id="rangeReset">↺</button>
+      <button class="range-mini" id="rangePrint">🖨️</button>
+    </div>
+    <div class="quick-chips" id="quickChips"><span class="lbl">⚡ سريع:</span></div>
+    <div id="searchResults"></div>
+  </div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+const SUPABASE_URL = 'https://mkdcytowejpfavaelggs.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rZGN5dG93ZWpwZmF2YWVsZ2dzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA1MTQyNDMsImV4cCI6MjEwNjA5MDI0M30.775neWdDu4eb9_XIWN5HLmTX1vzFw2_Dk0w50XKWOKc';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const SPECIALTIES = [
+{ar:'الباطنة',en:'Internal Medicine',icon:'🫀'},{ar:'الجراحة العامة',en:'General Surgery',icon:'🔪'},
+{ar:'الأطفال',en:'Pediatrics',icon:'👶'},{ar:'النساء والتوليد',en:'Obstetrics & Gynecology',icon:'🤰'},
+{ar:'طب الأسرة',en:'Family Medicine',icon:'👨‍⚕️'},{ar:'الطب النفسي',en:'Psychiatry',icon:'🧠'},
+{ar:'الجلدية',en:'Dermatology',icon:'🧴'},{ar:'الأنف والأذن والحنجرة',en:'ENT',icon:'👂'},
+{ar:'طب العيون',en:'Ophthalmology',icon:'👁️'},{ar:'العظام',en:'Orthopedics',icon:'🦴'},
+{ar:'المسالك البولية',en:'Urology',icon:'💧'},{ar:'التخدير',en:'Anesthesia',icon:'💉'},
+{ar:'طب الطوارئ',en:'Emergency Medicine',icon:'🚨'},{ar:'الأشعة',en:'Radiology',icon:'📷'},
+{ar:'الطب الشرعي',en:'Forensic Medicine',icon:'⚖️'},{ar:'صحة المجتمع',en:'Community Medicine',icon:'🌍'},
+{ar:'العلوم الأساسية',en:'Basic Sciences',icon:'🔬'},{ar:'علم الأدوية',en:'Pharmacology',icon:'💊'}
+];
+
+const $ = id => document.getElementById(id);
+const CK = 'eye_clinic_app_v4';
+
+let db = { questions:{}, prefix:'Q' };
+let offers = [];
+let cloud = { doctor:{name:'د. عبد الله الشميري', title:'استشاري طب وجراحة العيون', photo:''} };
+let contact = { phone:'', whatsapp:'', title:'للحجز والاستشارة الطبية', subtitle:'متاحون لخدمتكم على مدار الساعة', workingHours:'', available:true };
+let currentGroup = '', searchQ = '', searchCat = '', groupSearchQ = '';
+let syncTimer = null, trCache = {};
+
+const esc = s => String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const haptic = () => { try{ if(navigator.vibrate) navigator.vibrate(10); }catch(e){} };
+
+let sp = 0;
+function setSplashProgress(p, text){
+  sp = Math.min(100, Math.max(sp, p));
+  $('splashBar').style.width = sp + '%';
+  $('splashPct').textContent = Math.round(sp) + '%';
+  if(text) $('splashText').textContent = text;
+}
+function hideSplash(){
+  setSplashProgress(100, 'جاهز!');
+  setTimeout(() => {
+    $('splash').classList.add('hide');
+    $('app').classList.add('show');
+    setTimeout(() => { const s = $('splash'); if(s) s.style.display = 'none'; }, 800);
+  }, 500);
+}
+
+let rbT;
+function showRefreshBar(){ clearTimeout(rbT); $('refreshBar').classList.add('show'); $('refreshBarFill').style.width = '0%'; setTimeout(() => $('refreshBarFill').style.width = '70%', 50); }
+function hideRefreshBar(){ $('refreshBarFill').style.width = '100%'; rbT = setTimeout(() => { $('refreshBar').classList.remove('show'); setTimeout(() => $('refreshBarFill').style.width = '0%', 300); }, 300); }
+
+function toast(msg, type){ const t = $('toast'); t.textContent = msg; t.className = 'toast show ' + (type || ''); clearTimeout(t._t); t._t = setTimeout(() => t.className = 'toast', 2500); }
+function setCloud(cls, text){ $('cloudDot').className = 'cloud-dot ' + (cls || ''); $('cloudText').textContent = text || 'السحابة'; }
+
+/* ✅ دالة التحديث المُصلحة */
+async function loadFromSupabase(silent){
+  if(!silent){ setCloud('sync', 'تحديث...'); showRefreshBar(); }
+  try{
+    // جلب الأسئلة
+    const { data: qs, error: e1 } = await sb.from('questions').select('*').order('num', {ascending:true});
+    if(e1) throw e1;
+    
+    // جلب الإعدادات
+    const { data: st, error: e2 } = await sb.from('app_settings').select('*');
+    if(e2) throw e2;
+
+    // معالجة الأسئلة
+    db.questions = {};
+    for(const row of qs){
+      db.questions[String(row.num)] = {
+        num: row.num, body: row.body, parts: row.parts || {q:'',opts:'',ans:''},
+        category: row.category || 'غير مصنّف', categoryIcon: row.category_icon || '📄',
+        topic: row.topic || '', topicIcon: row.topic_icon || '',
+        translation: null, showAr: false
+      };
+    }
+
+    // معالجة الإعدادات
+    offers = [];
+    for(const row of st){
+      if(row.key === 'doctor' && row.value) cloud.doctor = Object.assign(cloud.doctor, row.value);
+      if(row.key === 'prefix') db.prefix = row.value || 'Q';
+      if(row.key === 'offers' && Array.isArray(row.value)) offers = row.value.filter(o => o.active !== false);
+      if(row.key === 'contact' && row.value) contact = Object.assign(contact, row.value);
+    }
+
+    // حفظ الكاش
+    try{ localStorage.setItem(CK, JSON.stringify({q:db.questions, p:db.prefix, d:cloud.doctor, o:offers, c:contact})); }catch(e){}
+
+    // تحديث الواجهة
+    setCloud('ok', 'متصل ✓');
+    renderDoctor();
+    applyDoctorToSplash();
+    renderHeaderCounts();
+    
+    // إعادة رسم الصفحة الحالية
+    const hash = location.hash || '#home';
+    if(hash.startsWith('#group=')) renderGroupDetail(currentGroup);
+    else if(hash === '#search') renderSearch();
+    else if(hash === '#groups') renderGroups();
+    else if(hash === '#offers') renderOffers();
+    else renderHome();
+    
+    if(!silent) toast('✓ تم التحديث', 'ok');
+    return true;
+  } catch(e){
+    console.error('Supabase:', e);
+    setCloud('err', 'خطأ');
+    if(!silent) toast('فشل: ' + e.message, 'err');
+    return false;
+  } finally { if(!silent) hideRefreshBar(); }
+}
+
+function startAutoSync(){ if(syncTimer) clearInterval(syncTimer); syncTimer = setInterval(() => { if(!document.hidden) loadFromSupabase(true); }, 30000); }
+document.addEventListener('visibilitychange', () => { if(!document.hidden) loadFromSupabase(true); });
+window.addEventListener('online', () => loadFromSupabase(true));
+
+function navigate(hash){ haptic(); if(location.hash === hash) handleRoute(); else location.hash = hash; }
+window.navigate = navigate;
+
+function handleRoute(){
+  const hash = (location.hash || '#home').substring(1);
+  const gm = hash.match(/^group=(.+)$/);
+  document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); p.style.display='none'; });
+  if(gm){
+    currentGroup = decodeURIComponent(gm[1]);
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    $('pageGroupDetail').classList.add('active'); $('pageGroupDetail').style.display='block';
+    renderGroupDetail(currentGroup);
+  } else if(hash === 'groups'){
+    currentGroup = '';
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'groups'));
+    $('pageGroups').classList.add('active'); $('pageGroups').style.display='block';
+    renderGroups();
+  } else if(hash === 'offers'){
+    currentGroup = '';
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'offers'));
+    $('pageOffers').classList.add('active'); $('pageOffers').style.display='block';
+    renderOffers();
+  } else if(hash === 'search'){
+    currentGroup = '';
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'search'));
+    $('pageSearch').classList.add('active'); $('pageSearch').style.display='block';
+    renderSearch();
+  } else {
+    currentGroup = '';
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'home'));
+    $('pageHome').classList.add('active'); $('pageHome').style.display='block';
+    renderHome();
+  }
+  window.scrollTo(0,0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0;
+}
+window.addEventListener('hashchange', handleRoute);
+
+function renderDoctor(){
+  const d = cloud.doctor || {};
+  $('docName').textContent = d.name || 'د. عبد الله الشميري';
+  $('docTitle').textContent = d.title || '';
+  const ph = $('docPhoto');
+  if(d.photo) ph.innerHTML = `<img src="${d.photo}" alt="">`;
+  else ph.textContent = '👁️';
+}
+function applyDoctorToSplash(){
+  const d = cloud.doctor || {};
+  if(d.name) $('splashSub').textContent = d.name;
+  if(d.photo) $('splashLogo').innerHTML = `<img src="${d.photo}" alt="">`;
+}
+function countByCat(){ const m = {}; for(const q of Object.values(db.questions)){ const c = q.category || 'غير مصنّف'; m[c] = (m[c]||0) + 1; } return m; }
+function sortedNums(){ return Object.values(db.questions).map(q => q.num).sort((a,b) => a-b); }
+function getSpecialty(name){ return SPECIALTIES.find(s => s.ar === name) || {icon:'📄', en:'', ar:name}; }
+function renderHeaderCounts(){ $('cntHdr').textContent = sortedNums().length; $('cntOffers').textContent = offers.length; $('tabOffersCount').textContent = offers.length; }
+
+function renderMedicalContact(){
+  const box = $('medicalContactBox'); if(!box) return;
+  if(!contact.phone && !contact.whatsapp){ box.style.display = 'none'; return; }
+  const wa = contact.whatsapp || contact.phone;
+  const phone = contact.phone || contact.whatsapp;
+  const avail = contact.available !== false;
+  box.style.display = 'block';
+  box.innerHTML = `<div class="mcb">
+    <div class="mcb-icon">🩺</div>
+    <div class="mcb-title">${esc(contact.title || 'للحجز والاستشارة الطبية')}</div>
+    <div class="mcb-sub">${esc(contact.subtitle || '')}</div>
+    ${contact.workingHours ? `<div class="mcb-hrs">🕐 ${esc(contact.workingHours)}</div>` : ''}
+    <div class="mcb-actions">
+      ${wa ? `<button class="mcb-btn wa" data-contact-wa>💬 احجز عبر واتساب</button>` : ''}
+      ${phone ? `<button class="mcb-btn call" data-contact-call>📞 اتصل الآن</button>` : ''}
+    </div>
+    ${avail ? `<div class="mcb-status"><span class="mcb-dot"></span>متاح الآن للاستشارة</div>` : ''}
+  </div>`;
+}
+
+/* ✅ ترتيب العروض: الصور أولاً */
+function sortOffersByImage(arr){
+  return arr.slice().sort((a, b) => {
+    const aHas = a.image && a.image.trim() !== '' ? 1 : 0;
+    const bHas = b.image && b.image.trim() !== '' ? 1 : 0;
+    return bHas - aHas;
+  });
+}
+
+function renderHome(){
+  renderHeaderCounts();
+  renderMedicalContact();
+  const nums = sortedNums(); const counts = countByCat();
+  $('sTotal').textContent = nums.length;
+  $('sOffers').textContent = offers.length;
+  $('sRange').textContent = nums.length ? `${db.prefix}${nums[0]} → ${db.prefix}${nums[nums.length-1]}` : '—';
+  
+  // ✅ العروض المميزة: الصور أولاً
+  const topOffers = sortOffersByImage(offers).slice(0, 2);
+  $('homeOffers').innerHTML = topOffers.length ? topOffers.map((o,i) => renderOfferCard(o, i)).join('') : '<div class="empty" style="grid-column:1/-1"><span class="empty-ico">🎁</span><b>لا توجد عروض حالياً</b></div>';
+  
+  // ✅ أكثر التخصصات: فقط المعبأة
+  const top = Object.entries(counts)
+    .filter(([cat, cnt]) => cnt > 0)
+    .sort((a,b) => b[1]-a[1])
+    .slice(0, 6);
+  
+  $('topCats').innerHTML = top.length 
+    ? top.map(([cat, cnt]) => renderGroupCard(cat, cnt)).join('') 
+    : '<div class="empty" style="grid-column:1/-1"><span class="empty-ico">📭</span><b>لا توجد أسئلة</b></div>';
+}
+
+function renderGroupCard(cat, count){
+  const sp = getSpecialty(cat);
+  return `<div class="group-card" data-group="${esc(cat)}"><div class="gc-icon">${sp.icon}</div><div class="gc-info"><div class="gc-ar">${esc(cat)}</div><div class="gc-en">${esc(sp.en)}</div></div><div class="gc-count">${count}</div></div>`;
+}
+
+/* ✅ إخفاء المجموعات الفارغة */
+function renderGroups(){
+  renderHeaderCounts();
+  const counts = countByCat();
+  
+  // فقط التخصصات التي فيها أسئلة
+  const filled = SPECIALTIES.filter(sp => (counts[sp.ar] || 0) > 0);
+  filled.sort((a, b) => (counts[b.ar] || 0) - (counts[a.ar] || 0));
+  
+  let html = filled.map(sp => renderGroupCard(sp.ar, counts[sp.ar])).join('');
+  
+  // إضافة "غير مصنّف" إذا كان فيه أسئلة
+  const uncategorized = counts['غير مصنّف'] || 0;
+  if(uncategorized > 0){
+    html += renderGroupCard('غير مصنّف', uncategorized);
+  }
+  
+  if(!html){
+    $('groupsGrid').innerHTML = '<div class="empty" style="grid-column:1/-1"><span class="empty-ico">📭</span><b>لا توجد أسئلة بعد</b><p style="margin-top:8px;font-size:12px">سيتم عرض التخصصات بعد إضافة الأسئلة</p></div>';
+    return;
+  }
+  
+  $('groupsGrid').innerHTML = html;
+}
+
+function renderGroupDetail(groupName){
+  const sp = getSpecialty(groupName);
+  const list = Object.values(db.questions).filter(q => (q.category||'غير مصنّف') === groupName).sort((a,b) => a.num - b.num);
+  $('ghIcon').textContent = sp.icon; $('ghAr').textContent = groupName; $('ghEn').textContent = sp.en || ''; $('breadcrumbCurrent').textContent = groupName;
+  $('ghMeta').innerHTML = `<span>📋 <b>${list.length}</b> سؤال</span>${list.length ? `<span>🔢 <b>${db.prefix}${list[0].num} → ${db.prefix}${list[list.length-1].num}</b></span>` : ''}`;
+  const q = groupSearchQ.toLowerCase();
+  const filtered = q ? list.filter(item => { const hay = (item.body + ' ' + (item.topic||'')).toLowerCase(); return hay.includes(q) || String(item.num).includes(q); }) : list;
+  if(!filtered.length){ $('groupQuestions').innerHTML = `<div class="empty"><span class="empty-ico">${q ? '🔍' : '📭'}</span><b>${q ? 'لا توجد نتائج' : 'لا توجد أسئلة'}</b></div>`; return; }
+  $('groupQuestions').innerHTML = renderList(filtered, true);
+}
+
+function parseOptions(optsText){
+  if(!optsText) return [];
+  const lines = String(optsText).split('\n'); const options = []; let cur = null;
+  for(const line of lines){
+    const m = line.match(/^\s*([A-Za-z])\s*[\)\.\-:]\s*(.*)$/);
+    if(m){ if(cur) options.push(cur); cur = { letter: m[1].toUpperCase(), text: (m[2]||'').trim() }; }
+    else if(cur){ cur.text += '\n' + line; }
+  }
+  if(cur) options.push(cur);
+  options.forEach(o => { o.text = o.text.replace(/\s+$/,'').trim(); });
+  return options;
+}
+function parseAnswerLetter(a){ if(!a) return ''; const t = String(a).trim(); const m1 = t.match(/^([A-Za-z])\s*[\)\.\-:]/); if(m1) return m1[1].toUpperCase(); const m2 = t.match(/^([A-Za-z])\b/); return m2 ? m2[1].toUpperCase() : ''; }
+function parseAnswerText(a){ if(!a) return ''; return String(a).trim().replace(/^[A-Za-z]\s*[\)\.\-:]\s*/, '').trim(); }
+function isCorrectOption(opt, al, at){ if(al && opt.letter === al) return true; if(at){ const a = at.trim().toLowerCase(); const o = opt.text.trim().toLowerCase(); if(o && o.length > 3 && (a === o || a.startsWith(o))) return true; } return false; }
+function renderOptions(optsText, ansText){
+  const opts = parseOptions(optsText);
+  if(!opts.length) return optsText ? `<div style="padding:14px;background:rgba(255,255,255,.85);border-radius:11px;border:1px solid #bfdbfe;white-space:pre-wrap;word-break:break-word;font-weight:500;color:#334155">${esc(optsText)}</div>` : '';
+  const al = parseAnswerLetter(ansText); const at = parseAnswerText(ansText); const hasA = !!(al || at);
+  const boxes = opts.map(opt => { let cls = 'neutral', icon = ''; if(hasA){ if(isCorrectOption(opt, al, at)){ cls = 'correct'; icon = '✓'; } else { cls = 'wrong'; icon = '✗'; } } return `<div class="option-box ${cls}"><span class="opt-letter">${esc(opt.letter)}</span><span class="opt-text">${esc(opt.text)}</span>${icon ? `<span class="opt-icon">${icon}</span>` : ''}</div>`; }).join('');
+  return `<span class="opts-title">📝 الخيارات</span><div class="opts-list">${boxes}</div>`;
+}
+function renderQ(q){
+  const tr = q.translation; const useAr = q.showAr && tr && (tr.q || tr.ans);
+  const P = useAr ? { q: tr.q || q.parts.q, opts: tr.opts || q.parts.opts, ans: tr.ans || q.parts.ans } : q.parts;
+  const catH = q.category ? `<span class="q-cat">${q.categoryIcon||''} ${esc(q.category)}</span>` : '';
+  const topH = q.topic ? `<span class="q-cat topic">${q.topicIcon||'🎯'} ${esc(q.topic)}</span>` : '';
+  let cls, lbl; if(!tr){ cls='btn-mini tr'; lbl='🌐 ترجم'; } else if(useAr){ cls='btn-mini tr cancel'; lbl='✕ إلغاء'; } else { cls='btn-mini tr on'; lbl='🌐 عربي'; }
+  return `<article class="q-card${useAr?' ar':''}" id="q${q.num}">
+    <div class="q-head"><span class="q-num">${db.prefix}${q.num}</span><div class="q-cats">${catH}${topH}</div><div class="q-actions"><button class="${cls}" data-tr="${q.num}">${lbl}</button><button class="btn-mini wa" data-wa="${q.num}">📱</button></div></div>
+    <div class="q-body"><span class="q-tag">❓ السؤال</span><div class="q-text">${esc(P.q) || '—'}</div>${renderOptions(P.opts, P.ans)}</div>
+    ${P.ans ? `<div class="q-ans"><span class="a-tag">✓ الجواب</span><span class="a-text">${esc(P.ans)}</span></div>` : ''}
+  </article>`;
+}
+function renderGap(f, t){ const l = f === t ? `${db.prefix}${f} ناقص` : `${db.prefix}${f} → ${db.prefix}${t} ناقص (${t-f+1})`; return `<div class="gap"><span class="tag">${esc(l)}</span></div>`; }
+function renderList(list, wm){
+  if(!list.length) return '';
+  const sorted = list.slice().sort((a,b) => a.num - b.num); const parts = []; let prev = null;
+  for(const q of sorted){ if(prev !== null && q.num > prev+1 && wm !== false) parts.push(renderGap(prev+1, q.num-1)); parts.push(renderQ(q)); prev = q.num; }
+  return `<div class="q-list">${parts.join('')}</div>`;
+}
+function renderQuickChips(){
+  const nums = sortedNums(); const qc = $('quickChips');
+  if(!nums.length){ qc.innerHTML = '<span class="lbl">لا توجد أسئلة</span>'; return; }
+  const min = nums[0], max = nums[nums.length-1]; const ranges = []; let cur = Math.floor(min/50)*50; if(cur < min) cur = min; let n = 0;
+  while(cur <= max && n < 10){ ranges.push({f:cur, t:Math.min(cur+49, max)}); cur += 50; n++; }
+  qc.innerHTML = '<span class="lbl">⚡ سريع:</span>' + ranges.map(r => `<button class="chip" data-f="${r.f}" data-t="${r.t}">${r.f}-${r.t}</button>`).join('');
+}
+
+/* ✅ فلتر التصنيفات: فقط المعبأة */
+function updateCatFilter(){
+  const catCounts = countByCat();
+  const cats = Object.keys(catCounts)
+    .filter(c => catCounts[c] > 0)
+    .sort();
+  const sel = $('catFilter'); const cur = sel.value;
+  sel.innerHTML = '<option value="">كل التخصصات</option>' + cats.map(c => 
+    `<option value="${esc(c)}">${esc(c)} (${catCounts[c]})</option>`
+  ).join('');
+  if(cats.includes(cur)) sel.value = cur;
+}
+function getSearchResults(){
+  const q = searchQ.toLowerCase(); const f = parseInt($('rFrom').value) || 0; const t = parseInt($('rTo').value) || 0; const hasRange = f > 0 && t > 0;
+  return Object.values(db.questions).filter(item => {
+    if(searchCat && (item.category||'غير مصنّف') !== searchCat) return false;
+    if(hasRange && (item.num < f || item.num > t)) return false;
+    if(!q) return true;
+    const hay = (item.body + ' ' + (item.category||'') + ' ' + (item.topic||'')).toLowerCase();
+    return hay.includes(q) || String(item.num).includes(q);
+  }).sort((a,b) => a.num - b.num);
+}
+function renderSearch(){
+  renderHeaderCounts(); updateCatFilter(); renderQuickChips();
+  const list = getSearchResults();
+  const info = list.length ? `<div class="results-info">📊 عدد النتائج: <b>${list.length}</b>${searchCat ? ` · ${esc(searchCat)}` : ''}</div>` : '';
+  $('searchResults').innerHTML = info + (list.length ? renderList(list, true) : `<div class="empty"><span class="empty-ico">🔍</span><b>لا توجد نتائج</b></div>`);
+}
+function refreshCard(num){
+  const q = db.questions[num]; if(!q) return; const el = document.getElementById('q' + num); if(!el) return;
+  const tmp = document.createElement('div'); tmp.innerHTML = renderQ(q); el.replaceWith(tmp.firstElementChild);
+}
+
+function renderOfferCard(o, index){
+  const badge = o.badge || 'عرض طبي'; const discount = o.discount || 'خصم';
+  const phone = o.phone || contact.phone; const wa = o.whatsapp || contact.whatsapp || phone;
+  const expires = o.expires || ''; const icon = o.icon || '👁️'; const image = o.image || '';
+  let expiringClass = '', expiresText = '';
+  if(expires){ try{ const d = new Date(expires); const now = new Date(); const days = Math.ceil((d - now) / (1000*60*60*24)); if(days > 0){ expiresText = days <= 7 ? `ينتهي بعد ${days} يوم` : `ينتهي ${d.toLocaleDateString('ar-EG')}`; if(days <= 7) expiringClass = 'expiring'; } else { expiresText = 'انتهى العرض'; expiringClass = 'expiring'; } }catch(e){ expiresText = expires; } }
+  let savings = '';
+  if(o.oldPrice && o.newPrice){ const oldP = parseFloat(o.oldPrice), newP = parseFloat(o.newPrice); if(oldP > newP && oldP > 0){ const percent = Math.round(((oldP - newP) / oldP) * 100); savings = `وفر ${percent}%`; } }
+  const clinic = o.clinic || cloud.doctor.name || 'عيادة العيون';
+  return `<article class="offer-card" style="animation-delay:${index*0.08}s">
+    <div class="offer-banner">
+      ${image ? `<img src="${esc(image)}" alt="">` : `<div class="offer-banner-placeholder">${icon}</div>`}
+      <div class="offer-badge">${esc(badge)}</div>
+      <div class="offer-discount">${esc(discount)}<small>خصم</small></div>
+      <div class="offer-clinic"><span class="oc-icon">🏥</span><span>${esc(clinic)}</span></div>
+    </div>
+    <div class="offer-body">
+      <h3 class="offer-title">${esc(o.title || 'عرض طبي')}</h3>
+      ${o.description ? `<p class="offer-desc">${esc(o.description)}</p>` : ''}
+      ${(o.oldPrice && o.newPrice) ? `<div class="offer-prices"><span class="new-price">${esc(o.newPrice)} <small>ريال</small></span><span class="old-price">${esc(o.oldPrice)}</span>${savings ? `<span class="save">${esc(savings)}</span>` : ''}</div>` : ''}
+      <div class="offer-meta">
+        ${expiresText ? `<span class="offer-meta-item ${expiringClass}">⏰ ${esc(expiresText)}</span>` : ''}
+        <span class="offer-meta-item">🏥 <b>${esc(clinic)}</b></span>
+      </div>
+      <div class="offer-actions">
+        ${wa ? `<button class="offer-btn wa" data-offer-wa="${index}">💬 احصل على العرض</button>` : ''}
+        ${phone ? `<button class="offer-btn call" data-offer-call="${index}">📞 اتصل</button>` : ''}
+        <button class="offer-btn share" data-offer-share="${index}">📤</button>
+      </div>
+    </div>
+  </article>`;
+}
+
+/* ✅ عرض العروض: الصور أولاً */
+function renderOffers(){
+  renderHeaderCounts();
+  if(!offers.length){
+    $('offersList').innerHTML = '<div class="empty"><span class="empty-ico">🎁</span><b>لا توجد عروض حالياً</b><p style="margin-top:8px;font-size:12px">ترقبوا العروض الطبية القادمة قريباً</p></div>';
+    return;
+  }
+  const sorted = sortOffersByImage(offers);
+  $('offersList').innerHTML = `<div class="offers-grid">${sorted.map((o,i) => renderOfferCard(o, i)).join('')}</div>`;
+}
+
+document.body.addEventListener('click', e => {
+  const g = e.target.closest('.group-card');
+  if(g){ navigate('#group=' + encodeURIComponent(g.dataset.group)); return; }
+
+  const cwa = e.target.closest('[data-contact-wa]');
+  if(cwa){
+    haptic();
+    const number = (contact.whatsapp || contact.phone).replace(/\D/g,'');
+    const text = `السلام عليكم دكتور،\n\nأرغب في حجز استشارة طبية.\n\nشكراً لكم 🌟`;
+    window.open('https://wa.me/' + number + '?text=' + encodeURIComponent(text), '_blank');
+    return;
+  }
+  const ccall = e.target.closest('[data-contact-call]');
+  if(ccall){ haptic(); const number = contact.phone || contact.whatsapp; window.location.href = 'tel:' + number; return; }
+
+  const owa = e.target.closest('[data-offer-wa]');
+  if(owa){
+    haptic();
+    const o = offers[parseInt(owa.dataset.offerWa)]; if(!o) return;
+    const number = (o.whatsapp || contact.whatsapp || o.phone || contact.phone).replace(/\D/g,'');
+    const text = `🎁 عرض طبي خاص\n\n🏥 ${o.clinic || cloud.doctor.name}\n\n📌 ${o.title}\n\n${o.description || ''}\n\n💰 ${o.discount || ''}${o.oldPrice ? ` (بدلاً من ${o.oldPrice})` : ''}\n\nللحصول على العرض:`;
+    window.open('https://wa.me/' + number + '?text=' + encodeURIComponent(text), '_blank');
+    return;
+  }
+  const ocall = e.target.closest('[data-offer-call]');
+  if(ocall){ haptic(); const o = offers[parseInt(ocall.dataset.offerCall)]; if(o && (o.phone || contact.phone)) window.location.href = 'tel:' + (o.phone || contact.phone); return; }
+  const oshare = e.target.closest('[data-offer-share]');
+  if(oshare){
+    haptic();
+    const o = offers[parseInt(oshare.dataset.offerShare)]; if(!o) return;
+    const text = `🎁 ${o.clinic || cloud.doctor.name}\n\n${o.title}\n\n${o.description || ''}\n\n💰 ${o.discount || ''}`;
+    if(navigator.share){ navigator.share({title:o.title, text:text}).catch(()=>{}); }
+    else window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+    return;
+  }
+
+  const wa = e.target.closest('[data-wa]');
+  if(wa){
+    haptic();
+    const q = db.questions[wa.dataset.wa]; if(!q) return;
+    let txt = `*${db.prefix}${q.num}*\n`;
+    if(q.category) txt += `📂 ${q.category}`;
+    if(q.topic) txt += ` · ${q.topic}`;
+    txt += `\n\n${q.parts.q}`;
+    if(q.parts.opts) txt += `\n\n${q.parts.opts}`;
+    if(q.parts.ans) txt += `\n\n*✅ الجواب:* ${q.parts.ans}`;
+    window.open('https://wa.me/?text=' + encodeURIComponent(txt.slice(0,20000)), '_blank');
+    toast('📱 جارٍ المشاركة', 'wa');
+    return;
+  }
+  const tr = e.target.closest('[data-tr]');
+  if(tr){
+    haptic();
+    const q = db.questions[tr.dataset.tr]; if(!q) return;
+    if(q.translation){ q.showAr = !q.showAr; refreshCard(q.num); toast(q.showAr ? '✓ الترجمة' : '✓ الأصلي', 'ok'); return; }
+    tr.disabled = true; tr.textContent = '⏳';
+    translateQ(q).then(t => {
+      if(t){ q.translation = t; q.showAr = true; refreshCard(q.num); toast('✓ تمت الترجمة', 'ok'); }
+      else { tr.disabled = false; tr.textContent = '🌐 ترجم'; toast('تعذّر الاتصال', 'err'); }
+    }).catch(() => { tr.disabled = false; tr.textContent = '🌐 ترجم'; toast('خطأ','err'); });
+  }
+});
+
+function hashT(t){ let h = 0; for(let i = 0; i < t.length; i++){ h = (h<<5) - h + t.charCodeAt(i); h |= 0; } return 'h' + Math.abs(h).toString(36); }
+async function fetchT(url, ms){ const c = new AbortController(); const t = setTimeout(() => c.abort(), ms); try{ const r = await fetch(url, {signal:c.signal}); clearTimeout(t); return r; } catch(e){ clearTimeout(t); throw e; } }
+async function translateText(text){
+  if(!text || !text.trim()) return '';
+  const t = String(text).trim(); if(t.length < 2) return '';
+  const h = hashT(t); if(trCache[h]) return trCache[h];
+  const svcs = [
+    async (x) => { const r = await fetchT('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ar&dt=t&q=' + encodeURIComponent(x.slice(0,4500)), 12000); if(!r.ok) throw 0; const d = await r.json(); return d[0].map(y => y[0] || '').join(''); },
+    async (x) => { const r = await fetchT('https://api.mymemory.translated.net/get?langpair=en|ar&q=' + encodeURIComponent(x.slice(0,500)), 10000); if(!r.ok) throw 0; const d = await r.json(); return d.responseData.translatedText; }
+  ];
+  for(const fn of svcs){ try{ const r = await fn(t); if(r && r.trim()){ trCache[h] = r; return r; } }catch(e){} }
+  return null;
+}
+async function translateQ(q){
+  const tr = { q:'', opts:'', ans:'' }; let any = false;
+  if(q.parts.q){ const t = await translateText(q.parts.q); if(t){ tr.q = t; any = true; } }
+  if(q.parts.opts){ const t = await translateText(q.parts.opts); if(t){ tr.opts = t; any = true; } }
+  if(q.parts.ans){ const t = await translateText(q.parts.ans); if(t){ tr.ans = t; any = true; } }
+  return any ? tr : null;
+}
+
+let gsT, sT;
+$('groupSearchInput').addEventListener('input', e => { clearTimeout(gsT); gsT = setTimeout(() => { groupSearchQ = e.target.value.trim(); renderGroupDetail(currentGroup); }, 250); });
+$('searchInput').addEventListener('input', e => { clearTimeout(sT); sT = setTimeout(() => { searchQ = e.target.value.trim(); renderSearch(); }, 250); });
+$('catFilter').addEventListener('change', e => { searchCat = e.target.value; renderSearch(); });
+$('rFrom').addEventListener('input', () => { clearTimeout(sT); sT = setTimeout(renderSearch, 400); });
+$('rTo').addEventListener('input', () => { clearTimeout(sT); sT = setTimeout(renderSearch, 400); });
+$('rangeGo').addEventListener('click', () => { const f = parseInt($('rFrom').value), t = parseInt($('rTo').value); if(!f || !t) return toast('أدخل الرقمين','err'); if(f > t) return toast('البداية أقل','err'); renderSearch(); });
+$('rangeReset').addEventListener('click', () => { $('rFrom').value=''; $('rTo').value=''; renderSearch(); });
+$('rangePrint').addEventListener('click', () => window.print());
+$('quickChips').addEventListener('click', e => { const c = e.target.closest('.chip'); if(!c) return; $('rFrom').value = c.dataset.f; $('rTo').value = c.dataset.t; renderSearch(); });
+$('cloudBadge').addEventListener('click', () => loadFromSupabase(false));
+
+function scrollToTopAndSync(){ haptic(); window.scrollTo({top:0, behavior:'smooth'}); loadFromSupabase(false); }
+window.scrollToTopAndSync = scrollToTopAndSync;
+
+async function init(){
+  setSplashProgress(8, 'تحميل الإعدادات...');
+  renderDoctor();
+  setSplashProgress(20, 'الاتصال بقاعدة البيانات...');
+  try{
+    const cached = localStorage.getItem(CK);
+    if(cached){
+      const p = JSON.parse(cached);
+      if(p.q) db.questions = p.q;
+      if(p.p) db.prefix = p.p;
+      if(p.d) cloud.doctor = Object.assign(cloud.doctor, p.d);
+      if(p.o) offers = p.o;
+      if(p.c) contact = Object.assign(contact, p.c);
+      setSplashProgress(35, 'تحميل البيانات المحفوظة...');
+      renderDoctor(); applyDoctorToSplash();
+    }
+  }catch(e){}
+  setSplashProgress(50, 'جاري تحديث البيانات...');
+  setTimeout(() => setSplashProgress(70, 'جاري تحديث البيانات...'), 800);
+  await loadFromSupabase(true);
+  setSplashProgress(90, 'تجهيز الواجهة...');
+  hideSplash();
+  handleRoute();
+  startAutoSync();
+}
+init();
+})();
+</script>
+</body>
+  </html>
