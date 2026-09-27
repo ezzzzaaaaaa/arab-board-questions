@@ -1095,4 +1095,1795 @@ init();
 })();
 </script>
 </body>
+       </html>x{padding:10px 12px;font-size:13.5px;gap:10px}
+  .option-box .opt-letter{width:30px;height:30px;font-size:13.5px}
+  .option-box .opt-icon{font-size:18px;width:22px;height:22px}
+  .btn-mini{padding:5px 10px;font-size:10.5px}
+  .search-bar{flex-direction:column}
+  .tab{padding:12px 6px}
+  .tab .tab-lbl{font-size:11px}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-in">
+    <div class="doc-photo" id="docPhoto">🩺</div>
+    <div class="doc-info">
+      <h1 class="doc-name" id="docName">د. عبد الله الشميري</h1>
+      <div class="doc-title" id="docTitle">استشاري طب وجراحة العيون</div>
+      <div class="doc-badges">
+        <div class="doc-badge clickable" id="cloudBadge">
+          <span class="cloud-dot sync" id="cloudDot"></span>
+          <span id="cloudText">جارٍ الاتصال</span>
+        </div>
+        <div class="doc-badge">📋 <b id="cntHdr">0</b></div>
+        <div class="doc-badge">📚 <b id="cntCat">0</b></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="tabs-in">
+    <button class="tab active" data-tab="home" onclick="navigate('#home')"><span class="tab-ico">🏠</span><span class="tab-lbl">الرئيسية</span></button>
+    <button class="tab" data-tab="groups" onclick="navigate('#groups')"><span class="tab-ico">📚</span><span class="tab-lbl">المجموعات</span><span class="tab-count" id="tabGroupsCount">0</span></button>
+    <button class="tab" data-tab="search" onclick="navigate('#search')"><span class="tab-ico">🔍</span><span class="tab-lbl">البحث</span></button>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="loader" id="loader"><div class="spinner"></div><p>جارٍ التحميل...</p></div>
+
+  <div class="page active" id="pageHome" style="display:none">
+    <div class="welcome">
+      <h2><span class="greet-ico">👋</span> أهلاً وسهلاً بك دكتور</h2>
+      <p>اضغط أي مجموعة لتدخل إليها مباشرة</p>
+      <div class="stats">
+        <div class="stat"><b id="sTotal">0</b><span>إجمالي</span></div>
+        <div class="stat"><b id="sCats">0</b><span>تخصصات</span></div>
+        <div class="stat"><b id="sRange" style="font-size:12px">—</b><span>النطاق</span></div>
+      </div>
+    </div>
+    <div class="quick-actions">
+      <button class="qa-btn green" onclick="navigate('#groups')">
+        <div class="qa-ico">📚</div>
+        <div class="qa-txt">تصفح المجموعات<small>اضغط لعرض التخصصات</small></div>
+      </button>
+      <button class="qa-btn gold" onclick="navigate('#search')">
+        <div class="qa-ico">🔍</div>
+        <div class="qa-txt">البحث المتقدم<small>ابحث بالكلمة أو الرقم</small></div>
+      </button>
+    </div>
+    <h3 class="section-title">📊 أكثر التخصصات</h3>
+    <p class="section-sub">اضغط أي مجموعة لتدخل إليها</p>
+    <div class="groups-grid" id="topCats"></div>
+  </div>
+
+  <div class="page" id="pageGroups" style="display:none">
+    <div class="breadcrumb">
+      <a onclick="navigate('#home')">🏠 الرئيسية</a>
+      <span class="sep">›</span>
+      <span class="current">📚 المجموعات</span>
+    </div>
+    <h3 class="section-title">📚 جميع المجموعات الطبية</h3>
+    <p class="section-sub">اضغط أي مجموعة لتدخل إليها</p>
+    <div class="groups-grid" id="groupsGrid"></div>
+  </div>
+
+  <div class="page" id="pageGroupDetail" style="display:none">
+    <div class="breadcrumb">
+      <a onclick="navigate('#home')">🏠 الرئيسية</a>
+      <span class="sep">›</span>
+      <a onclick="navigate('#groups')">📚 المجموعات</a>
+      <span class="sep">›</span>
+      <span class="current" id="breadcrumbCurrent">—</span>
+    </div>
+    <div class="group-header">
+      <button class="gh-back" onclick="navigate('#groups')" title="رجوع">←</button>
+      <div class="gh-icon" id="ghIcon">📚</div>
+      <div class="gh-info">
+        <div class="gh-ar" id="ghAr"></div>
+        <div class="gh-en" id="ghEn"></div>
+        <div class="gh-meta" id="ghMeta"></div>
+      </div>
+    </div>
+    <div class="search-bar">
+      <div class="search-input"><input type="text" id="groupSearchInput" placeholder="ابحث داخل هذه المجموعة..."></div>
+    </div>
+    <div class="q-list" id="groupQuestions"></div>
+  </div>
+
+  <div class="page" id="pageSearch" style="display:none">
+    <div class="breadcrumb">
+      <a onclick="navigate('#home')">🏠 الرئيسية</a>
+      <span class="sep">›</span>
+      <span class="current">🔍 البحث</span>
+    </div>
+    <h3 class="section-title">🔍 البحث المتقدم</h3>
+    <p class="section-sub">ابحث بالنص، الرقم التسلسلي، أو التخصص</p>
+    <div class="search-bar">
+      <div class="search-input"><input type="text" id="searchInput" placeholder="ابحث بنص السؤال..."></div>
+      <select class="filter-select" id="catFilter"><option value="">كل التخصصات</option></select>
+    </div>
+    <div class="range-box">
+      <span class="lbl">🎯 النطاق</span>
+      <input type="number" id="rFrom" placeholder="من">
+      <span style="color:var(--gold-dark);font-weight:800">←</span>
+      <input type="number" id="rTo" placeholder="إلى">
+      <button class="range-go" id="rangeGo">عرض</button>
+      <button class="range-mini" id="rangeReset" title="مسح">↺</button>
+      <button class="range-mini" id="rangePrint" title="طباعة">🖨️</button>
+    </div>
+    <div class="quick-chips" id="quickChips"><span class="lbl">⚡ سريع:</span></div>
+    <div id="searchResults"></div>
+  </div>
+</div>
+
+<button class="sync-fab" id="syncFab" title="تحديث">🔄</button>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+
+const GIST_ID = 'aba35053f173fc9a678dfc98728f5149';
+
+const SPECIALTIES = [
+{ar:'الباطنة',en:'Internal Medicine',icon:'🫀'},
+{ar:'الجراحة العامة',en:'General Surgery',icon:'🔪'},
+{ar:'الأطفال',en:'Pediatrics',icon:'👶'},
+{ar:'النساء والتوليد',en:'Obstetrics & Gynecology',icon:'🤰'},
+{ar:'طب الأسرة',en:'Family Medicine',icon:'👨‍⚕️'},
+{ar:'الطب النفسي',en:'Psychiatry',icon:'🧠'},
+{ar:'الجلدية',en:'Dermatology',icon:'🧴'},
+{ar:'الأنف والأذن والحنجرة',en:'ENT',icon:'👂'},
+{ar:'طب العيون',en:'Ophthalmology',icon:'👁️'},
+{ar:'العظام',en:'Orthopedics',icon:'🦴'},
+{ar:'المسالك البولية',en:'Urology',icon:'💧'},
+{ar:'التخدير',en:'Anesthesia',icon:'💉'},
+{ar:'طب الطوارئ',en:'Emergency Medicine',icon:'🚨'},
+{ar:'الأشعة',en:'Radiology',icon:'📷'},
+{ar:'الطب الشرعي',en:'Forensic Medicine',icon:'⚖️'},
+{ar:'صحة المجتمع',en:'Community Medicine',icon:'🌍'},
+{ar:'العلوم الأساسية',en:'Basic Sciences',icon:'🔬'},
+{ar:'علم الأدوية',en:'Pharmacology',icon:'💊'}
+];
+
+const $ = id => document.getElementById(id);
+const CK = 'study_correct_cache', TK = 'study_correct_tr', HK = 'study_correct_hash';
+
+let db = { questions:{}, prefix:'Q' };
+let trCache = {};
+let cloud = { gistId: GIST_ID, doctor:{name:'د. عبد الله الشميري', title:'استشاري طب وجراحة العيون', photo:''} };
+let currentGroup = '';
+let searchQ = '', searchCat = '';
+let groupSearchQ = '';
+let lastDataHash = '';
+let syncTimer = null;
+
+const esc = s => String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function toast(msg, type){
+  const t = $('toast');
+  if(!t) return;
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' '+type : '');
+  clearTimeout(t._t);
+  t._t = setTimeout(()=>{ t.className='toast'; }, 2500);
+}
+function setCloud(cls, text){
+  $('cloudDot').className = 'cloud-dot ' + (cls||'');
+  $('cloudText').textContent = text || 'السحابة';
+}
+function hashData(data){
+  const str = JSON.stringify(data);
+  let h = 0;
+  for(let i=0;i<str.length;i++){ h = ((h<<5) - h) + str.charCodeAt(i); h = h | 0; }
+  return 'h' + Math.abs(h).toString(36) + '_' + str.length;
+}
+
+function loadCache(){
+  try{
+    const r = localStorage.getItem(CK);
+    if(r){ const p = JSON.parse(r); if(p && p.questions) db = p; }
+    const t = localStorage.getItem(TK);
+    if(t) trCache = JSON.parse(t);
+    const h = localStorage.getItem(HK);
+    if(h) lastDataHash = h;
+  }catch(e){}
+}
+function saveCache(){
+  try{
+    localStorage.setItem(CK, JSON.stringify(db));
+    localStorage.setItem(HK, lastDataHash);
+  }catch(e){}
+}
+function saveTr(){ try{ localStorage.setItem(TK, JSON.stringify(trCache)); }catch(e){} }
+
+async function fetchCloud(silent){
+  if(!cloud.gistId){ setCloud('err', 'غير مُعد'); return false; }
+  if(!silent) setCloud('sync', 'تحديث...');
+  try{
+    const r = await fetch(`https://api.github.com/gists/${cloud.gistId}`, {
+      headers:{'Accept':'application/vnd.github+json'}, cache:'no-store'
+    });
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const gist = await r.json();
+    const file = gist.files && (gist.files['data.json'] || Object.values(gist.files)[0]);
+    if(!file) throw new Error('لا يوجد ملف');
+    let content = file.content;
+    if(file.truncated && file.raw_url){
+      const rr = await fetch(file.raw_url, {cache:'no-store'});
+      content = await rr.text();
+    }
+    const data = JSON.parse(content);
+    const newHash = hashData({q:data.questions, p:data.prefix, d:data.doctor});
+    if(newHash === lastDataHash && Object.keys(db.questions).length > 0){
+      setCloud('ok', 'متصل ✓');
+      return true;
+    }
+    if(data.questions) db.questions = data.questions;
+    if(data.prefix) db.prefix = data.prefix;
+    if(data.doctor) cloud.doctor = Object.assign(cloud.doctor, data.doctor);
+    lastDataHash = newHash;
+    saveCache();
+    setCloud('ok', 'متصل ✓');
+    renderDoctor();
+    renderHeaderCounts();
+    if(currentGroup) renderGroupDetail(currentGroup);
+    return true;
+  }catch(e){
+    setCloud('err', 'خطأ');
+    return false;
+  }
+}
+
+function startAutoSync(){
+  if(syncTimer) clearInterval(syncTimer);
+  syncTimer = setInterval(() => { if(!document.hidden) fetchCloud(true); }, 20000);
+}
+document.addEventListener('visibilitychange', () => { if(!document.hidden) fetchCloud(true); });
+window.addEventListener('online', () => fetchCloud(true));
+
+function navigate(hash){
+  if(location.hash === hash) handleRoute();
+  else location.hash = hash;
+}
+
+function handleRoute(){
+  const hash = (location.hash || '#home').substring(1);
+  const gm = hash.match(/^group=(.+)$/);
+  document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); p.style.display='none'; });
+  $('loader').style.display = 'none';
+
+  if(gm){
+    const groupName = decodeURIComponent(gm[1]);
+    currentGroup = groupName;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    $('pageGroupDetail').classList.add('active');
+    $('pageGroupDetail').style.display = 'block';
+    renderGroupDetail(groupName);
+    document.title = groupName + ' — بنك البورد العربي';
+  } else if(hash === 'groups'){
+    currentGroup = '';
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'groups'));
+    $('pageGroups').classList.add('active');
+    $('pageGroups').style.display = 'block';
+    renderGroups();
+    document.title = 'المجموعات — بنك البورد العربي';
+  } else if(hash === 'search'){
+    currentGroup = '';
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'search'));
+    $('pageSearch').classList.add('active');
+    $('pageSearch').style.display = 'block';
+    renderSearch();
+    document.title = 'البحث — بنك البورد العربي';
+  } else {
+    currentGroup = '';
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'home'));
+    $('pageHome').classList.add('active');
+    $('pageHome').style.display = 'block';
+    renderHome();
+    document.title = 'بنك أسئلة البورد العربي';
+  }
+
+  window.scrollTo(0, 0);
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+}
+
+window.addEventListener('hashchange', handleRoute);
+
+function renderDoctor(){
+  const d = cloud.doctor || {};
+  $('docName').textContent = d.name || 'د. عبد الله الشميري';
+  $('docTitle').textContent = d.title || '';
+  const ph = $('docPhoto');
+  if(d.photo) ph.innerHTML = `<img src="${d.photo}" alt="">`;
+  else ph.textContent = '🩺';
+}
+function countByCat(){
+  const m = {};
+  for(const q of Object.values(db.questions)){
+    const c = q.category || 'غير مصنّف';
+    m[c] = (m[c]||0) + 1;
+  }
+  return m;
+}
+function sortedNums(){ return Object.values(db.questions).map(q => q.num).sort((a,b) => a-b); }
+function getSpecialty(name){ return SPECIALTIES.find(s => s.ar === name) || {icon:'📄', en:'', ar:name}; }
+
+function renderHeaderCounts(){
+  const nums = sortedNums();
+  const counts = countByCat();
+  $('cntHdr').textContent = nums.length;
+  $('cntCat').textContent = Object.keys(counts).length;
+  $('tabGroupsCount').textContent = Object.keys(counts).length;
+}
+
+function renderHome(){
+  renderHeaderCounts();
+  const nums = sortedNums();
+  const counts = countByCat();
+  $('sTotal').textContent = nums.length;
+  $('sCats').textContent = Object.keys(counts).length;
+  $('sRange').textContent = nums.length ? `${db.prefix}${nums[0]} → ${db.prefix}${nums[nums.length-1]}` : '—';
+  const top = Object.entries(counts).sort((a,b) => b[1]-a[1]).slice(0, 6);
+  $('topCats').innerHTML = top.length
+    ? top.map(([cat, cnt]) => renderGroupCard(cat, cnt)).join('')
+    : '<div class="empty" style="grid-column:1/-1"><span class="empty-ico">📭</span><b>لا توجد أسئلة</b></div>';
+}
+function renderGroupCard(cat, count){
+  const sp = getSpecialty(cat);
+  const empty = count === 0;
+  return `<div class="group-card${empty?' empty':''}" data-group="${esc(cat)}">
+    <div class="gc-icon">${sp.icon}</div>
+    <div class="gc-info"><div class="gc-ar">${esc(cat)}</div><div class="gc-en">${esc(sp.en)}</div></div>
+    <div class="gc-count">${count}</div>
+  </div>`;
+}
+function renderGroups(){
+  renderHeaderCounts();
+  const counts = countByCat();
+  const list = SPECIALTIES.slice();
+  if(counts['غير مصنّف']) list.push({ar:'غير مصنّف',en:'Uncategorized',icon:'📄'});
+  $('groupsGrid').innerHTML = list.map(sp => {
+    const c = counts[sp.ar] || 0;
+    return renderGroupCard(sp.ar, c);
+  }).join('');
+}
+function renderGroupDetail(groupName){
+  const sp = getSpecialty(groupName);
+  const list = Object.values(db.questions)
+    .filter(q => (q.category||'غير مصنّف') === groupName)
+    .sort((a,b) => a.num - b.num);
+  $('ghIcon').textContent = sp.icon;
+  $('ghAr').textContent = groupName;
+  $('ghEn').textContent = sp.en || '';
+  $('breadcrumbCurrent').textContent = groupName;
+  $('ghMeta').innerHTML = `
+    <span>📋 <b>${list.length}</b> سؤال</span>
+    ${list.length ? `<span>🔢 <b>${db.prefix}${list[0].num} → ${db.prefix}${list[list.length-1].num}</b></span>` : ''}
+  `;
+  const q = groupSearchQ.toLowerCase();
+  const filtered = q ? list.filter(item => {
+    const hay = (item.body + ' ' + (item.topic||'')).toLowerCase();
+    return hay.includes(q) || String(item.num).includes(q);
+  }) : list;
+  if(!filtered.length){
+    $('groupQuestions').innerHTML = `<div class="empty"><span class="empty-ico">${q ? '🔍' : '📭'}</span><b>${q ? 'لا توجد نتائج' : 'لا توجد أسئلة'}</b></div>`;
+    return;
+  }
+  $('groupQuestions').innerHTML = renderList(filtered, true);
+}
+
+/* ═══════════════════════════════════════════════════
+   تحليل الخيارات والإجابة
+   ═══════════════════════════════════════════════════ */
+
+/* استخراج الخيارات من النص
+   يدعم: A) ... B) ... أو A. ... B. ... أو A- ... إلخ
+*/
+function parseOptions(optsText){
+  if(!optsText) return [];
+  const lines = String(optsText).split('\n');
+  const options = [];
+  let current = null;
+  for(const line of lines){
+    // مطابقة: حرف واحد ثم ) أو . أو - أو :
+    const m = line.match(/^\s*([A-Za-z])\s*[\)\.\-:]\s*(.*)$/);
+    if(m){
+      if(current) options.push(current);
+      current = { letter: m[1].toUpperCase(), text: (m[2]||'').trim() };
+    } else if(current){
+      current.text += '\n' + line;
+    }
+  }
+  if(current) options.push(current);
+  // تنظيف النص
+  options.forEach(o => { o.text = o.text.replace(/\s+$/,'').trim(); });
+  return options;
+}
+
+/* استخراج حرف الإجابة الصحيحة
+   يدعم: "A) ..." أو "A" أو "A. ..." إلخ
+*/
+function parseAnswerLetter(ansText){
+  if(!ansText) return '';
+  const t = String(ansText).trim();
+  // محاولة 1: حرف في البداية مثل "A)" أو "A." أو "A-" أو "A:"
+  const m1 = t.match(/^([A-Za-z])\s*[\)\.\-:]/);
+  if(m1) return m1[1].toUpperCase();
+  // محاولة 2: حرف منفرد
+  const m2 = t.match(/^([A-Za-z])\b/);
+  if(m2) return m2[1].toUpperCase();
+  return '';
+}
+
+/* استخراج نص الإجابة (بدون الحرف في البداية) */
+function parseAnswerText(ansText){
+  if(!ansText) return '';
+  let t = String(ansText).trim();
+  // إزالة الحرف من البداية إن وُجد
+  t = t.replace(/^[A-Za-z]\s*[\)\.\-:]\s*/, '').trim();
+  return t;
+}
+
+/* هل هذا الخيار هو الصحيح؟
+   نطابق بالحرف أولًا، وإن لم يوجد نطابق بالنص
+*/
+function isCorrectOption(opt, ansLetter, ansText){
+  // مطابقة بالحرف
+  if(ansLetter && opt.letter === ansLetter) return true;
+  // مطابقة بالنص (احتياطي)
+  if(ansText){
+    const a = ansText.trim().toLowerCase();
+    const o = opt.text.trim().toLowerCase();
+    if(o && o.length > 3 && (a === o || a.startsWith(o))) return true;
+  }
+  return false;
+}
+
+/* بناء HTML للخيارات الملونة */
+function renderOptions(optsText, ansText){
+  const opts = parseOptions(optsText);
+  if(!opts.length){
+    // لا توجد خيارات - نعرض النص كما هو
+    return optsText ? `<div class="q-opts" style="padding:14px;background:rgba(255,255,255,.85);border-radius:11px;border:1px solid #bfdbfe;white-space:pre-wrap;word-break:break-word;font-weight:500;color:#334155">${esc(optsText)}</div>` : '';
+  }
+  const ansLetter = parseAnswerLetter(ansText);
+  const ansTxt = parseAnswerText(ansText);
+  const hasAnswer = !!(ansLetter || ansTxt);
+
+  const boxes = opts.map(opt => {
+    let cls = 'neutral';
+    let icon = '';
+    if(hasAnswer){
+      if(isCorrectOption(opt, ansLetter, ansTxt)){
+        cls = 'correct';
+        icon = '✓';
+      } else {
+        cls = 'wrong';
+        icon = '✗';
+      }
+    }
+    return `<div class="option-box ${cls}">
+      <span class="opt-letter">${esc(opt.letter)}</span>
+      <span class="opt-text">${esc(opt.text)}</span>
+      ${icon ? `<span class="opt-icon">${icon}</span>` : ''}
+    </div>`;
+  }).join('');
+
+  return `<span class="opts-title">📝 الخيارات</span><div class="opts-list">${boxes}</div>`;
+}
+
+/* ═══════════════════════════════════════════════════ */
+
+function renderQ(q){
+  const tr = q.translation;
+  const useAr = q.showAr && tr && (tr.q || tr.ans);
+  const P = useAr
+    ? { q: tr.q || q.parts.q, opts: tr.opts || q.parts.opts, ans: tr.ans || q.parts.ans }
+    : q.parts;
+
+  const catHTML = q.category ? `<span class="q-cat">${q.categoryIcon||''} ${esc(q.category)}</span>` : '';
+  const topicHTML = q.topic ? `<span class="q-cat topic">${q.topicIcon||'🎯'} ${esc(q.topic)}</span>` : '';
+
+  let cls, lbl;
+  if(!tr){ cls='btn-mini tr'; lbl='🌐 ترجم'; }
+  else if(useAr){ cls='btn-mini tr cancel'; lbl='✕ إلغاء'; }
+  else { cls='btn-mini tr on'; lbl='🌐 عربي'; }
+
+  const optionsHTML = renderOptions(P.opts, P.ans);
+  const fullAnsHTML = P.ans ? `<div class="q-ans">
+      <span class="a-tag">✓ الجواب</span>
+      <span class="a-text">${esc(P.ans)}</span>
+    </div>` : '';
+
+  return `<article class="q-card${useAr?' ar':''}" id="q${q.num}">
+    <div class="q-head">
+      <span class="q-num">${db.prefix}${q.num}</span>
+      <div class="q-cats">${catHTML}${topicHTML}</div>
+      <div class="q-actions">
+        <button class="${cls}" data-tr="${q.num}">${lbl}</button>
+        <button class="btn-mini wa" data-wa="${q.num}">📱</button>
+      </div>
+    </div>
+    <div class="q-body">
+      <span class="q-tag">❓ السؤال</span>
+      <div class="q-text">${esc(P.q) || '—'}</div>
+      ${optionsHTML}
+    </div>
+    ${fullAnsHTML}
+  </article>`;
+}
+
+function renderGap(f, t){
+  const l = f === t ? `${db.prefix}${f} ناقص` : `${db.prefix}${f} → ${db.prefix}${t} ناقص (${t-f+1})`;
+  return `<div class="gap"><span class="tag">${esc(l)}</span></div>`;
+}
+function renderList(list, withMissing){
+  if(!list.length) return '';
+  const sorted = list.slice().sort((a,b) => a.num - b.num);
+  const parts = [];
+  let prev = null;
+  for(const q of sorted){
+    if(prev !== null && q.num > prev+1 && withMissing !== false) parts.push(renderGap(prev+1, q.num-1));
+    parts.push(renderQ(q));
+    prev = q.num;
+  }
+  return `<div class="q-list">${parts.join('')}</div>`;
+}
+function renderQuickChips(){
+  const nums = sortedNums();
+  const qc = $('quickChips');
+  if(!nums.length){ qc.innerHTML = '<span class="lbl">لا توجد أسئلة</span>'; return; }
+  const min = nums[0], max = nums[nums.length-1];
+  const ranges = [];
+  let cur = Math.floor(min/50)*50; if(cur < min) cur = min;
+  let n = 0;
+  while(cur <= max && n < 10){
+    ranges.push({f:cur, t:Math.min(cur+49, max)});
+    cur += 50; n++;
+  }
+  qc.innerHTML = '<span class="lbl">⚡ سريع:</span>' +
+    ranges.map(r => `<button class="chip" data-f="${r.f}" data-t="${r.t}">${r.f}-${r.t}</button>`).join('');
+}
+function updateCatFilter(){
+  const cats = [...new Set(Object.values(db.questions).map(q => q.category||'غير مصنّف'))].sort();
+  const sel = $('catFilter');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">كل التخصصات</option>' + cats.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
+  if(cats.includes(cur)) sel.value = cur;
+}
+function getSearchResults(){
+  const q = searchQ.toLowerCase();
+  const f = parseInt($('rFrom').value) || 0;
+  const t = parseInt($('rTo').value) || 0;
+  const hasRange = f > 0 && t > 0;
+  return Object.values(db.questions).filter(item => {
+    if(searchCat && (item.category||'غير مصنّف') !== searchCat) return false;
+    if(hasRange && (item.num < f || item.num > t)) return false;
+    if(!q) return true;
+    const hay = (item.body + ' ' + (item.category||'') + ' ' + (item.topic||'')).toLowerCase();
+    return hay.includes(q) || String(item.num).includes(q);
+  }).sort((a,b) => a.num - b.num);
+}
+function renderSearch(){
+  renderHeaderCounts();
+  updateCatFilter();
+  renderQuickChips();
+  const list = getSearchResults();
+  const info = list.length
+    ? `<div class="results-info">📊 عدد النتائج: <b>${list.length}</b>${searchCat ? ` · ${esc(searchCat)}` : ''}</div>`
+    : '';
+  $('searchResults').innerHTML = info + (list.length
+    ? renderList(list, true)
+    : `<div class="empty"><span class="empty-ico">🔍</span><b>لا توجد نتائج</b></div>`);
+}
+function refreshCard(num){
+  const q = db.questions[num];
+  if(!q) return;
+  const el = document.getElementById('q' + num);
+  if(!el) return;
+  const tmp = document.createElement('div');
+  tmp.innerHTML = renderQ(q);
+  el.replaceWith(tmp.firstElementChild);
+}
+
+/* الترجمة */
+async function fetchT(url, ms, opts){
+  const c = new AbortController();
+  const t = setTimeout(()=>c.abort(), ms);
+  try{ const r = await fetch(url, Object.assign({signal:c.signal}, opts||{})); clearTimeout(t); return r; }
+  catch(e){ clearTimeout(t); throw e; }
+}
+async function s1(t){
+  const r = await fetchT('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ar&dt=t&q=' + encodeURIComponent(t.slice(0,4500)), 12000);
+  if(!r.ok) throw 0;
+  const d = await r.json();
+  if(Array.isArray(d) && Array.isArray(d[0])){
+    const o = d[0].map(x => Array.isArray(x) ? x[0] : '').filter(Boolean).join('');
+    if(o && o.trim()) return o.trim();
+  }
+  throw 0;
+}
+async function s2(t){
+  const u = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ar&dt=t&q=' + encodeURIComponent(t.slice(0,4000)));
+  const r = await fetchT(u, 18000);
+  if(!r.ok) throw 0;
+  const d = await r.json();
+  if(Array.isArray(d) && Array.isArray(d[0])){
+    const o = d[0].map(x => Array.isArray(x) ? x[0] : '').filter(Boolean).join('');
+    if(o && o.trim()) return o.trim();
+  }
+  throw 0;
+}
+async function s3(t){
+  const u = 'https://corsproxy.io/?' + encodeURIComponent('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ar&dt=t&q=' + encodeURIComponent(t.slice(0,4000)));
+  const r = await fetchT(u, 15000);
+  if(!r.ok) throw 0;
+  const d = await r.json();
+  if(Array.isArray(d) && Array.isArray(d[0])){
+    const o = d[0].map(x => Array.isArray(x) ? x[0] : '').filter(Boolean).join('');
+    if(o && o.trim()) return o.trim();
+  }
+  throw 0;
+}
+async function s4(t){
+  const r = await fetchT('https://api.mymemory.translated.net/get?langpair=en|ar&q=' + encodeURIComponent(t.slice(0,500)), 10000);
+  if(!r.ok) throw 0;
+  const d = await r.json();
+  if(d && d.responseData && d.responseData.translatedText){
+    const o = d.responseData.translatedText;
+    if(o && !/^MYMEMORY WARNING/i.test(o) && !/INVALID/i.test(o)) return o;
+  }
+  throw 0;
+}
+async function s5(t){
+  const r = await fetchT('https://lingva.ml/api/v1/en/ar/' + encodeURIComponent(t.slice(0,1500)), 10000);
+  if(!r.ok) throw 0;
+  const d = await r.json();
+  if(d && d.translation && d.translation.trim()) return d.translation.trim();
+  throw 0;
+}
+function hashT(t){
+  let h = 0;
+  for(let i=0; i<t.length; i++){ h = (h<<5) - h + t.charCodeAt(i); h |= 0; }
+  return 'h' + Math.abs(h).toString(36);
+}
+async function translateText(text){
+  if(!text || !text.trim()) return '';
+  const t = String(text).trim();
+  if(t.length < 2) return '';
+  const h = hashT(t);
+  if(trCache[h]) return trCache[h];
+  const svcs = [s1, s2, s3, s4, s5];
+  for(const fn of svcs){
+    try{
+      const r = await fn(t);
+      if(r && r.trim()){ trCache[h] = r; saveTr(); return r; }
+    }catch(e){}
+  }
+  return null;
+}
+async function translateQ(q){
+  const tr = { q:'', opts:'', ans:'' };
+  let any = false;
+  if(q.parts.q){ const t = await translateText(q.parts.q); if(t){ tr.q = t; any = true; } }
+  if(q.parts.opts){ const t = await translateText(q.parts.opts); if(t){ tr.opts = t; any = true; } }
+  if(q.parts.ans){ const t = await translateText(q.parts.ans); if(t){ tr.ans = t; any = true; } }
+  return any ? tr : null;
+}
+
+function formatQ(q){
+  let txt = `*${db.prefix}${q.num}*\n`;
+  if(q.category) txt += `📂 ${q.category}`;
+  if(q.topic) txt += ` · ${q.topic}`;
+  txt += `\n\n${q.parts.q}`;
+  if(q.parts.opts) txt += `\n\n${q.parts.opts}`;
+  if(q.parts.ans) txt += `\n\n*✅ الجواب:* ${q.parts.ans}`;
+  return txt;
+}
+function shareWA(text){ window.open('https://wa.me/?text=' + encodeURIComponent(text.slice(0,20000)), '_blank'); }
+
+/* الأحداث */
+document.body.addEventListener('click', e => {
+  const g = e.target.closest('.group-card');
+  if(g && !g.classList.contains('empty')){
+    navigate('#group=' + encodeURIComponent(g.dataset.group));
+  }
+});
+
+let gsT;
+$('groupSearchInput').addEventListener('input', e => {
+  clearTimeout(gsT);
+  gsT = setTimeout(() => { groupSearchQ = e.target.value.trim(); renderGroupDetail(currentGroup); }, 250);
+});
+
+let sT;
+$('searchInput').addEventListener('input', e => {
+  clearTimeout(sT);
+  sT = setTimeout(() => { searchQ = e.target.value.trim(); renderSearch(); }, 250);
+});
+$('catFilter').addEventListener('change', e => { searchCat = e.target.value; renderSearch(); });
+$('rFrom').addEventListener('input', () => { clearTimeout(sT); sT = setTimeout(renderSearch, 400); });
+$('rTo').addEventListener('input', () => { clearTimeout(sT); sT = setTimeout(renderSearch, 400); });
+$('rangeGo').addEventListener('click', () => {
+  const f = parseInt($('rFrom').value), t = parseInt($('rTo').value);
+  if(!f || !t) return toast('أدخل الرقمين','err');
+  if(f > t) return toast('البداية أقل','err');
+  renderSearch();
+});
+$('rangeReset').addEventListener('click', () => { $('rFrom').value=''; $('rTo').value=''; renderSearch(); });
+$('rangePrint').addEventListener('click', () => window.print());
+$('quickChips').addEventListener('click', e => {
+  const c = e.target.closest('.chip');
+  if(!c) return;
+  $('rFrom').value = c.dataset.f;
+  $('rTo').value = c.dataset.t;
+  renderSearch();
+});
+
+document.body.addEventListener('click', async e => {
+  const wa = e.target.closest('[data-wa]');
+  if(wa){
+    const q = db.questions[wa.dataset.wa];
+    if(!q) return;
+    shareWA(formatQ(q));
+    toast('📱 جارٍ المشاركة', 'wa');
+    return;
+  }
+  const tr = e.target.closest('[data-tr]');
+  if(tr){
+    const q = db.questions[tr.dataset.tr];
+    if(!q) return;
+    if(q.translation){
+      q.showAr = !q.showAr;
+      saveCache();
+      refreshCard(q.num);
+      toast(q.showAr ? '✓ الترجمة' : '✓ الأصلي', 'ok');
+      return;
+    }
+    tr.disabled = true;
+    tr.textContent = '⏳';
+    try{
+      const t = await translateQ(q);
+      if(t){
+        q.translation = t;
+        q.showAr = true;
+        saveCache();
+        refreshCard(q.num);
+        toast('✓ تمت الترجمة', 'ok');
+      } else {
+        tr.disabled = false;
+        tr.textContent = '🌐 ترجم';
+        toast('تعذّر الاتصال', 'err');
+      }
+    }catch(err){
+      tr.disabled = false;
+      tr.textContent = '🌐 ترجم';
+      toast('خطأ','err');
+    }
+  }
+});
+
+$('syncFab').addEventListener('click', async () => {
+  const btn = $('syncFab');
+  btn.classList.add('spinning');
+  await fetchCloud(false);
+  setTimeout(() => btn.classList.remove('spinning'), 800);
+  toast('✓ تم التحديث', 'ok');
+});
+$('cloudBadge').addEventListener('click', async () => { await fetchCloud(false); });
+
+async function init(){
+  renderDoctor();
+  loadCache();
+  if(Object.keys(db.questions).length > 0){
+    $('loader').style.display = 'none';
+    handleRoute();
+  }
+  if(cloud.gistId){
+    await fetchCloud(true);
+    $('loader').style.display = 'none';
+    handleRoute();
+    startAutoSync();
+  } else {
+    $('loader').style.display = 'none';
+    handleRoute();
+  }
+}
+
+init();
+})();
+</script>
+</body>
+   </html>);font-family:monospace;font-weight:800}
+
+.search-bar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.search-input{flex:1;min-width:200px;position:relative}
+.search-input input{width:100%;padding:12px 42px 12px 14px;border:1.5px solid var(--line);border-radius:13px;background:var(--surface);font-size:14px;font-weight:500;transition:.2s}
+.search-input input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(15,118,110,.1)}
+.search-input::before{content:"🔍";position:absolute;inset-inline-start:14px;top:50%;transform:translateY(-50%);font-size:15px;opacity:.5;pointer-events:none}
+.filter-select{padding:12px 14px;border:1.5px solid var(--line);border-radius:13px;background:var(--surface);font-size:13px;font-weight:600;color:#334155;cursor:pointer;min-width:140px;font-family:inherit}
+
+.range-box{display:flex;align-items:center;gap:5px;background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1.5px solid #fde68a;border-radius:13px;padding:6px 8px 6px 6px;flex-wrap:wrap;width:100%;margin-bottom:14px}
+.range-box .lbl{font-size:11.5px;font-weight:800;color:var(--gold-dark);padding:0 4px}
+.range-box input{width:60px;padding:7px 6px;border:1.5px solid #fcd34d;border-radius:8px;background:#fff;font-size:13px;font-weight:800;font-family:monospace;color:var(--gold-dark);text-align:center}
+.range-go{padding:8px 14px;border-radius:8px;font-size:12px;font-weight:800;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#fff;cursor:pointer}
+.range-mini{width:30px;height:30px;padding:0;border-radius:8px;background:#fff;border:1.5px solid #fde68a;color:var(--gold-dark);font-size:12px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+
+.quick-chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;padding:8px 10px;background:var(--surface);border:1px dashed #a7f3d0;border-radius:11px;align-items:center}
+.quick-chips .lbl{font-size:11.5px;font-weight:700;color:var(--muted);margin-inline-end:4px}
+.chip{padding:5px 12px;border-radius:999px;font-size:11px;font-weight:800;background:var(--primary-tint);border:1.5px solid #99f6e4;color:var(--primary-dark);cursor:pointer;font-family:monospace}
+.chip:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+.results-info{padding:11px 14px;background:linear-gradient(135deg,#f0fdfa,#fff);border:1px solid #a7f3d0;border-radius:11px;margin-bottom:14px;font-size:12.5px;font-weight:600;color:var(--primary-dark)}
+.results-info b{font-family:monospace;font-size:14px}
+
+.q-list{display:flex;flex-direction:column;gap:12px}
+.q-card{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.04)}
+.q-head{display:flex;align-items:center;gap:9px;padding:11px 14px;background:linear-gradient(180deg,#f8fafc,#f1f5f9);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.q-num{font-family:monospace;font-weight:800;font-size:12.5px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:5px 14px;border-radius:9px}
+.q-cats{display:flex;gap:4px;flex-wrap:wrap;flex:1;min-width:0}
+.q-cat{font-size:10px;font-weight:700;padding:3px 9px;border-radius:6px;background:var(--primary-tint);color:var(--primary-dark);border:1px solid #99f6e4;display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.q-cat.topic{background:#ede9fe;color:#5b21b6;border-color:#c4b5fd}
+.q-actions{display:flex;gap:5px;flex-wrap:wrap;margin-inline-start:auto}
+.btn-mini{padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;background:#fff;border:1.5px solid var(--line);color:#334155;cursor:pointer;display:inline-flex;align-items:center;gap:4px;transition:.2s}
+.btn-mini:hover{background:#f8fafc}
+.btn-mini.tr{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-color:#bfdbfe;color:#1d4ed8}
+.btn-mini.tr.on{background:linear-gradient(135deg,#059669,#047857);border-color:#047857;color:#fff}
+.btn-mini.tr.cancel{background:linear-gradient(135deg,#dc2626,#b91c1c);border-color:#b91c1c;color:#fff}
+.btn-mini.wa{background:linear-gradient(135deg,#dcfce7,#bbf7d0);border-color:#86efac;color:#166534}
+
+.q-body{padding:16px;background:var(--q-bg);position:relative}
+.q-body::before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#3b82f6,#1d4ed8)}
+.q-tag{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;color:#1d4ed8;background:#dbeafe;padding:4px 11px;border-radius:7px;margin-bottom:11px}
+.q-text{font-size:14.5px;line-height:1.9;color:var(--q-ink);font-weight:600;white-space:pre-wrap;word-break:break-word;margin-bottom:14px}
+.q-card.ar .q-text{direction:rtl;text-align:right}
+
+/* ═══════════════════════════════════════
+   الخيارات الجديدة - كل خيار في مستطيل
+   ═══════════════════════════════════════ */
+.opts-title{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:800;color:#1e40af;
+  background:#dbeafe;padding:4px 12px;border-radius:7px;
+  margin-bottom:10px;
+}
+.opts-list{
+  display:flex;flex-direction:column;gap:8px;
+  margin-bottom:14px;
+}
+.option-box{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 14px;border-radius:11px;
+  border:2px solid;font-weight:600;
+  font-size:14px;line-height:1.7;
+  transition:.2s;position:relative;overflow:hidden;
+}
+.option-box .opt-letter{
+  width:34px;height:34px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:monospace;font-weight:900;font-size:15px;
+  flex-shrink:0;transition:.2s;
+  box-shadow:0 2px 5px rgba(0,0,0,.08);
+}
+.option-box .opt-text{
+  flex:1;word-break:break-word;
+  white-space:pre-wrap;
+}
+.option-box .opt-icon{
+  font-size:20px;flex-shrink:0;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;
+}
+
+/* الخيار الصحيح - أخضر */
+.option-box.correct{
+  background:linear-gradient(135deg,#dcfce7,#bbf7d0);
+  border-color:#16a34a;
+  color:#14532d;
+  box-shadow:0 3px 12px rgba(22,163,74,.2);
+}
+.option-box.correct .opt-letter{
+  background:linear-gradient(135deg,#16a34a,#15803d);
+  color:#fff;
+}
+.option-box.correct .opt-text{
+  font-weight:800;color:#14532d;
+}
+.option-box.correct .opt-icon{
+  background:#16a34a;color:#fff;
+  box-shadow:0 3px 10px rgba(22,163,74,.4);
+}
+
+/* الخيار الخاطئ - أحمر */
+.option-box.wrong{
+  background:linear-gradient(135deg,#fee2e2,#fecaca);
+  border-color:#ef4444;
+  color:#7f1d1d;
+  opacity:.92;
+}
+.option-box.wrong .opt-letter{
+  background:linear-gradient(135deg,#ef4444,#dc2626);
+  color:#fff;
+}
+.option-box.wrong .opt-text{
+  color:#991b1b;font-weight:600;
+}
+.option-box.wrong .opt-icon{
+  background:#ef4444;color:#fff;
+  opacity:.85;
+}
+
+/* خيار محايد (لا توجد إجابة) */
+.option-box.neutral{
+  background:rgba(255,255,255,.88);
+  border-color:#bfdbfe;
+  color:#334155;
+}
+.option-box.neutral .opt-letter{
+  background:#e2e8f0;
+  color:#334155;
+}
+.option-box.neutral .opt-text{
+  color:#334155;
+}
+
+.q-card.ar .option-box .opt-text{
+  direction:rtl;text-align:right;
+}
+
+/* إجابة كاملة في الأسفل */
+.q-ans{padding:14px 16px;background:var(--a-bg);position:relative;border-top:3px solid var(--a-ink)}
+.q-ans::before{content:"";position:absolute;top:-3px;inset-inline-start:0;width:56px;height:3px;background:var(--gold)}
+.a-tag{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;color:#fff;background:linear-gradient(135deg,#059669,#047857);padding:4px 11px;border-radius:7px;margin-inline-end:9px}
+.a-text{font-size:14px;line-height:1.9;color:var(--a-ink);font-weight:700;white-space:pre-wrap;word-break:break-word}
+.q-card.ar .a-text{font-size:14.5px}
+
+.gap{display:flex;align-items:center;gap:10px;padding:7px 13px;color:var(--gold-dark);font-size:11px;font-weight:600}
+.gap::before,.gap::after{content:"";flex:1;height:1px;background:repeating-linear-gradient(90deg,#fde68a 0,#fde68a 5px,transparent 5px,transparent 10px)}
+.gap .tag{background:var(--gold-soft);padding:4px 12px;border-radius:999px;font-family:monospace;font-weight:800;white-space:nowrap;border:1px solid #fde68a}
+
+.empty{text-align:center;padding:55px 22px;color:var(--muted);background:var(--surface);border:2px dashed var(--line);border-radius:var(--r-lg);font-size:13.5px}
+.empty .empty-ico{font-size:52px;display:block;margin-bottom:14px;opacity:.5}
+.empty b{color:var(--primary);font-weight:800;font-size:15.5px;display:block;margin-bottom:5px}
+
+.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,100px);background:#0f172a;color:#fff;padding:12px 22px;border-radius:999px;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:.3s;z-index:9999;box-shadow:0 12px 32px rgba(0,0,0,.3);max-width:90%;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.ok{background:linear-gradient(135deg,#059669,#047857)}
+.toast.err{background:linear-gradient(135deg,#dc2626,#b91c1c)}
+.toast.wa{background:linear-gradient(135deg,#25d366,#128c7e)}
+
+.sync-fab{position:fixed;inset-inline-start:18px;bottom:18px;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(15,118,110,.4);cursor:pointer;z-index:100}
+.sync-fab.spinning{animation:fabSpin .8s linear}
+@keyframes fabSpin{to{transform:rotate(360deg)}}
+
+@media (max-width:640px){
+  .hero{padding:16px 12px}
+  .doc-photo{width:70px;height:70px;font-size:36px}
+  .doc-name{font-size:18px}
+  .doc-title{font-size:11.5px}
+  .doc-badge{font-size:10px;padding:3px 9px}
+  .wrap{padding:14px 12px 80px}
+  .welcome{padding:15px}
+  .welcome h2{font-size:16px}
+  .stat b{font-size:20px}
+  .quick-actions{grid-template-columns:1fr}
+  .groups-grid{grid-template-columns:1fr;gap:10px}
+  .group-card{padding:13px;gap:11px}
+  .gc-icon{width:46px;height:46px;font-size:24px}
+  .gc-ar{font-size:14.5px}
+  .q-body{padding:13px}
+  .q-text{font-size:14px}
+  .option-box{padding:10px 12px;font-size:13.5px;gap:10px}
+  .option-box .opt-letter{width:30px;height:30px;font-size:13.5px}
+  .option-box .opt-icon{font-size:18px;width:22px;height:22px}
+  .btn-mini{padding:5px 10px;font-size:10.5px}
+  .search-bar{flex-direction:column}
+  .tab{padding:12px 6px}
+  .tab .tab-lbl{font-size:11px}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-in">
+    <div class="doc-photo" id="docPhoto">🩺</div>
+    <div class="doc-info">
+      <h1 class="doc-name" id="docName">د. عبد الله الشميري</h1>
+      <div class="doc-title" id="docTitle">استشاري طب وجراحة العيون</div>
+      <div class="doc-badges">
+        <div class="doc-badge clickable" id="cloudBadge">
+          <span class="cloud-dot sync" id="cloudDot"></span>
+          <span id="cloudText">جارٍ الاتصال</span>
+        </div>
+        <div class="doc-badge">📋 <b id="cntHdr">0</b></div>
+        <div class="doc-badge">📚 <b id="cntCat">0</b></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="tabs-in">
+    <button class="tab active" data-tab="home" onclick="navigate('#home')"><span class="tab-ico">🏠</span><span class="tab-lbl">الرئيسية</span></button>
+    <button class="tab" data-tab="groups" onclick="navigate('#groups')"><span class="tab-ico">📚</span><span class="tab-lbl">المجموعات</span><span class="tab-count" id="tabGroupsCount">0</span></button>
+    <button class="tab" data-tab="search" onclick="navigate('#search')"><span class="tab-ico">🔍</span><span class="tab-lbl">البحث</span></button>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="loader" id="loader"><div class="spinner"></div><p>جارٍ التحميل...</p></div>
+
+  <div class="page active" id="pageHome" style="display:none">
+    <div class="welcome">
+      <h2><span class="greet-ico">👋</span> أهلاً وسهلاً بك دكتور</h2>
+      <p>اضغط أي مجموعة لتدخل إليها مباشرة</p>
+      <div class="stats">
+        <div class="stat"><b id="sTotal">0</b><span>إجمالي</span></div>
+        <div class="stat"><b id="sCats">0</b><span>تخصصات</span></div>
+        <div class="stat"><b id="sRange" style="font-size:12px">—</b><span>النطاق</span></div>
+      </div>
+    </div>
+    <div class="quick-actions">
+      <button class="qa-btn green" onclick="navigate('#groups')">
+        <div class="qa-ico">📚</div>
+        <div class="qa-txt">تصفح المجموعات<small>اضغط لعرض التخصصات</small></div>
+      </button>
+      <button class="qa-btn gold" onclick="navigate('#search')">
+        <div class="qa-ico">🔍</div>
+        <div class="qa-txt">البحث المتقدم<small>ابحث بالكلمة أو الرقم</small></div>
+      </button>
+    </div>
+    <h3 class="section-title">📊 أكثر التخصصات</h3>
+    <p class="section-sub">اضغط أي مجموعة لتدخل إليها</p>
+    <div class="groups-grid" id="topCats"></div>
+  </div>
+
+  <div class="page" id="pageGroups" style="display:none">
+    <div class="breadcrumb">
+      <a onclick="navigate('#home')">🏠 الرئيسية</a>
+      <span class="sep">›</span>
+      <span class="current">📚 المجموعات</span>
+    </div>
+    <h3 class="section-title">📚 جميع المجموعات الطبية</h3>
+    <p class="section-sub">اضغط أي مجموعة لتدخل إليها</p>
+    <div class="groups-grid" id="groupsGrid"></div>
+  </div>
+
+  <div class="page" id="pageGroupDetail" style="display:none">
+    <div class="breadcrumb">
+      <a onclick="navigate('#home')">🏠 الرئيسية</a>
+      <span class="sep">›</span>
+      <a onclick="navigate('#groups')">📚 المجموعات</a>
+      <span class="sep">›</span>
+      <span class="current" id="breadcrumbCurrent">—</span>
+    </div>
+    <div class="group-header">
+      <button class="gh-back" onclick="navigate('#groups')" title="رجوع">←</button>
+      <div class="gh-icon" id="ghIcon">📚</div>
+      <div class="gh-info">
+        <div class="gh-ar" id="ghAr"></div>
+        <div class="gh-en" id="ghEn"></div>
+        <div class="gh-meta" id="ghMeta"></div>
+      </div>
+    </div>
+    <div class="search-bar">
+      <div class="search-input"><input type="text" id="groupSearchInput" placeholder="ابحث داخل هذه المجموعة..."></div>
+    </div>
+    <div class="q-list" id="groupQuestions"></div>
+  </div>
+
+  <div class="page" id="pageSearch" style="display:none">
+    <div class="breadcrumb">
+      <a onclick="navigate('#home')">🏠 الرئيسية</a>
+      <span class="sep">›</span>
+      <span class="current">🔍 البحث</span>
+    </div>
+    <h3 class="section-title">🔍 البحث المتقدم</h3>
+    <p class="section-sub">ابحث بالنص، الرقم التسلسلي، أو التخصص</p>
+    <div class="search-bar">
+      <div class="search-input"><input type="text" id="searchInput" placeholder="ابحث بنص السؤال..."></div>
+      <select class="filter-select" id="catFilter"><option value="">كل التخصصات</option></select>
+    </div>
+    <div class="range-box">
+      <span class="lbl">🎯 النطاق</span>
+      <input type="number" id="rFrom" placeholder="من">
+      <span style="color:var(--gold-dark);font-weight:800">←</span>
+      <input type="number" id="rTo" placeholder="إلى">
+      <button class="range-go" id="rangeGo">عرض</button>
+      <button class="range-mini" id="rangeReset" title="مسح">↺</button>
+      <button class="range-mini" id="rangePrint" title="طباعة">🖨️</button>
+    </div>
+    <div class="quick-chips" id="quickChips"><span class="lbl">⚡ سريع:</span></div>
+    <div id="searchResults"></div>
+  </div>
+</div>
+
+<button class="sync-fab" id="syncFab" title="تحديث">🔄</button>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+
+const GIST_ID = 'aba35053f173fc9a678dfc98728f5149';
+
+const SPECIALTIES = [
+{ar:'الباطنة',en:'Internal Medicine',icon:'🫀'},
+{ar:'الجراحة العامة',en:'General Surgery',icon:'🔪'},
+{ar:'الأطفال',en:'Pediatrics',icon:'👶'},
+{ar:'النساء والتوليد',en:'Obstetrics & Gynecology',icon:'🤰'},
+{ar:'طب الأسرة',en:'Family Medicine',icon:'👨‍⚕️'},
+{ar:'الطب النفسي',en:'Psychiatry',icon:'🧠'},
+{ar:'الجلدية',en:'Dermatology',icon:'🧴'},
+{ar:'الأنف والأذن والحنجرة',en:'ENT',icon:'👂'},
+{ar:'طب العيون',en:'Ophthalmology',icon:'👁️'},
+{ar:'العظام',en:'Orthopedics',icon:'🦴'},
+{ar:'المسالك البولية',en:'Urology',icon:'💧'},
+{ar:'التخدير',en:'Anesthesia',icon:'💉'},
+{ar:'طب الطوارئ',en:'Emergency Medicine',icon:'🚨'},
+{ar:'الأشعة',en:'Radiology',icon:'📷'},
+{ar:'الطب الشرعي',en:'Forensic Medicine',icon:'⚖️'},
+{ar:'صحة المجتمع',en:'Community Medicine',icon:'🌍'},
+{ar:'العلوم الأساسية',en:'Basic Sciences',icon:'🔬'},
+{ar:'علم الأدوية',en:'Pharmacology',icon:'💊'}
+];
+
+const $ = id => document.getElementById(id);
+const CK = 'study_correct_cache', TK = 'study_correct_tr', HK = 'study_correct_hash';
+
+let db = { questions:{}, prefix:'Q' };
+let trCache = {};
+let cloud = { gistId: GIST_ID, doctor:{name:'د. عبد الله الشميري', title:'استشاري طب وجراحة العيون', photo:''} };
+let currentGroup = '';
+let searchQ = '', searchCat = '';
+let groupSearchQ = '';
+let lastDataHash = '';
+let syncTimer = null;
+
+const esc = s => String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function toast(msg, type){
+  const t = $('toast');
+  if(!t) return;
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' '+type : '');
+  clearTimeout(t._t);
+  t._t = setTimeout(()=>{ t.className='toast'; }, 2500);
+}
+function setCloud(cls, text){
+  $('cloudDot').className = 'cloud-dot ' + (cls||'');
+  $('cloudText').textContent = text || 'السحابة';
+}
+function hashData(data){
+  const str = JSON.stringify(data);
+  let h = 0;
+  for(let i=0;i<str.length;i++){ h = ((h<<5) - h) + str.charCodeAt(i); h = h | 0; }
+  return 'h' + Math.abs(h).toString(36) + '_' + str.length;
+}
+
+function loadCache(){
+  try{
+    const r = localStorage.getItem(CK);
+    if(r){ const p = JSON.parse(r); if(p && p.questions) db = p; }
+    const t = localStorage.getItem(TK);
+    if(t) trCache = JSON.parse(t);
+    const h = localStorage.getItem(HK);
+    if(h) lastDataHash = h;
+  }catch(e){}
+}
+function saveCache(){
+  try{
+    localStorage.setItem(CK, JSON.stringify(db));
+    localStorage.setItem(HK, lastDataHash);
+  }catch(e){}
+}
+function saveTr(){ try{ localStorage.setItem(TK, JSON.stringify(trCache)); }catch(e){} }
+
+async function fetchCloud(silent){
+  if(!cloud.gistId){ setCloud('err', 'غير مُعد'); return false; }
+  if(!silent) setCloud('sync', 'تحديث...');
+  try{
+    const r = await fetch(`https://api.github.com/gists/${cloud.gistId}`, {
+      headers:{'Accept':'application/vnd.github+json'}, cache:'no-store'
+    });
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const gist = await r.json();
+    const file = gist.files && (gist.files['data.json'] || Object.values(gist.files)[0]);
+    if(!file) throw new Error('لا يوجد ملف');
+    let content = file.content;
+    if(file.truncated && file.raw_url){
+      const rr = await fetch(file.raw_url, {cache:'no-store'});
+      content = await rr.text();
+    }
+    const data = JSON.parse(content);
+    const newHash = hashData({q:data.questions, p:data.prefix, d:data.doctor});
+    if(newHash === lastDataHash && Object.keys(db.questions).length > 0){
+      setCloud('ok', 'متصل ✓');
+      return true;
+    }
+    if(data.questions) db.questions = data.questions;
+    if(data.prefix) db.prefix = data.prefix;
+    if(data.doctor) cloud.doctor = Object.assign(cloud.doctor, data.doctor);
+    lastDataHash = newHash;
+    saveCache();
+    setCloud('ok', 'متصل ✓');
+    renderDoctor();
+    renderHeaderCounts();
+    if(currentGroup) renderGroupDetail(currentGroup);
+    return true;
+  }catch(e){
+    setCloud('err', 'خطأ');
+    return false;
+  }
+}
+
+function startAutoSync(){
+  if(syncTimer) clearInterval(syncTimer);
+  syncTimer = setInterval(() => { if(!document.hidden) fetchCloud(true); }, 20000);
+}
+document.addEventListener('visibilitychange', () => { if(!document.hidden) fetchCloud(true); });
+window.addEventListener('online', () => fetchCloud(true));
+
+function navigate(hash){
+  if(location.hash === hash) handleRoute();
+  else location.hash = hash;
+}
+
+function handleRoute(){
+  const hash = (location.hash || '#home').substring(1);
+  const gm = hash.match(/^group=(.+)$/);
+  document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); p.style.display='none'; });
+  $('loader').style.display = 'none';
+
+  if(gm){
+    const groupName = decodeURIComponent(gm[1]);
+    currentGroup = groupName;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    $('pageGroupDetail').classList.add('active');
+    $('pageGroupDetail').style.display = 'block';
+    renderGroupDetail(groupName);
+    document.title = groupName + ' — بنك البورد العربي';
+  } else if(hash === 'groups'){
+    currentGroup = '';
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'groups'));
+    $('pageGroups').classList.add('active');
+    $('pageGroups').style.display = 'block';
+    renderGroups();
+    document.title = 'المجموعات — بنك البورد العربي';
+  } else if(hash === 'search'){
+    currentGroup = '';
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'search'));
+    $('pageSearch').classList.add('active');
+    $('pageSearch').style.display = 'block';
+    renderSearch();
+    document.title = 'البحث — بنك البورد العربي';
+  } else {
+    currentGroup = '';
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'home'));
+    $('pageHome').classList.add('active');
+    $('pageHome').style.display = 'block';
+    renderHome();
+    document.title = 'بنك أسئلة البورد العربي';
+  }
+
+  window.scrollTo(0, 0);
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+}
+
+window.addEventListener('hashchange', handleRoute);
+
+function renderDoctor(){
+  const d = cloud.doctor || {};
+  $('docName').textContent = d.name || 'د. عبد الله الشميري';
+  $('docTitle').textContent = d.title || '';
+  const ph = $('docPhoto');
+  if(d.photo) ph.innerHTML = `<img src="${d.photo}" alt="">`;
+  else ph.textContent = '🩺';
+}
+function countByCat(){
+  const m = {};
+  for(const q of Object.values(db.questions)){
+    const c = q.category || 'غير مصنّف';
+    m[c] = (m[c]||0) + 1;
+  }
+  return m;
+}
+function sortedNums(){ return Object.values(db.questions).map(q => q.num).sort((a,b) => a-b); }
+function getSpecialty(name){ return SPECIALTIES.find(s => s.ar === name) || {icon:'📄', en:'', ar:name}; }
+
+function renderHeaderCounts(){
+  const nums = sortedNums();
+  const counts = countByCat();
+  $('cntHdr').textContent = nums.length;
+  $('cntCat').textContent = Object.keys(counts).length;
+  $('tabGroupsCount').textContent = Object.keys(counts).length;
+}
+
+function renderHome(){
+  renderHeaderCounts();
+  const nums = sortedNums();
+  const counts = countByCat();
+  $('sTotal').textContent = nums.length;
+  $('sCats').textContent = Object.keys(counts).length;
+  $('sRange').textContent = nums.length ? `${db.prefix}${nums[0]} → ${db.prefix}${nums[nums.length-1]}` : '—';
+  const top = Object.entries(counts).sort((a,b) => b[1]-a[1]).slice(0, 6);
+  $('topCats').innerHTML = top.length
+    ? top.map(([cat, cnt]) => renderGroupCard(cat, cnt)).join('')
+    : '<div class="empty" style="grid-column:1/-1"><span class="empty-ico">📭</span><b>لا توجد أسئلة</b></div>';
+}
+function renderGroupCard(cat, count){
+  const sp = getSpecialty(cat);
+  const empty = count === 0;
+  return `<div class="group-card${empty?' empty':''}" data-group="${esc(cat)}">
+    <div class="gc-icon">${sp.icon}</div>
+    <div class="gc-info"><div class="gc-ar">${esc(cat)}</div><div class="gc-en">${esc(sp.en)}</div></div>
+    <div class="gc-count">${count}</div>
+  </div>`;
+}
+function renderGroups(){
+  renderHeaderCounts();
+  const counts = countByCat();
+  const list = SPECIALTIES.slice();
+  if(counts['غير مصنّف']) list.push({ar:'غير مصنّف',en:'Uncategorized',icon:'📄'});
+  $('groupsGrid').innerHTML = list.map(sp => {
+    const c = counts[sp.ar] || 0;
+    return renderGroupCard(sp.ar, c);
+  }).join('');
+}
+function renderGroupDetail(groupName){
+  const sp = getSpecialty(groupName);
+  const list = Object.values(db.questions)
+    .filter(q => (q.category||'غير مصنّف') === groupName)
+    .sort((a,b) => a.num - b.num);
+  $('ghIcon').textContent = sp.icon;
+  $('ghAr').textContent = groupName;
+  $('ghEn').textContent = sp.en || '';
+  $('breadcrumbCurrent').textContent = groupName;
+  $('ghMeta').innerHTML = `
+    <span>📋 <b>${list.length}</b> سؤال</span>
+    ${list.length ? `<span>🔢 <b>${db.prefix}${list[0].num} → ${db.prefix}${list[list.length-1].num}</b></span>` : ''}
+  `;
+  const q = groupSearchQ.toLowerCase();
+  const filtered = q ? list.filter(item => {
+    const hay = (item.body + ' ' + (item.topic||'')).toLowerCase();
+    return hay.includes(q) || String(item.num).includes(q);
+  }) : list;
+  if(!filtered.length){
+    $('groupQuestions').innerHTML = `<div class="empty"><span class="empty-ico">${q ? '🔍' : '📭'}</span><b>${q ? 'لا توجد نتائج' : 'لا توجد أسئلة'}</b></div>`;
+    return;
+  }
+  $('groupQuestions').innerHTML = renderList(filtered, true);
+}
+
+/* ═══════════════════════════════════════════════════
+   تحليل الخيارات والإجابة
+   ═══════════════════════════════════════════════════ */
+
+/* استخراج الخيارات من النص
+   يدعم: A) ... B) ... أو A. ... B. ... أو A- ... إلخ
+*/
+function parseOptions(optsText){
+  if(!optsText) return [];
+  const lines = String(optsText).split('\n');
+  const options = [];
+  let current = null;
+  for(const line of lines){
+    // مطابقة: حرف واحد ثم ) أو . أو - أو :
+    const m = line.match(/^\s*([A-Za-z])\s*[\)\.\-:]\s*(.*)$/);
+    if(m){
+      if(current) options.push(current);
+      current = { letter: m[1].toUpperCase(), text: (m[2]||'').trim() };
+    } else if(current){
+      current.text += '\n' + line;
+    }
+  }
+  if(current) options.push(current);
+  // تنظيف النص
+  options.forEach(o => { o.text = o.text.replace(/\s+$/,'').trim(); });
+  return options;
+}
+
+/* استخراج حرف الإجابة الصحيحة
+   يدعم: "A) ..." أو "A" أو "A. ..." إلخ
+*/
+function parseAnswerLetter(ansText){
+  if(!ansText) return '';
+  const t = String(ansText).trim();
+  // محاولة 1: حرف في البداية مثل "A)" أو "A." أو "A-" أو "A:"
+  const m1 = t.match(/^([A-Za-z])\s*[\)\.\-:]/);
+  if(m1) return m1[1].toUpperCase();
+  // محاولة 2: حرف منفرد
+  const m2 = t.match(/^([A-Za-z])\b/);
+  if(m2) return m2[1].toUpperCase();
+  return '';
+}
+
+/* استخراج نص الإجابة (بدون الحرف في البداية) */
+function parseAnswerText(ansText){
+  if(!ansText) return '';
+  let t = String(ansText).trim();
+  // إزالة الحرف من البداية إن وُجد
+  t = t.replace(/^[A-Za-z]\s*[\)\.\-:]\s*/, '').trim();
+  return t;
+}
+
+/* هل هذا الخيار هو الصحيح؟
+   نطابق بالحرف أولًا، وإن لم يوجد نطابق بالنص
+*/
+function isCorrectOption(opt, ansLetter, ansText){
+  // مطابقة بالحرف
+  if(ansLetter && opt.letter === ansLetter) return true;
+  // مطابقة بالنص (احتياطي)
+  if(ansText){
+    const a = ansText.trim().toLowerCase();
+    const o = opt.text.trim().toLowerCase();
+    if(o && o.length > 3 && (a === o || a.startsWith(o))) return true;
+  }
+  return false;
+}
+
+/* بناء HTML للخيارات الملونة */
+function renderOptions(optsText, ansText){
+  const opts = parseOptions(optsText);
+  if(!opts.length){
+    // لا توجد خيارات - نعرض النص كما هو
+    return optsText ? `<div class="q-opts" style="padding:14px;background:rgba(255,255,255,.85);border-radius:11px;border:1px solid #bfdbfe;white-space:pre-wrap;word-break:break-word;font-weight:500;color:#334155">${esc(optsText)}</div>` : '';
+  }
+  const ansLetter = parseAnswerLetter(ansText);
+  const ansTxt = parseAnswerText(ansText);
+  const hasAnswer = !!(ansLetter || ansTxt);
+
+  const boxes = opts.map(opt => {
+    let cls = 'neutral';
+    let icon = '';
+    if(hasAnswer){
+      if(isCorrectOption(opt, ansLetter, ansTxt)){
+        cls = 'correct';
+        icon = '✓';
+      } else {
+        cls = 'wrong';
+        icon = '✗';
+      }
+    }
+    return `<div class="option-box ${cls}">
+      <span class="opt-letter">${esc(opt.letter)}</span>
+      <span class="opt-text">${esc(opt.text)}</span>
+      ${icon ? `<span class="opt-icon">${icon}</span>` : ''}
+    </div>`;
+  }).join('');
+
+  return `<span class="opts-title">📝 الخيارات</span><div class="opts-list">${boxes}</div>`;
+}
+
+/* ═══════════════════════════════════════════════════ */
+
+function renderQ(q){
+  const tr = q.translation;
+  const useAr = q.showAr && tr && (tr.q || tr.ans);
+  const P = useAr
+    ? { q: tr.q || q.parts.q, opts: tr.opts || q.parts.opts, ans: tr.ans || q.parts.ans }
+    : q.parts;
+
+  const catHTML = q.category ? `<span class="q-cat">${q.categoryIcon||''} ${esc(q.category)}</span>` : '';
+  const topicHTML = q.topic ? `<span class="q-cat topic">${q.topicIcon||'🎯'} ${esc(q.topic)}</span>` : '';
+
+  let cls, lbl;
+  if(!tr){ cls='btn-mini tr'; lbl='🌐 ترجم'; }
+  else if(useAr){ cls='btn-mini tr cancel'; lbl='✕ إلغاء'; }
+  else { cls='btn-mini tr on'; lbl='🌐 عربي'; }
+
+  const optionsHTML = renderOptions(P.opts, P.ans);
+  const fullAnsHTML = P.ans ? `<div class="q-ans">
+      <span class="a-tag">✓ الجواب</span>
+      <span class="a-text">${esc(P.ans)}</span>
+    </div>` : '';
+
+  return `<article class="q-card${useAr?' ar':''}" id="q${q.num}">
+    <div class="q-head">
+      <span class="q-num">${db.prefix}${q.num}</span>
+      <div class="q-cats">${catHTML}${topicHTML}</div>
+      <div class="q-actions">
+        <button class="${cls}" data-tr="${q.num}">${lbl}</button>
+        <button class="btn-mini wa" data-wa="${q.num}">📱</button>
+      </div>
+    </div>
+    <div class="q-body">
+      <span class="q-tag">❓ السؤال</span>
+      <div class="q-text">${esc(P.q) || '—'}</div>
+      ${optionsHTML}
+    </div>
+    ${fullAnsHTML}
+  </article>`;
+}
+
+function renderGap(f, t){
+  const l = f === t ? `${db.prefix}${f} ناقص` : `${db.prefix}${f} → ${db.prefix}${t} ناقص (${t-f+1})`;
+  return `<div class="gap"><span class="tag">${esc(l)}</span></div>`;
+}
+function renderList(list, withMissing){
+  if(!list.length) return '';
+  const sorted = list.slice().sort((a,b) => a.num - b.num);
+  const parts = [];
+  let prev = null;
+  for(const q of sorted){
+    if(prev !== null && q.num > prev+1 && withMissing !== false) parts.push(renderGap(prev+1, q.num-1));
+    parts.push(renderQ(q));
+    prev = q.num;
+  }
+  return `<div class="q-list">${parts.join('')}</div>`;
+}
+function renderQuickChips(){
+  const nums = sortedNums();
+  const qc = $('quickChips');
+  if(!nums.length){ qc.innerHTML = '<span class="lbl">لا توجد أسئلة</span>'; return; }
+  const min = nums[0], max = nums[nums.length-1];
+  const ranges = [];
+  let cur = Math.floor(min/50)*50; if(cur < min) cur = min;
+  let n = 0;
+  while(cur <= max && n < 10){
+    ranges.push({f:cur, t:Math.min(cur+49, max)});
+    cur += 50; n++;
+  }
+  qc.innerHTML = '<span class="lbl">⚡ سريع:</span>' +
+    ranges.map(r => `<button class="chip" data-f="${r.f}" data-t="${r.t}">${r.f}-${r.t}</button>`).join('');
+}
+function updateCatFilter(){
+  const cats = [...new Set(Object.values(db.questions).map(q => q.category||'غير مصنّف'))].sort();
+  const sel = $('catFilter');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">كل التخصصات</option>' + cats.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
+  if(cats.includes(cur)) sel.value = cur;
+}
+function getSearchResults(){
+  const q = searchQ.toLowerCase();
+  const f = parseInt($('rFrom').value) || 0;
+  const t = parseInt($('rTo').value) || 0;
+  const hasRange = f > 0 && t > 0;
+  return Object.values(db.questions).filter(item => {
+    if(searchCat && (item.category||'غير مصنّف') !== searchCat) return false;
+    if(hasRange && (item.num < f || item.num > t)) return false;
+    if(!q) return true;
+    const hay = (item.body + ' ' + (item.category||'') + ' ' + (item.topic||'')).toLowerCase();
+    return hay.includes(q) || String(item.num).includes(q);
+  }).sort((a,b) => a.num - b.num);
+}
+function renderSearch(){
+  renderHeaderCounts();
+  updateCatFilter();
+  renderQuickChips();
+  const list = getSearchResults();
+  const info = list.length
+    ? `<div class="results-info">📊 عدد النتائج: <b>${list.length}</b>${searchCat ? ` · ${esc(searchCat)}` : ''}</div>`
+    : '';
+  $('searchResults').innerHTML = info + (list.length
+    ? renderList(list, true)
+    : `<div class="empty"><span class="empty-ico">🔍</span><b>لا توجد نتائج</b></div>`);
+}
+function refreshCard(num){
+  const q = db.questions[num];
+  if(!q) return;
+  const el = document.getElementById('q' + num);
+  if(!el) return;
+  const tmp = document.createElement('div');
+  tmp.innerHTML = renderQ(q);
+  el.replaceWith(tmp.firstElementChild);
+}
+
+/* الترجمة */
+async function fetchT(url, ms, opts){
+  const c = new AbortController();
+  const t = setTimeout(()=>c.abort(), ms);
+  try{ const r = await fetch(url, Object.assign({signal:c.signal}, opts||{})); clearTimeout(t); return r; }
+  catch(e){ clearTimeout(t); throw e; }
+}
+async function s1(t){
+  const r = await fetchT('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ar&dt=t&q=' + encodeURIComponent(t.slice(0,4500)), 12000);
+  if(!r.ok) throw 0;
+  const d = await r.json();
+  if(Array.isArray(d) && Array.isArray(d[0])){
+    const o = d[0].map(x => Array.isArray(x) ? x[0] : '').filter(Boolean).join('');
+    if(o && o.trim()) return o.trim();
+  }
+  throw 0;
+}
+async function s2(t){
+  const u = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ar&dt=t&q=' + encodeURIComponent(t.slice(0,4000)));
+  const r = await fetchT(u, 18000);
+  if(!r.ok) throw 0;
+  const d = await r.json();
+  if(Array.isArray(d) && Array.isArray(d[0])){
+    const o = d[0].map(x => Array.isArray(x) ? x[0] : '').filter(Boolean).join('');
+    if(o && o.trim()) return o.trim();
+  }
+  throw 0;
+}
+async function s3(t){
+  const u = 'https://corsproxy.io/?' + encodeURIComponent('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ar&dt=t&q=' + encodeURIComponent(t.slice(0,4000)));
+  const r = await fetchT(u, 15000);
+  if(!r.ok) throw 0;
+  const d = await r.json();
+  if(Array.isArray(d) && Array.isArray(d[0])){
+    const o = d[0].map(x => Array.isArray(x) ? x[0] : '').filter(Boolean).join('');
+    if(o && o.trim()) return o.trim();
+  }
+  throw 0;
+}
+async function s4(t){
+  const r = await fetchT('https://api.mymemory.translated.net/get?langpair=en|ar&q=' + encodeURIComponent(t.slice(0,500)), 10000);
+  if(!r.ok) throw 0;
+  const d = await r.json();
+  if(d && d.responseData && d.responseData.translatedText){
+    const o = d.responseData.translatedText;
+    if(o && !/^MYMEMORY WARNING/i.test(o) && !/INVALID/i.test(o)) return o;
+  }
+  throw 0;
+}
+async function s5(t){
+  const r = await fetchT('https://lingva.ml/api/v1/en/ar/' + encodeURIComponent(t.slice(0,1500)), 10000);
+  if(!r.ok) throw 0;
+  const d = await r.json();
+  if(d && d.translation && d.translation.trim()) return d.translation.trim();
+  throw 0;
+}
+function hashT(t){
+  let h = 0;
+  for(let i=0; i<t.length; i++){ h = (h<<5) - h + t.charCodeAt(i); h |= 0; }
+  return 'h' + Math.abs(h).toString(36);
+}
+async function translateText(text){
+  if(!text || !text.trim()) return '';
+  const t = String(text).trim();
+  if(t.length < 2) return '';
+  const h = hashT(t);
+  if(trCache[h]) return trCache[h];
+  const svcs = [s1, s2, s3, s4, s5];
+  for(const fn of svcs){
+    try{
+      const r = await fn(t);
+      if(r && r.trim()){ trCache[h] = r; saveTr(); return r; }
+    }catch(e){}
+  }
+  return null;
+}
+async function translateQ(q){
+  const tr = { q:'', opts:'', ans:'' };
+  let any = false;
+  if(q.parts.q){ const t = await translateText(q.parts.q); if(t){ tr.q = t; any = true; } }
+  if(q.parts.opts){ const t = await translateText(q.parts.opts); if(t){ tr.opts = t; any = true; } }
+  if(q.parts.ans){ const t = await translateText(q.parts.ans); if(t){ tr.ans = t; any = true; } }
+  return any ? tr : null;
+}
+
+function formatQ(q){
+  let txt = `*${db.prefix}${q.num}*\n`;
+  if(q.category) txt += `📂 ${q.category}`;
+  if(q.topic) txt += ` · ${q.topic}`;
+  txt += `\n\n${q.parts.q}`;
+  if(q.parts.opts) txt += `\n\n${q.parts.opts}`;
+  if(q.parts.ans) txt += `\n\n*✅ الجواب:* ${q.parts.ans}`;
+  return txt;
+}
+function shareWA(text){ window.open('https://wa.me/?text=' + encodeURIComponent(text.slice(0,20000)), '_blank'); }
+
+/* الأحداث */
+document.body.addEventListener('click', e => {
+  const g = e.target.closest('.group-card');
+  if(g && !g.classList.contains('empty')){
+    navigate('#group=' + encodeURIComponent(g.dataset.group));
+  }
+});
+
+let gsT;
+$('groupSearchInput').addEventListener('input', e => {
+  clearTimeout(gsT);
+  gsT = setTimeout(() => { groupSearchQ = e.target.value.trim(); renderGroupDetail(currentGroup); }, 250);
+});
+
+let sT;
+$('searchInput').addEventListener('input', e => {
+  clearTimeout(sT);
+  sT = setTimeout(() => { searchQ = e.target.value.trim(); renderSearch(); }, 250);
+});
+$('catFilter').addEventListener('change', e => { searchCat = e.target.value; renderSearch(); });
+$('rFrom').addEventListener('input', () => { clearTimeout(sT); sT = setTimeout(renderSearch, 400); });
+$('rTo').addEventListener('input', () => { clearTimeout(sT); sT = setTimeout(renderSearch, 400); });
+$('rangeGo').addEventListener('click', () => {
+  const f = parseInt($('rFrom').value), t = parseInt($('rTo').value);
+  if(!f || !t) return toast('أدخل الرقمين','err');
+  if(f > t) return toast('البداية أقل','err');
+  renderSearch();
+});
+$('rangeReset').addEventListener('click', () => { $('rFrom').value=''; $('rTo').value=''; renderSearch(); });
+$('rangePrint').addEventListener('click', () => window.print());
+$('quickChips').addEventListener('click', e => {
+  const c = e.target.closest('.chip');
+  if(!c) return;
+  $('rFrom').value = c.dataset.f;
+  $('rTo').value = c.dataset.t;
+  renderSearch();
+});
+
+document.body.addEventListener('click', async e => {
+  const wa = e.target.closest('[data-wa]');
+  if(wa){
+    const q = db.questions[wa.dataset.wa];
+    if(!q) return;
+    shareWA(formatQ(q));
+    toast('📱 جارٍ المشاركة', 'wa');
+    return;
+  }
+  const tr = e.target.closest('[data-tr]');
+  if(tr){
+    const q = db.questions[tr.dataset.tr];
+    if(!q) return;
+    if(q.translation){
+      q.showAr = !q.showAr;
+      saveCache();
+      refreshCard(q.num);
+      toast(q.showAr ? '✓ الترجمة' : '✓ الأصلي', 'ok');
+      return;
+    }
+    tr.disabled = true;
+    tr.textContent = '⏳';
+    try{
+      const t = await translateQ(q);
+      if(t){
+        q.translation = t;
+        q.showAr = true;
+        saveCache();
+        refreshCard(q.num);
+        toast('✓ تمت الترجمة', 'ok');
+      } else {
+        tr.disabled = false;
+        tr.textContent = '🌐 ترجم';
+        toast('تعذّر الاتصال', 'err');
+      }
+    }catch(err){
+      tr.disabled = false;
+      tr.textContent = '🌐 ترجم';
+      toast('خطأ','err');
+    }
+  }
+});
+
+$('syncFab').addEventListener('click', async () => {
+  const btn = $('syncFab');
+  btn.classList.add('spinning');
+  await fetchCloud(false);
+  setTimeout(() => btn.classList.remove('spinning'), 800);
+  toast('✓ تم التحديث', 'ok');
+});
+$('cloudBadge').addEventListener('click', async () => { await fetchCloud(false); });
+
+async function init(){
+  renderDoctor();
+  loadCache();
+  if(Object.keys(db.questions).length > 0){
+    $('loader').style.display = 'none';
+    handleRoute();
+  }
+  if(cloud.gistId){
+    await fetchCloud(true);
+    $('loader').style.display = 'none';
+    handleRoute();
+    startAutoSync();
+  } else {
+    $('loader').style.display = 'none';
+    handleRoute();
+  }
+}
+
+init();
+})();
+</script>
+</body>
 </html>
