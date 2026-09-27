@@ -1,0 +1,2138 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>أداة الإضافة — بنك البورد العربي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f1f5f9;--surface:#fff;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;
+--primary:#0f766e;--primary-dark:#115e59;--gold:#c9a227;--gold-dark:#b45309;
+--danger:#dc2626;--ok:#059669;--gh:#24292f}
+body{font-family:"Cairo",Tahoma,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:14.5px;padding:0 0 60px}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,textarea{font-family:inherit;outline:none}
+.hdr{background:linear-gradient(135deg,#c9a227,#b45309);color:#fff;padding:16px 22px;box-shadow:0 4px 20px rgba(180,83,9,.3)}
+.hdr-in{max-width:1000px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{width:50px;height:50px;border-radius:14px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+.brand{flex:1;min-width:200px}
+.brand h1{font-size:19px;font-weight:800;margin-bottom:2px}
+.brand p{font-size:12px;opacity:.9}
+.badge{background:rgba(255,255,255,.2);padding:7px 14px;border-radius:999px;font-size:12.5px;font-weight:700;border:1px solid rgba(255,255,255,.3)}
+.badge b{font-family:monospace;font-size:14px;color:#fef3c7}
+.wrap{max-width:1000px;margin:0 auto;padding:20px 22px}
+.panel{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 1px 2px rgba(15,23,42,.05)}
+.panel h2{font-size:15px;font-weight:700;color:#334155;margin-bottom:14px;display:flex;align-items:center;gap:9px}
+.panel h2::before{content:"";width:4px;height:18px;border-radius:2px;background:linear-gradient(180deg,var(--primary),var(--gold))}
+.gh-panel{background:linear-gradient(135deg,#fff,#f6f8fa);border-color:#d0d7de;border-left:5px solid var(--gh)}
+.doc-panel{background:linear-gradient(135deg,#fff,#fef3c7);border-color:#fde68a;border-left:5px solid var(--gold)}
+.info-box{background:#f6f8fa;border:1px solid #d0d7de;border-radius:10px;padding:12px 14px;font-size:12.5px;color:#57606a;margin-bottom:14px;line-height:1.8}
+.info-box b{color:#24292f}
+.info-box code{background:#fff;padding:1px 6px;border-radius:5px;font-family:monospace;font-size:11.5px;border:1px solid #d0d7de;direction:ltr;display:inline-block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.field label{display:block;font-size:12px;font-weight:700;color:#475569;margin-bottom:5px}
+.field input{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff;font-size:13px;transition:.2s}
+.field input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(15,118,110,.1)}
+.field.gh input{font-family:monospace;direction:ltr;text-align:left}
+.field.gh input:focus{border-color:var(--gh);box-shadow:0 0 0 3px rgba(36,41,47,.1)}
+.doctor-row{display:grid;grid-template-columns:140px 1fr;gap:16px;margin-bottom:12px;align-items:start}
+.photo-box{width:140px;height:140px;border-radius:20px;background:linear-gradient(135deg,#fef3c7,#fde68a);border:3px dashed #fcd34d;display:flex;align-items:center;justify-content:center;font-size:52px;color:#92400e;cursor:pointer;overflow:hidden;transition:.2s;position:relative;flex-shrink:0;box-shadow:0 4px 16px rgba(201,162,39,.2)}
+.photo-box:hover{border-color:var(--gold-dark);background:linear-gradient(135deg,#fde68a,#fcd34d);transform:scale(1.02)}
+.photo-box img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-box::after{content:"📷 تغيير";position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.7);color:#fff;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;opacity:0;transition:.2s;white-space:nowrap}
+.photo-box:hover::after{opacity:1}
+.photo-box .placeholder{display:flex;flex-direction:column;align-items:center;gap:4px}
+.photo-box .placeholder small{font-size:11px;font-weight:700}
+textarea{width:100%;min-height:220px;padding:14px 16px;border:1.5px solid var(--line);border-radius:12px;background:#f8fafc;font-family:ui-monospace,Consolas,monospace;font-size:13px;line-height:1.8;color:var(--ink);resize:vertical}
+textarea:focus{border-color:var(--primary);background:#fff;box-shadow:0 0 0 4px rgba(15,118,110,.1)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.btn{padding:10px 18px;border-radius:11px;border:1.5px solid var(--line);background:#fff;color:#334155;font-weight:700;font-size:13px;display:inline-flex;align-items:center;gap:7px;transition:.15s;white-space:nowrap;cursor:pointer}
+.btn:hover{background:#f8fafc;transform:translateY(-1px)}
+.btn.primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;border-color:transparent;box-shadow:0 2px 10px rgba(15,118,110,.3)}
+.btn.gold{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#fff;border-color:transparent;box-shadow:0 2px 10px rgba(201,162,39,.35)}
+.btn.gh{background:linear-gradient(135deg,#24292f,#57606a);color:#fff;border-color:transparent;box-shadow:0 2px 10px rgba(36,41,47,.3)}
+.btn.danger{color:var(--danger);border-color:#fecaca}
+.btn.danger:hover{background:#fef2f2}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.chk{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted);cursor:pointer;margin-inline-start:auto;user-select:none}
+.chk input{accent-color:var(--primary);width:16px;height:16px}
+.status{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#f6f8fa;border-radius:10px;margin-bottom:14px;font-size:13px;border:1px solid #d0d7de}
+.status .dot{width:10px;height:10px;border-radius:50%;background:#cbd5e1;flex-shrink:0}
+.status.ok .dot{background:var(--ok);box-shadow:0 0 8px rgba(5,150,105,.6)}
+.status.err .dot{background:var(--danger);box-shadow:0 0 8px rgba(220,38,38,.5)}
+.status .text{flex:1;color:#334155;font-weight:600}
+.preview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;max-height:500px;overflow-y:auto;padding:4px}
+.preview-item{background:#fff;border:1.5px solid var(--line);border-radius:12px;overflow:hidden}
+.p-head{display:flex;align-items:center;gap:8px;padding:8px 12px;background:linear-gradient(180deg,#f8fafc,#f1f5f9);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.p-num{font-family:monospace;font-weight:800;font-size:12px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:3px 12px;border-radius:8px}
+.p-cat{font-size:10px;font-weight:700;padding:3px 9px;border-radius:6px;background:#f0fdfa;color:var(--primary-dark);border:1px solid #99f6e4}
+.p-topic{font-size:10px;font-weight:700;padding:3px 9px;border-radius:6px;background:#ede9fe;color:#5b21b6;border:1px solid #c4b5fd}
+.p-q{padding:12px 14px;background:#eff6ff;font-size:12.5px;line-height:1.7;color:#1e3a8a;white-space:pre-wrap;word-break:break-word;max-height:180px;overflow-y:auto}
+.p-a{padding:10px 14px;background:#ecfdf5;border-top:2px solid #a7f3d0;font-size:12.5px;line-height:1.7;color:#065f46;font-weight:700}
+.empty{text-align:center;padding:50px 20px;color:var(--muted);background:#fff;border:2px dashed var(--line);border-radius:14px;font-size:13.5px}
+.empty .ico{font-size:44px;display:block;margin-bottom:12px;opacity:.5}
+.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,60px);background:#0f172a;color:#fff;padding:12px 22px;border-radius:999px;font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:.3s cubic-bezier(.34,1.56,.64,1);z-index:9999;max-width:90%;text-align:center;box-shadow:0 12px 32px rgba(0,0,0,.25)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.ok{background:linear-gradient(135deg,#059669,#047857)}
+.toast.err{background:linear-gradient(135deg,#dc2626,#b91c1c)}
+.toast.gh{background:linear-gradient(135deg,#24292f,#57606a)}
+.toast.gold{background:linear-gradient(135deg,#c9a227,#b45309)}
+@media(max-width:700px){.grid2{grid-template-columns:1fr}.doctor-row{grid-template-columns:1fr;justify-items:center;text-align:center}.preview-grid{grid-template-columns:1fr}.wrap{padding:14px}.photo-box{width:160px;height:160px}}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-in">
+    <div class="logo">📝</div>
+    <div class="brand">
+      <h1>أداة الإضافة</h1>
+      <p>بنك أسئلة البورد العربي — إعداد د. عبد الله الشميري</p>
+    </div>
+    <div class="badge">📋 <b id="localCount">0</b> محلي</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="panel doc-panel">
+    <h2>👨‍⚕️ معلومات الطبيب (تظهر للأطباء)</h2>
+    <div class="doctor-row">
+      <div class="photo-box" id="photoBox">
+        <span class="placeholder">🩺<small>صورة الطبيب</small></span>
+      </div>
+      <div style="width:100%">
+        <div class="field" style="margin-bottom:10px">
+          <label>اسم الطبيب</label>
+          <input type="text" id="doctorName" value="د. عبد الله الشميري">
+        </div>
+        <div class="field">
+          <label>اللقب / التخصص</label>
+          <input type="text" id="doctorTitle" value="استشاري طب وجراحة العيون">
+        </div>
+        <div class="toolbar" style="margin-top:10px">
+          <button class="btn" id="btnUploadPhoto">📷 رفع صورة</button>
+          <button class="btn danger" id="btnRemovePhoto">🗑️ إزالة</button>
+        </div>
+      </div>
+    </div>
+    <input type="file" id="photoInput" accept="image/*" style="display:none">
+  </section>
+
+  <section class="panel gh-panel">
+    <h2>☁️ الاتصال بـ GitHub Gist (مجاني 100%)</h2>
+    <div class="status" id="status">
+      <span class="dot"></span>
+      <span class="text">أدخل Gist ID و Token ثم اضغط «اختبار الاتصال»</span>
+      <span id="lastSync" style="font-size:11px;color:var(--muted)"></span>
+    </div>
+    <div class="grid2">
+      <div class="field gh">
+        <label>Gist ID</label>
+        <input type="text" id="gistId" placeholder="aba35053f173fc9a678dfc98728f5149">
+      </div>
+      <div class="field gh">
+        <label>GitHub Token</label>
+        <input type="password" id="ghToken" placeholder="ghp_...">
+      </div>
+    </div>
+    <div class="toolbar">
+      <button class="btn gh" id="btnTest">🔌 اختبار الاتصال</button>
+      <button class="btn" id="btnSaveCfg">💾 حفظ الإعدادات</button>
+      <button class="btn" id="btnPull">☁️ سحب من السحابة</button>
+      <button class="btn primary" id="btnPushNow">📤 رفع الكل الآن</button>
+      <button class="btn gold" id="btnExport">📱 تصدير تطبيق الدراسة</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>📋 لصق الأسئلة</h2>
+    <textarea id="input" placeholder="الصق الأسئلة هنا...&#10;&#10;مثال:&#10;Q401: A 24-year-old high myopic patient...&#10;A) 270 μm&#10;B) 220 μm&#10;Answer: A) 270 μm"></textarea>
+    <div class="toolbar">
+      <button class="btn primary" id="btnAdd">➕ إضافة ورفع تلقائي</button>
+      <button class="btn gold" id="btnPreview">👁️ معاينة فقط</button>
+      <button class="btn danger" id="btnClear">🗑️ مسح</button>
+      <label class="chk"><input type="checkbox" id="autoClear" checked> مسح بعد الإضافة</label>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>👁️ المعاينة</h2>
+    <div class="preview-grid" id="previewGrid">
+      <div class="empty" style="grid-column:1/-1">
+        <span class="ico">🔍</span>
+        <b>لا توجد معاينة</b><br>
+        الصق نصًا ثم اضغط «معاينة فقط»
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════════════════════════════════════════
+     قالب study.html — التصميم الاحترافي الجديد
+     ═══════════════════════════════════════════════════ -->
+<template id="studyTpl">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#f5f7fb;
+  --surface:#ffffff;
+  --surface-2:#f8fafc;
+  --ink:#0f172a;
+  --muted:#64748b;
+  --line:#e8edf4;
+  --primary:#0f766e;
+  --primary-dark:#115e59;
+  --primary-tint:#ecfdf5;
+  --primary-soft:#d1fae5;
+  --gold:#c9a227;
+  --gold-dark:#b45309;
+  --gold-soft:#fef3c7;
+  --q-bg:linear-gradient(135deg,#eff6ff,#e0eaff);
+  --q-ink:#1e3a8a;
+  --a-bg:linear-gradient(135deg,#ecfdf5,#d1fae5);
+  --a-ink:#065f46;
+  --danger:#dc2626;
+  --ok:#059669;
+  --wa:#25d366;
+  --shadow-sm:0 1px 3px rgba(15,23,42,.05);
+  --shadow-md:0 4px 14px rgba(15,23,42,.08);
+  --shadow-lg:0 20px 50px rgba(15,23,42,.15);
+  --r:18px;
+  --r-sm:12px;
+  --r-lg:26px;
+  --ease:cubic-bezier(.4,0,.2,1);
+  --spring:cubic-bezier(.34,1.56,.64,1);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Cairo","Segoe UI",Tahoma,sans-serif;
+  background:var(--bg);color:var(--ink);
+  line-height:1.7;font-size:15px;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+  padding-bottom:20px;
+}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input{font-family:inherit;outline:none}
+
+/* ═══════════════════════════════════════
+   HEADER — إبراز الدكتور
+   ═══════════════════════════════════════ */
+.hero{
+  background:
+    radial-gradient(ellipse at 20% 0%,rgba(251,191,36,.45),transparent 55%),
+    radial-gradient(ellipse at 80% 100%,rgba(20,184,166,.25),transparent 50%),
+    linear-gradient(135deg,#0f766e 0%,#115e59 50%,#134e4a 100%);
+  color:#fff;
+  padding:24px 18px 26px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 12px 40px rgba(15,118,110,.35);
+  border-bottom:4px solid rgba(201,162,39,.5);
+}
+.hero::before{
+  content:"";
+  position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 15% 25%,rgba(255,255,255,.06) 1.5px,transparent 1.5px),
+    radial-gradient(circle at 85% 75%,rgba(255,255,255,.05) 1.5px,transparent 1.5px);
+  background-size:44px 44px,68px 68px;
+  pointer-events:none;
+}
+.hero::after{
+  content:"";position:absolute;
+  top:-80px;left:50%;transform:translateX(-50%);
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.08),transparent 70%);
+  pointer-events:none;
+}
+.hero-in{
+  max-width:900px;margin:0 auto;
+  display:flex;align-items:center;gap:18px;
+  position:relative;z-index:1;
+  flex-wrap:wrap;
+}
+.doc-photo{
+  width:96px;height:96px;border-radius:26px;flex-shrink:0;
+  background:linear-gradient(135deg,#fbbf24,#d97706);
+  display:flex;align-items:center;justify-content:center;
+  font-size:48px;
+  box-shadow:
+    0 12px 32px rgba(0,0,0,.4),
+    0 0 0 4px rgba(255,255,255,.25),
+    0 0 0 8px rgba(201,162,39,.35);
+  overflow:hidden;
+  transition:.3s var(--spring);
+  position:relative;
+}
+.doc-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.doc-info{flex:1;min-width:200px}
+.doc-name{
+  font-size:26px;font-weight:900;line-height:1.15;
+  margin-bottom:6px;
+  background:linear-gradient(135deg,#ffffff 0%,#fcd34d 55%,#fef3c7 100%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:0 2px 16px rgba(0,0,0,.15);
+  letter-spacing:-.5px;
+}
+.doc-title{
+  font-size:14px;font-weight:700;color:#fcd34d;
+  display:inline-flex;align-items:center;gap:6px;
+  margin-bottom:12px;
+  text-shadow:0 1px 8px rgba(0,0,0,.25);
+}
+.doc-title::before{content:"✦";font-size:15px;color:#fbbf24}
+.doc-badges{display:flex;gap:6px;flex-wrap:wrap;font-size:11.5px}
+.doc-badge{
+  background:rgba(255,255,255,.16);
+  backdrop-filter:blur(10px);
+  padding:5px 12px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.22);
+  display:inline-flex;align-items:center;gap:5px;
+  font-weight:600;
+}
+.doc-badge b{color:#fcd34d;font-family:ui-monospace,monospace;font-weight:800;font-size:12.5px}
+.cloud-dot{width:8px;height:8px;border-radius:50%;background:#94a3b8;flex-shrink:0}
+.cloud-dot.ok{background:#4ade80;box-shadow:0 0 10px rgba(74,222,128,.9)}
+.cloud-dot.sync{background:#fbbf24;animation:pulse 1s infinite}
+.cloud-dot.err{background:#f87171}
+@keyframes pulse{50%{opacity:.4}}
+
+/* ═══════════════════════════════════════
+   TABS
+   ═══════════════════════════════════════ */
+.tabs{
+  position:sticky;top:0;z-index:40;
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 4px 16px rgba(15,23,42,.06);
+}
+.tabs-in{max-width:900px;margin:0 auto;display:flex;padding:0 6px}
+.tab{
+  flex:1;padding:15px 10px 13px;
+  font-size:13px;font-weight:700;
+  color:var(--muted);
+  border-bottom:3px solid transparent;
+  transition:.25s var(--ease);
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  position:relative;
+}
+.tab .tab-ico{font-size:22px;line-height:1;transition:.3s var(--spring);filter:grayscale(.7);opacity:.7}
+.tab .tab-lbl{font-size:12.5px}
+.tab:hover{color:var(--primary);background:rgba(15,118,110,.04)}
+.tab:hover .tab-ico{transform:scale(1.15);filter:grayscale(0);opacity:1}
+.tab.active{color:var(--primary)}
+.tab.active .tab-ico{transform:scale(1.12);filter:grayscale(0);opacity:1}
+.tab.active::after{
+  content:"";position:absolute;bottom:-1px;left:18%;right:18%;height:3px;
+  background:linear-gradient(90deg,var(--primary),var(--gold));
+  border-radius:3px 3px 0 0;
+}
+.tab-count{
+  position:absolute;top:8px;inset-inline-end:calc(50% - 30px);
+  background:var(--primary-tint);color:var(--primary-dark);
+  font-family:ui-monospace,monospace;font-size:10px;font-weight:800;
+  padding:1px 6px;border-radius:999px;min-width:20px;text-align:center;
+}
+.tab.active .tab-count{background:var(--primary);color:#fff}
+
+/* ═══════════════════════════════════════
+   VIEWS
+   ═══════════════════════════════════════ */
+.wrap{max-width:900px;margin:0 auto;padding:20px 16px 40px}
+.view{display:none;animation:fadeUp .35s var(--ease)}
+.view.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ═══════════════════════════════════════
+   LOADER
+   ═══════════════════════════════════════ */
+.loader{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:80px 20px;gap:18px
+}
+.loader .spin{
+  width:56px;height:56px;border-radius:50%;
+  border:4px solid var(--primary-soft);
+  border-top-color:var(--primary);
+  animation:spin 1s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader p{color:var(--muted);font-size:14px;font-weight:600}
+
+/* ═══════════════════════════════════════
+   HOME — Welcome
+   ═══════════════════════════════════════ */
+.welcome{
+  background:linear-gradient(135deg,#ffffff,#f0fdfa);
+  border:1.5px solid #a7f3d0;
+  border-radius:var(--r-lg);
+  padding:22px;
+  margin-bottom:20px;
+  box-shadow:var(--shadow-sm);
+  position:relative;overflow:hidden;
+}
+.welcome::before{
+  content:"";position:absolute;
+  top:-60px;inset-inline-end:-60px;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,162,39,.18),transparent 70%);
+  pointer-events:none;
+}
+.welcome h2{
+  font-size:20px;font-weight:900;color:var(--primary-dark);
+  margin-bottom:6px;position:relative;
+  display:flex;align-items:center;gap:10px;
+}
+.welcome h2 .greet-ico{font-size:26px;animation:wave 2.5s ease-in-out infinite;display:inline-block}
+@keyframes wave{0%,100%{transform:rotate(0)}25%{transform:rotate(18deg)}75%{transform:rotate(-12deg)}}
+.welcome p{color:var(--muted);font-size:14px;position:relative}
+.welcome .stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+  gap:12px;margin-top:18px;position:relative;
+}
+.stat{
+  background:#fff;border:1.5px solid var(--line);
+  border-radius:14px;padding:14px;
+  text-align:center;
+  box-shadow:var(--shadow-sm);
+  transition:.2s var(--ease);
+}
+.stat:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.stat b{
+  display:block;font-family:ui-monospace,monospace;
+  font-size:26px;font-weight:800;color:var(--primary);
+  line-height:1;margin-bottom:5px;
+}
+.stat span{font-size:11.5px;color:var(--muted);font-weight:600}
+
+/* ═══════════════════════════════════════
+   QUICK ACTIONS
+   ═══════════════════════════════════════ */
+.quick-actions{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px;
+}
+.qa-btn{
+  padding:18px;border-radius:var(--r);
+  font-weight:800;font-size:14.5px;
+  display:flex;align-items:center;gap:14px;
+  transition:.25s var(--ease);
+  box-shadow:var(--shadow-sm);cursor:pointer;
+  position:relative;overflow:hidden;
+}
+.qa-btn::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 100% 0%,rgba(255,255,255,.2),transparent 60%);
+  pointer-events:none;
+}
+.qa-btn .qa-ico{
+  width:50px;height:50px;border-radius:14px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:26px;
+  background:rgba(255,255,255,.25);
+  backdrop-filter:blur(10px);
+  box-shadow:inset 0 -3px 6px rgba(0,0,0,.15);
+}
+.qa-btn .qa-txt{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.qa-btn .qa-txt small{font-weight:500;opacity:.85;font-size:11.5px}
+.qa-btn.green{background:linear-gradient(135deg,#0f766e,#115e59);color:#fff}
+.qa-btn.gold{background:linear-gradient(135deg,#c9a227,#b45309);color:#fff}
+.qa-btn:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.18)}
+.qa-btn:active{transform:translateY(-1px)}
+
+/* ═══════════════════════════════════════
+   SECTION TITLE
+   ═══════════════════════════════════════ */
+.section-title{
+  font-size:17px;font-weight:800;
+  margin:26px 0 14px;
+  display:flex;align-items:center;gap:10px;
+}
+.section-title::before{
+  content:"";width:4px;height:20px;border-radius:2px;
+  background:linear-gradient(180deg,var(--primary),var(--gold));
+}
+.section-sub{color:var(--muted);font-size:13px;margin:-8px 0 16px;padding-inline-start:14px}
+
+/* ═══════════════════════════════════════
+   GROUPS GRID — تصميم احترافي
+   ═══════════════════════════════════════ */
+.groups-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:14px;
+}
+.group-card{
+  background:var(--surface);
+  border:1.5px solid var(--line);
+  border-radius:var(--r);
+  padding:18px;
+  cursor:pointer;
+  display:flex;align-items:center;gap:14px;
+  transition:.3s var(--ease);
+  box-shadow:var(--shadow-sm);
+  position:relative;overflow:hidden;
+}
+.group-card::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent 60%,rgba(15,118,110,.05) 100%);
+  opacity:0;transition:.3s;pointer-events:none;
+}
+.group-card::after{
+  content:"";position:absolute;
+  inset-inline-start:0;top:0;bottom:0;width:4px;
+  background:linear-gradient(180deg,var(--primary),var(--gold));
+  transform:scaleY(0);transform-origin:top;
+  transition:.3s var(--ease);
+  border-radius:4px;
+}
+.group-card:hover{
+  transform:translateY(-4px);
+  border-color:#5eead4;
+  box-shadow:0 12px 32px rgba(15,118,110,.15);
+}
+.group-card:hover::before{opacity:1}
+.group-card:hover::after{transform:scaleY(1)}
+.group-card:active{transform:translateY(-1px) scale(.995)}
+.group-card.empty{opacity:.5;cursor:not-allowed;filter:grayscale(.4)}
+.group-card.empty:hover{transform:none;box-shadow:var(--shadow-sm);border-color:var(--line)}
+.group-card.empty::after{display:none}
+.gc-icon{
+  width:56px;height:56px;border-radius:16px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--primary-soft),#6ee7b7);
+  display:flex;align-items:center;justify-content:center;font-size:28px;
+  box-shadow:inset 0 -3px 8px rgba(15,118,110,.15);
+  transition:.35s var(--spring);
+}
+.group-card:hover .gc-icon{transform:rotate(-8deg) scale(1.1)}
+.gc-info{flex:1;min-width:0}
+.gc-ar{
+  font-size:15.5px;font-weight:800;color:var(--ink);
+  margin-bottom:2px;line-height:1.25;
+}
+.gc-en{
+  font-size:11px;color:var(--muted);
+  font-style:italic;font-weight:500;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.gc-count{
+  font-family:ui-monospace,monospace;font-weight:800;font-size:15px;
+  color:var(--primary);
+  background:var(--primary-tint);
+  padding:6px 14px;border-radius:10px;flex-shrink:0;
+  min-width:50px;text-align:center;
+  border:1px solid #99f6e4;
+  transition:.25s var(--ease);
+}
+.group-card:hover .gc-count{
+  background:var(--primary);color:#fff;border-color:var(--primary);
+  transform:scale(1.08);
+}
+
+/* ═══════════════════════════════════════
+   GROUP DETAIL HEADER
+   ═══════════════════════════════════════ */
+.group-header{
+  display:flex;align-items:center;gap:14px;
+  padding:18px 20px;
+  background:linear-gradient(135deg,#ffffff,#f0fdfa);
+  border:1.5px solid #a7f3d0;
+  border-radius:var(--r-lg);
+  margin-bottom:18px;
+  box-shadow:var(--shadow-sm);
+  position:relative;overflow:hidden;
+}
+.group-header::before{
+  content:"";position:absolute;
+  top:-40px;inset-inline-end:-40px;
+  width:140px;height:140px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,162,39,.15),transparent 70%);
+  pointer-events:none;
+}
+.gh-back{
+  width:42px;height:42px;border-radius:12px;flex-shrink:0;
+  background:var(--primary-tint);color:var(--primary);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;font-weight:800;
+  transition:.2s var(--ease);cursor:pointer;
+  border:1px solid #99f6e4;
+}
+.gh-back:hover{background:var(--primary);color:#fff;transform:translateX(-3px)}
+.gh-icon{
+  width:60px;height:60px;border-radius:16px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--primary-soft),#6ee7b7);
+  display:flex;align-items:center;justify-content:center;font-size:30px;
+  box-shadow:inset 0 -3px 8px rgba(15,118,110,.15);
+}
+.gh-info{flex:1;min-width:0;position:relative;z-index:1}
+.gh-ar{font-size:19px;font-weight:900;color:var(--primary-dark);margin-bottom:3px}
+.gh-en{font-size:12px;color:var(--muted);font-style:italic;font-weight:500}
+.gh-meta{
+  display:flex;gap:10px;margin-top:8px;font-size:12px;
+  color:var(--muted);flex-wrap:wrap;
+}
+.gh-meta span{display:flex;align-items:center;gap:4px}
+.gh-meta b{color:var(--primary);font-family:ui-monospace,monospace;font-weight:800}
+
+/* ═══════════════════════════════════════
+   SEARCH BAR
+   ═══════════════════════════════════════ */
+.search-bar{
+  display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;
+}
+.search-input{
+  flex:1;min-width:220px;position:relative;
+}
+.search-input input{
+  width:100%;
+  padding:14px 46px 14px 16px;
+  border:1.5px solid var(--line);
+  border-radius:14px;
+  background:var(--surface);
+  font-size:15px;font-weight:500;
+  box-shadow:var(--shadow-sm);
+  transition:.2s var(--ease);
+}
+.search-input input:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 4px rgba(15,118,110,.1);
+}
+.search-input::before{
+  content:"🔍";position:absolute;
+  inset-inline-start:16px;top:50%;
+  transform:translateY(-50%);
+  font-size:16px;opacity:.55;pointer-events:none;
+}
+.filter-select{
+  padding:14px 16px;
+  border:1.5px solid var(--line);
+  border-radius:14px;
+  background:var(--surface);
+  font-size:14px;font-weight:600;color:#334155;
+  cursor:pointer;
+  box-shadow:var(--shadow-sm);
+  min-width:160px;
+  transition:.2s;
+}
+.filter-select:focus{border-color:var(--primary)}
+
+/* Range box */
+.range-box{
+  display:flex;align-items:center;gap:6px;
+  background:linear-gradient(135deg,#fffbeb,#fef3c7);
+  border:1.5px solid #fde68a;
+  border-radius:14px;
+  padding:6px 8px 6px 6px;
+  box-shadow:var(--shadow-sm);
+  flex-wrap:wrap;
+  width:100%;
+}
+.range-box .lbl{
+  font-size:11.5px;font-weight:800;color:var(--gold-dark);
+  padding:0 4px;
+}
+.range-box input{
+  width:62px;padding:9px 6px;
+  border:1.5px solid #fcd34d;
+  border-radius:8px;
+  background:#fff;font-size:13.5px;font-weight:800;
+  font-family:ui-monospace,monospace;
+  color:var(--gold-dark);
+  text-align:center;
+  transition:.2s;
+}
+.range-box input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,162,39,.18)}
+.range-go{
+  padding:10px 16px;border-radius:9px;
+  font-size:12.5px;font-weight:800;
+  background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+  color:#fff;transition:.2s;white-space:nowrap;
+}
+.range-go:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(201,162,39,.4)}
+.range-mini{
+  width:32px;height:32px;padding:0;
+  border-radius:8px;
+  background:#fff;border:1.5px solid #fde68a;
+  color:var(--gold-dark);
+  font-size:13px;font-weight:800;
+  display:inline-flex;align-items:center;justify-content:center;
+  transition:.2s;cursor:pointer;
+}
+.range-mini:hover{background:var(--gold-soft)}
+
+/* Quick chips */
+.quick-chips{
+  display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;
+  padding:10px 12px;
+  background:var(--surface);
+  border:1px dashed #a7f3d0;
+  border-radius:12px;
+  align-items:center;
+  box-shadow:var(--shadow-sm);
+}
+.quick-chips .lbl{
+  font-size:11.5px;font-weight:700;color:var(--muted);
+  margin-inline-end:4px;
+}
+.chip{
+  padding:6px 13px;border-radius:999px;
+  font-size:11.5px;font-weight:800;
+  background:var(--primary-tint);
+  border:1.5px solid #99f6e4;
+  color:var(--primary-dark);
+  cursor:pointer;
+  font-family:ui-monospace,monospace;
+  transition:.2s var(--ease);
+}
+.chip:hover{
+  background:var(--primary);color:#fff;border-color:var(--primary);
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(15,118,110,.25);
+}
+
+/* Results info */
+.results-info{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 16px;
+  background:linear-gradient(135deg,#f0fdfa,#fff);
+  border:1px solid #a7f3d0;
+  border-radius:12px;
+  margin-bottom:16px;
+  font-size:13px;font-weight:600;
+  color:var(--primary-dark);
+  box-shadow:var(--shadow-sm);
+}
+.results-info b{font-family:ui-monospace,monospace;font-size:15px}
+
+/* ═══════════════════════════════════════
+   QUESTION CARDS
+   ═══════════════════════════════════════ */
+.q-list{display:flex;flex-direction:column;gap:16px}
+.q-card{
+  background:var(--surface);
+  border:1.5px solid var(--line);
+  border-radius:var(--r);
+  overflow:hidden;
+  box-shadow:var(--shadow-sm);
+  animation:qIn .35s var(--ease) both;
+  transition:.25s var(--ease);
+  scroll-margin-top:140px;
+}
+.q-card:hover{
+  border-color:#5eead4;
+  box-shadow:0 8px 24px rgba(15,118,110,.1);
+}
+@keyframes qIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* Card head */
+.q-head{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 16px;
+  background:linear-gradient(180deg,#f8fafc,#f1f5f9);
+  border-bottom:1px solid var(--line);
+  flex-wrap:wrap;
+}
+.q-num{
+  font-family:ui-monospace,monospace;font-weight:800;font-size:13px;
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  color:#fff;padding:5px 16px;border-radius:10px;
+  letter-spacing:.3px;
+  box-shadow:0 3px 8px rgba(15,118,110,.3);
+}
+.q-cats{display:flex;gap:5px;flex-wrap:wrap;flex:1;min-width:0}
+.q-cat{
+  font-size:10.5px;font-weight:700;
+  padding:4px 11px;border-radius:7px;
+  background:var(--primary-tint);
+  color:var(--primary-dark);
+  border:1px solid #99f6e4;
+  display:inline-flex;align-items:center;gap:4px;
+  white-space:nowrap;
+}
+.q-cat.topic{
+  background:#ede9fe;color:#5b21b6;border-color:#c4b5fd;
+}
+.q-actions{display:flex;gap:6px;flex-wrap:wrap;margin-inline-start:auto}
+.btn-mini{
+  padding:7px 14px;border-radius:9px;
+  font-size:11.5px;font-weight:700;
+  background:#fff;border:1.5px solid var(--line);
+  color:#334155;cursor:pointer;
+  transition:.2s var(--ease);
+  display:inline-flex;align-items:center;gap:5px;
+}
+.btn-mini:hover{
+  background:#f8fafc;transform:translateY(-2px);
+  box-shadow:0 4px 10px rgba(0,0,0,.06);
+}
+.btn-mini.tr{
+  background:linear-gradient(135deg,#eff6ff,#dbeafe);
+  border-color:#bfdbfe;color:#1d4ed8;
+}
+.btn-mini.tr.on{
+  background:linear-gradient(135deg,#059669,#047857);
+  border-color:#047857;color:#fff;
+}
+.btn-mini.tr.cancel{
+  background:linear-gradient(135deg,#dc2626,#b91c1c);
+  border-color:#b91c1c;color:#fff;
+}
+.btn-mini.tr.busy{opacity:.6;cursor:wait}
+.btn-mini.wa{
+  background:linear-gradient(135deg,#dcfce7,#bbf7d0);
+  border-color:#86efac;color:#166534;
+}
+
+/* Question body */
+.q-body{
+  padding:18px 20px;
+  background:var(--q-bg);
+  position:relative;
+}
+.q-body::before{
+  content:"";position:absolute;
+  inset-inline-start:0;top:0;bottom:0;width:5px;
+  background:linear-gradient(180deg,#3b82f6,#1d4ed8);
+}
+.q-tag{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:11px;font-weight:800;color:#1d4ed8;
+  background:#dbeafe;
+  padding:5px 13px;border-radius:8px;
+  margin-bottom:14px;
+  letter-spacing:.2px;
+}
+.q-text{
+  font-size:15.5px;line-height:1.9;
+  color:var(--q-ink);font-weight:600;
+  white-space:pre-wrap;word-break:break-word;
+  margin-bottom:12px;
+}
+.q-opts{
+  font-size:13.5px;line-height:2;
+  white-space:pre-wrap;word-break:break-word;
+  color:#334155;
+  padding:14px 16px;
+  background:rgba(255,255,255,.8);
+  border-radius:12px;
+  border:1px solid #bfdbfe;
+  font-weight:500;
+}
+.q-card.ar .q-text,
+.q-card.ar .q-opts{direction:rtl;text-align:right}
+
+/* Answer body */
+.q-ans{
+  padding:16px 20px;
+  background:var(--a-bg);
+  position:relative;
+  border-top:4px solid var(--a-ink);
+}
+.q-ans::before{
+  content:"";position:absolute;
+  top:-4px;inset-inline-start:0;
+  width:60px;height:4px;
+  background:var(--gold);
+}
+.a-tag{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:11px;font-weight:800;color:#fff;
+  background:linear-gradient(135deg,#059669,#047857);
+  padding:5px 13px;border-radius:8px;
+  margin-inline-end:10px;
+  box-shadow:0 3px 8px rgba(5,150,105,.3);
+}
+.a-text{
+  font-size:14.5px;line-height:1.9;
+  color:var(--a-ink);font-weight:700;
+  white-space:pre-wrap;word-break:break-word;
+}
+.q-card.ar .a-text{font-size:15px}
+
+/* Gap notice */
+.gap{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 16px;
+  color:var(--gold-dark);
+  font-size:11.5px;font-weight:600;
+  margin:2px 0;
+}
+.gap::before,.gap::after{
+  content:"";flex:1;height:1px;
+  background:repeating-linear-gradient(90deg,#fde68a 0,#fde68a 5px,transparent 5px,transparent 10px);
+}
+.gap .tag{
+  background:var(--gold-soft);
+  padding:4px 14px;border-radius:999px;
+  font-family:ui-monospace,monospace;font-weight:800;
+  white-space:nowrap;
+  border:1px solid #fde68a;
+}
+
+/* ═══════════════════════════════════════
+   EMPTY STATE
+   ═══════════════════════════════════════ */
+.empty{
+  text-align:center;
+  padding:70px 24px;
+  color:var(--muted);
+  background:var(--surface);
+  border:2px dashed var(--line);
+  border-radius:var(--r-lg);
+  font-size:14px;
+}
+.empty .empty-ico{
+  font-size:60px;display:block;
+  margin-bottom:16px;opacity:.5;
+}
+.empty b{
+  color:var(--primary);font-weight:800;
+  font-size:17px;display:block;margin-bottom:6px;
+}
+.empty p{color:var(--muted);font-size:13px}
+
+/* ═══════════════════════════════════════
+   TOAST
+   ═══════════════════════════════════════ */
+.toast{
+  position:fixed;bottom:24px;left:50%;
+  transform:translate(-50%,80px);
+  background:#0f172a;color:#fff;
+  padding:13px 24px;border-radius:999px;
+  font-size:13.5px;font-weight:600;
+  opacity:0;pointer-events:none;
+  transition:.3s cubic-bezier(.34,1.56,.64,1);
+  z-index:999;box-shadow:0 12px 32px rgba(0,0,0,.25);
+  max-width:90%;text-align:center;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.ok{background:linear-gradient(135deg,#059669,#047857)}
+.toast.err{background:linear-gradient(135deg,#dc2626,#b91c1c)}
+.toast.wa{background:linear-gradient(135deg,#25d366,#128c7e)}
+
+/* Translation progress */
+.tr-progress{
+  position:fixed;top:18px;left:50%;
+  transform:translate(-50%,-120px);
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  color:#fff;padding:13px 24px;border-radius:14px;
+  font-size:13px;font-weight:700;
+  box-shadow:0 12px 32px rgba(15,118,110,.4);
+  z-index:500;transition:.4s var(--spring);
+  display:flex;align-items:center;gap:12px;
+  min-width:260px;
+}
+.tr-progress.show{transform:translate(-50%,0)}
+.tr-progress .sp{
+  width:20px;height:20px;border-radius:50%;
+  border:2.5px solid rgba(255,255,255,.3);
+  border-top-color:#fff;
+  animation:spin 1s linear infinite;flex-shrink:0;
+}
+.tr-progress b{color:#fcd34d;font-family:ui-monospace,monospace}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════ */
+@media (max-width:640px){
+  .hero{padding:20px 14px 22px}
+  .doc-photo{width:80px;height:80px;border-radius:22px;font-size:40px}
+  .doc-name{font-size:20px}
+  .doc-title{font-size:12px}
+  .doc-badge{font-size:10.5px;padding:4px 10px}
+  .wrap{padding:16px 12px 40px}
+  .welcome{padding:18px}
+  .welcome h2{font-size:17px}
+  .stat b{font-size:22px}
+  .quick-actions{grid-template-columns:1fr}
+  .qa-btn{padding:14px;font-size:13.5px}
+  .qa-btn .qa-ico{width:44px;height:44px;font-size:22px}
+  .groups-grid{grid-template-columns:1fr;gap:10px}
+  .group-card{padding:14px;gap:12px}
+  .gc-icon{width:48px;height:48px;font-size:24px}
+  .gc-ar{font-size:14.5px}
+  .gh-ar{font-size:16px}
+  .gh-icon{width:48px;height:48px;font-size:24px}
+  .q-body{padding:15px}
+  .q-ans{padding:14px 15px}
+  .q-text{font-size:14.5px}
+  .btn-mini{padding:6px 10px;font-size:11px}
+  .search-bar{flex-direction:column}
+  .search-input{min-width:auto}
+}
+
+/* ═══════════════════════════════════════
+   PRINT
+   ═══════════════════════════════════════ */
+@media print{
+  body{background:#fff;padding:0}
+  .hero,.tabs,.quick-actions,.quick-chips,.search-bar,.btn-mini,
+  .toast,.tr-progress,.welcome,.section-title,.section-sub,
+  .group-header,.results-info{display:none !important}
+  .wrap{padding:0;max-width:100%}
+  .q-card{page-break-inside:avoid;box-shadow:none;border-color:#cbd5e1;margin-bottom:10px}
+}
+</style>
+
+<!-- Header -->
+<header class="hero">
+  <div class="hero-in">
+    <div class="doc-photo" id="docPhoto">🩺</div>
+    <div class="doc-info">
+      <h1 class="doc-name" id="docName">د. عبد الله الشميري</h1>
+      <div class="doc-title" id="docTitle">استشاري طب وجراحة العيون</div>
+      <div class="doc-badges">
+        <div class="doc-badge"><span class="cloud-dot" id="cloudDot"></span><span id="cloudText">جارٍ</span></div>
+        <div class="doc-badge">📋 <b id="cntHdr">0</b> سؤال</div>
+        <div class="doc-badge">📚 <b id="cntCat">0</b> تخصص</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Tabs -->
+<nav class="tabs">
+  <div class="tabs-in">
+    <button class="tab active" data-view="home">
+      <span class="tab-ico">🏠</span>
+      <span class="tab-lbl">الرئيسية</span>
+    </button>
+    <button class="tab" data-view="groups">
+      <span class="tab-ico">📚</span>
+      <span class="tab-lbl">المجموعات</span>
+      <span class="tab-count" id="tabGroupsCount">0</span>
+    </button>
+    <button class="tab" data-view="search">
+      <span class="tab-ico">🔍</span>
+      <span class="tab-lbl">البحث</span>
+    </button>
+  </div>
+</nav>
+
+<!-- Main -->
+<div class="wrap">
+
+  <!-- Loader -->
+  <div class="loader" id="loader">
+    <div class="spin"></div>
+    <p>جارٍ تحميل الأسئلة...</p>
+  </div>
+
+  <!-- Home View -->
+  <div class="view active" id="vHome" style="display:none">
+    <div class="welcome">
+      <h2><span class="greet-ico">👋</span> أهلاً وسهلاً بك دكتور</h2>
+      <p>منصة مراجعة أسئلة البورد العربي. اختر التبويب المناسب للبدء.</p>
+      <div class="stats">
+        <div class="stat"><b id="sTotal">0</b><span>إجمالي الأسئلة</span></div>
+        <div class="stat"><b id="sCats">0</b><span>التخصصات</span></div>
+        <div class="stat"><b id="sRange" style="font-size:14px;line-height:1.5">—</b><span>نطاق الأسئلة</span></div>
+      </div>
+    </div>
+
+    <div class="quick-actions">
+      <button class="qa-btn green" id="qaGroups">
+        <div class="qa-ico">📚</div>
+        <div class="qa-txt">تصفح المجموعات<small>اضغط لعرض التخصصات</small></div>
+      </button>
+      <button class="qa-btn gold" id="qaSearch">
+        <div class="qa-ico">🔍</div>
+        <div class="qa-txt">البحث المتقدم<small>ابحث بالكلمة أو الرقم</small></div>
+      </button>
+    </div>
+
+    <h3 class="section-title">📊 أكثر التخصصات</h3>
+    <p class="section-sub">التخصصات التي تحتوي على أكبر عدد من الأسئلة</p>
+    <div class="groups-grid" id="topCats"></div>
+  </div>
+
+  <!-- Groups View -->
+  <div class="view" id="vGroups" style="display:none">
+    <h3 class="section-title">📚 جميع المجموعات الطبية</h3>
+    <p class="section-sub">اضغط أي مجموعة لعرض أسئلتها</p>
+    <div class="groups-grid" id="groupsGrid"></div>
+  </div>
+
+  <!-- Group Detail View -->
+  <div class="view" id="vGroupDetail" style="display:none">
+    <div class="group-header">
+      <div class="gh-back" id="btnBackFromGroup">←</div>
+      <div class="gh-icon" id="ghIcon">📚</div>
+      <div class="gh-info">
+        <div class="gh-ar" id="ghAr">اسم المجموعة</div>
+        <div class="gh-en" id="ghEn">Group Name</div>
+        <div class="gh-meta" id="ghMeta"></div>
+      </div>
+    </div>
+    <div class="search-bar">
+      <div class="search-input">
+        <input type="text" id="groupSearchInput" placeholder="ابحث داخل هذه المجموعة...">
+      </div>
+    </div>
+    <div class="q-list" id="groupQuestions"></div>
+  </div>
+
+  <!-- Search View -->
+  <div class="view" id="vSearch" style="display:none">
+    <h3 class="section-title">🔍 البحث المتقدم</h3>
+    <p class="section-sub">ابحث بالنص، الرقم التسلسلي، أو التخصص</p>
+
+    <div class="search-bar">
+      <div class="search-input">
+        <input type="text" id="searchInput" placeholder="ابحث بنص السؤال...">
+      </div>
+      <select class="filter-select" id="catFilter">
+        <option value="">كل التخصصات</option>
+      </select>
+    </div>
+
+    <div class="range-box">
+      <span class="lbl">🎯 النطاق</span>
+      <input type="number" id="rFrom" placeholder="من">
+      <span style="color:var(--gold-dark);font-weight:800">←</span>
+      <input type="number" id="rTo" placeholder="إلى">
+      <button class="range-go" id="rangeGo">عرض</button>
+      <button class="range-mini" id="rangeReset" title="مسح">↺</button>
+      <button class="range-mini" id="rangePrint" title="طباعة">🖨️</button>
+    </div>
+
+    <div class="quick-chips" id="quickChips">
+      <span class="lbl">⚡ سريع:</span>
+    </div>
+
+    <div id="searchResults"></div>
+  </div>
+
+</div>
+
+<!-- Translation Progress -->
+<div class="tr-progress" id="trProg">
+  <div class="sp"></div>
+  <div>جارٍ الترجمة... <b id="trNum">0/0</b></div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script type="application/json" id="cfg">{"gistId":"__GIST_ID__","doctor":__DOCTOR__}</script>
+
+<script>
+(function(){
+"use strict";
+
+/* ═══════════════ التخصصات ═══════════════ */
+const SPECIALTIES = [
+{id:'internal',ar:'الباطنة',en:'Internal Medicine',icon:'🫀',kw:['diabetes','hypertension','heart failure','myocardial','angina','copd','asthma','thyroid','renal failure','liver','hepatitis','cirrhosis','anemia','leukemia','gastric','peptic','pneumonia','tuberculosis','sepsis','stroke','epilepsy','arthritis','lupus','gout','ketoacidosis','hyperkalemia','السكري','الضغط','القلب','الجلطة','الكبد','التهاب الكبد','فقر الدم','الربو','الغدة الدرقية','السكتة','الصرع','النقرس','الباطنة']},
+{id:'surgery',ar:'الجراحة العامة',en:'General Surgery',icon:'🔪',kw:['appendicitis','cholecystitis','hernia','bowel obstruction','peritonitis','abscess','fistula','thyroidectomy','mastectomy','colostomy','rectal','colon cancer','gastric cancer','breast lump','الزائدة','المرارة','الفتق','الأمعاء','جراحة','استئصال','الثدي','القولون','المعدة']},
+{id:'peds',ar:'الأطفال',en:'Pediatrics',icon:'👶',kw:['neonate','neonatal','infant','newborn','congenital','apgar','premature','kawasaki','measles','mumps','rubella','chickenpox','croup','bronchiolitis','vaccination','kwashiorkor','marasmus','rickets','neonatal jaundice','tetralogy','fallot','حديثي الولادة','الرضع','الأطفال','خلقي','التطعيم','الحصبة','الصفار']},
+{id:'obgyn',ar:'النساء والتوليد',en:'Obstetrics & Gynecology',icon:'🤰',kw:['pregnancy','pregnant','labor','delivery','cesarean','preeclampsia','eclampsia','ectopic','miscarriage','abortion','postpartum','menstrual','pcos','endometriosis','fibroid','ovarian','cervical cancer','pap smear','contraception','infertility','ivf','placenta','الحمل','الولادة','القيصرية','الإجهاض','النزيف','الدورة','تكيس المبايض','بطانة الرحم','العقم']},
+{id:'family',ar:'طب الأسرة',en:'Family Medicine',icon:'👨‍⚕️',kw:['primary care','family medicine','preventive','screening','counseling','lifestyle','smoking cessation','obesity','chronic disease','طب الأسرة','الرعاية الأولية','الطب الوقائي','التدخين','السمنة']},
+{id:'psych',ar:'الطب النفسي',en:'Psychiatry',icon:'🧠',kw:['depression','anxiety','bipolar','mania','schizophrenia','psychosis','hallucination','delusion','ptsd','ocd','panic','phobia','suicide','antidepressant','ssri','lithium','clozapine','addiction','alcohol','opioid','benzodiazepine','الاكتئاب','القلق','الذهان','الفصام','الهلاوس','ثنائي القطب','الوسواس','الانتحار','الإدمان']},
+{id:'derm',ar:'الجلدية',en:'Dermatology',icon:'🧴',kw:['psoriasis','eczema','atopic dermatitis','acne','rosacea','urticaria','vitiligo','melanoma','basal cell','squamous cell','skin cancer','tinea','fungal','scabies','impetigo','cellulitis','herpes','shingles','alopecia','pemphigus','lichen planus','الصدفية','الإكزيما','حب الشباب','الوردية','الأرتيكاريا','البهاق','الميلانوما','سرطان الجلد','الفطريات','الجرب','الحزام الناري','تساقط الشعر']},
+{id:'ent',ar:'الأنف والأذن والحنجرة',en:'ENT',icon:'👂',kw:['otitis','tonsillitis','pharyngitis','laryngitis','sinusitis','epistaxis','rhinitis','adenoid','turbinate','septum','hearing loss','tinnitus','vertigo','meniere','laryngeal','hoarseness','polyp','tracheostomy','mastoiditis','التهاب الأذن','اللوزتين','البلعوم','الجيوب الأنفية','الرعاف','انحراف الحاجز','فقدان السمع','طنين','الدوار','البحّة','لحمية الأنف']},
+{id:'ophth',ar:'طب العيون',en:'Ophthalmology',icon:'👁️',kw:['cornea','corneal','keratoconus','lasik','cxl','riboflavin','keratoplasty','pterygium','fuchs','lattice','macular dystrophy','refractive','astigmatism','topography','prk','epithelium','endothelium','keratitis','glaucoma','trabeculectomy','trabeculoplasty','slt','mitomycin','aqueous','trabecular','angle-closure','pigment dispersion','pseudoexfoliation','krukenberg','schwalbe','bleb','hypotony','timolol','latanoprost','retina','retinal','macula','vitreous','detachment','choroid','retinopathy','amd','retinitis pigmentosa','stargardt','best disease','birdshot','eales','purtscher','crvo','brvo','crao','cataract','iol','intraocular lens','phaco','myopia','hyperopia','presbyopia','retinoscopy','sturm','optic neuritis','rapd','hemianopia','quadrantanopia','parinaud','esotropia','exotropia','strabismus','entropion','ectropion','dacryocystitis','canaliculitis','chalazion','ptosis','lacrimal','eyelid','orbit','neurofibromatosis','vhl','tuberous sclerosis','lisch','sympathetic ophthalmia','canthotomy','القرنية','ليزك','الجلوكوما','الزرق','ضغط العين','الشبكية','الزجاجي','انفصال الشبكية','المياه البيضاء','الساد','العدسة','الجفن','الدمعية','الحول','العصب البصري','الحدقة','بارينو','البقعة','الانكسار','قصر النظر','بعد النظر','العيون']},
+{id:'ortho',ar:'العظام',en:'Orthopedics',icon:'🦴',kw:['fracture','dislocation','sprain','osteoporosis','osteomyelitis','bone tumor','arthroplasty','hip replacement','knee replacement','acl','meniscus','rotator cuff','carpal tunnel','scoliosis','kyphosis','lumbar','disc herniation','sciatica','spinal','amputation','كسر','خلع','التواء','هشاشة العظام','التهاب العظم','استبدال المفصل','الرباط الصليبي','الديسك','العمود الفقري']},
+{id:'uro',ar:'المسالك البولية',en:'Urology',icon:'💧',kw:['kidney stone','renal stone','urolithiasis','hydronephrosis','bph','prostate','prostatectomy','psa','testicular','torsion','hydrocele','varicocele','vasectomy','cystoscopy','turp','nephrectomy','hematuria','incontinence','erectile dysfunction','حصى الكلى','البروستات','الخصية','القيلة','التبول','الدم في البول','المسالك']},
+{id:'anes',ar:'التخدير',en:'Anesthesia',icon:'💉',kw:['anesthesia','anesthetic','epidural','propofol','ketamine','fentanyl','morphine','midazolam','succinylcholine','rocuronium','airway','intubation','mallampati','malignant hyperthermia','التخدير','المخدر','التنبيب','الإنعاش']},
+{id:'emerg',ar:'طب الطوارئ',en:'Emergency Medicine',icon:'🚨',kw:['cardiac arrest','cpr','acls','atls','shock','anaphylaxis','trauma','burn','poisoning','overdose','triage','emergency','resuscitation','defibrillation','tension pneumothorax','tamponade','السكتة القلبية','الإنعاش','الصدمة','الحساسية المفرطة','التسمم','الحرق','الطوارئ','الإصابات']},
+{id:'radio',ar:'الأشعة',en:'Radiology',icon:'📷',kw:['x-ray','ct scan','mri','ultrasound','doppler','mammography','fluoroscopy','contrast','barium','biopsy','angiography','الأشعة','المقطعية','الرنين','الموجات فوق الصوتية','الدوبلر','التصوير','الصبغة','القسطرة']},
+{id:'forensic',ar:'الطب الشرعي',en:'Forensic Medicine',icon:'⚖️',kw:['autopsy','postmortem','forensic','injury','wound','asphyxia','drowning','hanging','toxicology','medicolegal','rigor mortis','الطب الشرعي','التشريح','ما بعد الوفاة','التسمم']},
+{id:'community',ar:'صحة المجتمع',en:'Community Medicine',icon:'🌍',kw:['epidemiology','incidence','prevalence','sensitivity','specificity','screening','odds ratio','relative risk','outbreak','herd immunity','public health','biostatistics','p-value','confidence interval','الوبائيات','الحساسية','الخصوصية','الانتشار','التطعيم','الصحة العامة','الإحصاء الحيوي']},
+{id:'basic',ar:'العلوم الأساسية',en:'Basic Sciences',icon:'🔬',kw:['anatomy','physiology','histology','biochemistry','pathology','pharmacology','microbiology','immunology','genetics','dna','rna','enzyme','hormone','receptor','metabolism','تشريح','فسيولوجيا','نسيج','كيمياء حيوية','باثولوجيا','أحياء دقيقة','مناعة','وراثة','هرمون','خلية']},
+{id:'pharm',ar:'علم الأدوية',en:'Pharmacology',icon:'💊',kw:['pharmacokinetics','pharmacodynamics','half-life','side effect','adverse','drug interaction','contraindication','penicillin','cephalosporin','macrolide','aminoglycoside','vancomycin','statin','ace inhibitor','beta blocker','diuretic','warfarin','heparin','aspirin','clopidogrel','الدواء','الجرعة','الحركية الدوائية','التفاعل الدوائي','الآثار الجانبية','المضاد الحيوي','مضاد التجلط']}
+];
+
+/* ═══════════════ State ═══════════════ */
+const $ = id => document.getElementById(id);
+const CK = 'study_gist_cache_v3', TK = 'study_gist_tr_v3';
+let db = { questions:{}, prefix:'Q' };
+let trCache = {};
+let cloud = { gistId:'', doctor:{name:'د. عبد الله الشميري', title:'', photo:''} };
+let searchQ = '', searchCat = '';
+let currentGroup = '';
+let groupSearchQ = '';
+
+const esc = s => String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+let toastT;
+function toast(msg, type){
+  const t = $('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' '+type : '');
+  clearTimeout(toastT);
+  toastT = setTimeout(()=>{ t.className='toast'; }, 2400);
+}
+function setCloud(cls, text){
+  $('cloudDot').className = 'cloud-dot ' + (cls||'');
+  $('cloudText').textContent = text || 'السحابة';
+}
+
+/* ═══════════════ Cache ═══════════════ */
+function loadCache(){
+  try{
+    const r = localStorage.getItem(CK);
+    if(r){ const p = JSON.parse(r); if(p && p.questions) db = p; }
+    const t = localStorage.getItem(TK);
+    if(t) trCache = JSON.parse(t);
+  }catch(e){}
+}
+function saveCache(){ try{ localStorage.setItem(CK, JSON.stringify(db)); }catch(e){} }
+function saveTr(){ try{ localStorage.setItem(TK, JSON.stringify(trCache)); }catch(e){} }
+
+/* ═══════════════ Cloud ═══════════════ */
+async function fetchCloud(){
+  if(!cloud.gistId){ setCloud('err', 'غير مُعد'); return false; }
+  setCloud('sync', 'تحديث');
+  try{
+    const r = await fetch(`https://api.github.com/gists/${cloud.gistId}`, {headers:{'Accept':'application/vnd.github+json'}});
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    const gist = await r.json();
+    const file = gist.files && (gist.files['data.json'] || Object.values(gist.files)[0]);
+    if(!file) throw new Error('لا يوجد ملف');
+    let content = file.content;
+    if(file.truncated && file.raw_url){
+      const rr = await fetch(file.raw_url);
+      content = await rr.text();
+    }
+    const data = JSON.parse(content);
+    if(data.questions) db.questions = data.questions;
+    if(data.prefix) db.prefix = data.prefix;
+    if(data.doctor) cloud.doctor = Object.assign(cloud.doctor, data.doctor);
+    saveCache();
+    setCloud('ok', 'متصل');
+    renderDoctor();
+    return true;
+  }catch(e){
+    setCloud('err', 'خطأ');
+    console.error(e);
+    return false;
+  }
+}
+
+/* ═══════════════ Doctor Info ═══════════════ */
+function renderDoctor(){
+  const d = cloud.doctor || {};
+  $('docName').textContent = d.name || 'د. عبد الله الشميري';
+  $('docTitle').textContent = d.title || '';
+  const ph = $('docPhoto');
+  if(d.photo) ph.innerHTML = `<img src="${d.photo}" alt="">`;
+  else ph.textContent = '🩺';
+}
+
+/* ═══════════════ Helpers ═══════════════ */
+function countByCat(){
+  const m = {};
+  for(const q of Object.values(db.questions)){
+    const c = q.category || 'غير مصنّف';
+    m[c] = (m[c]||0) + 1;
+  }
+  return m;
+}
+function sortedNums(){
+  return Object.values(db.questions).map(q => q.num).sort((a,b) => a-b);
+}
+function getSpecialty(name){
+  return SPECIALTIES.find(s => s.ar === name) || {icon:'📄', en:'', ar:name};
+}
+
+/* ═══════════════ Render Home ═══════════════ */
+function renderHome(){
+  const nums = sortedNums();
+  const counts = countByCat();
+
+  $('cntHdr').textContent = nums.length;
+  $('cntCat').textContent = Object.keys(counts).length;
+  $('tabGroupsCount').textContent = Object.keys(counts).length;
+  $('sTotal').textContent = nums.length;
+  $('sCats').textContent = Object.keys(counts).length;
+  $('sRange').textContent = nums.length ? `${db.prefix}${nums[0]} → ${db.prefix}${nums[nums.length-1]}` : '—';
+
+  const top = Object.entries(counts).sort((a,b) => b[1]-a[1]).slice(0, 6);
+  $('topCats').innerHTML = top.map(([cat, cnt]) => renderGroupCard(cat, cnt, false)).join('')
+    || '<div class="empty" style="grid-column:1/-1"><span class="empty-ico">📭</span><b>لا توجد أسئلة</b><p>لم تتم إضافة أسئلة بعد</p></div>';
+}
+
+/* ═══════════════ Group Card ═══════════════ */
+function renderGroupCard(cat, count, isFull){
+  const sp = getSpecialty(cat);
+  const empty = count === 0;
+  return `<div class="group-card${empty?' empty':''}" data-group="${esc(cat)}">
+    <div class="gc-icon">${sp.icon}</div>
+    <div class="gc-info">
+      <div class="gc-ar">${esc(cat)}</div>
+      <div class="gc-en">${esc(sp.en)}</div>
+    </div>
+    <div class="gc-count">${count}</div>
+  </div>`;
+}
+
+/* ═══════════════ Render Groups List ═══════════════ */
+function renderGroups(){
+  const counts = countByCat();
+  const list = SPECIALTIES.slice();
+  if(counts['غير مصنّف']) list.push({id:'other',ar:'غير مصنّف',en:'Uncategorized',icon:'📄'});
+
+  $('groupsGrid').innerHTML = list.map(sp => {
+    const c = counts[sp.ar] || 0;
+    return renderGroupCard(sp.ar, c, true);
+  }).join('');
+}
+
+/* ═══════════════ Render Group Detail ═══════════════ */
+function renderGroupDetail(groupName){
+  const sp = getSpecialty(groupName);
+  const list = Object.values(db.questions)
+    .filter(q => (q.category||'غير مصنّف') === groupName)
+    .sort((a,b) => a.num - b.num);
+
+  $('ghIcon').textContent = sp.icon;
+  $('ghAr').textContent = groupName;
+  $('ghEn').textContent = sp.en || '';
+  $('ghMeta').innerHTML = `
+    <span>📋 <b>${list.length}</b> سؤال</span>
+    ${list.length ? `<span>🔢 <b>${db.prefix}${list[0].num} → ${db.prefix}${list[list.length-1].num}</b></span>` : ''}
+  `;
+
+  // Filter by group search
+  const q = groupSearchQ.toLowerCase();
+  const filtered = q
+    ? list.filter(item => {
+        const hay = (item.body + ' ' + (item.topic||'')).toLowerCase();
+        return hay.includes(q) || String(item.num).includes(q);
+      })
+    : list;
+
+  if(!filtered.length){
+    $('groupQuestions').innerHTML = `
+      <div class="empty">
+        <span class="empty-ico">${q ? '🔍' : '📭'}</span>
+        <b>${q ? 'لا توجد نتائج' : 'لا توجد أسئلة'}</b>
+        <p>${q ? 'جرّب كلمة مفتاحية أخرى' : 'لم تتم إضافة أسئلة لهذه المجموعة بعد'}</p>
+      </div>`;
+    return;
+  }
+
+  $('groupQuestions').innerHTML = renderList(filtered, true);
+}
+
+/* ═══════════════ Render Question ═══════════════ */
+function renderQ(q){
+  const tr = q.translation;
+  const useAr = q.showAr && tr && (tr.q || tr.ans);
+  const P = useAr ? { q:tr.q||q.parts.q, opts:tr.opts||q.parts.opts, ans:tr.ans||q.parts.ans } : q.parts;
+
+  const catHTML = q.category ? `<span class="q-cat">${q.categoryIcon||''} ${esc(q.category)}</span>` : '';
+  const topicHTML = q.topic ? `<span class="q-cat topic">${q.topicIcon||'🎯'} ${esc(q.topic)}</span>` : '';
+
+  let cls, lbl;
+  if(!tr){ cls='btn-mini tr'; lbl='🌐 ترجم'; }
+  else if(useAr){ cls='btn-mini tr cancel'; lbl='✕ إلغاء'; }
+  else { cls='btn-mini tr on'; lbl='🌐 عربي'; }
+
+  return `<article class="q-card${useAr?' ar':''}" id="q${q.num}">
+    <div class="q-head">
+      <span class="q-num">${db.prefix}${q.num}</span>
+      <div class="q-cats">${catHTML}${topicHTML}</div>
+      <div class="q-actions">
+        <button class="${cls}" data-tr="${q.num}">${lbl}</button>
+        <button class="btn-mini wa" data-wa="${q.num}">📱</button>
+      </div>
+    </div>
+    <div class="q-body">
+      <span class="q-tag">❓ السؤال</span>
+      <div class="q-text">${esc(P.q) || '—'}</div>
+      ${P.opts ? `<div class="q-opts">${esc(P.opts)}</div>` : ''}
+    </div>
+    ${P.ans ? `<div class="q-ans"><span class="a-tag">✓ الجواب</span><span class="a-text">${esc(P.ans)}</span></div>` : ''}
+  </article>`;
+}
+
+function renderGap(f, t){
+  const l = f === t ? `${db.prefix}${f} ناقص` : `${db.prefix}${f} → ${db.prefix}${t} ناقص (${t-f+1})`;
+  return `<div class="gap"><span class="tag">${esc(l)}</span></div>`;
+}
+
+function renderList(list, withMissing){
+  if(!list.length) return '';
+  const sorted = list.slice().sort((a,b) => a.num - b.num);
+  const parts = [];
+  let prev = null;
+  for(const q of sorted){
+    if(prev !== null && q.num > prev+1 && withMissing !== false) parts.push(renderGap(prev+1, q.num-1));
+    parts.push(renderQ(q));
+    prev = q.num;
+  }
+  return `<div class="q-list">${parts.join('')}</div>`;
+}
+
+/* ═══════════════ Quick Chips ═══════════════ */
+function renderQuickChips(){
+  const nums = sortedNums();
+  const qc = $('quickChips');
+  if(!nums.length){ qc.innerHTML = '<span class="lbl">لا توجد أسئلة</span>'; return; }
+  const min = nums[0], max = nums[nums.length-1];
+  const ranges = [];
+  let cur = Math.floor(min/50)*50; if(cur < min) cur = min;
+  let n = 0;
+  while(cur <= max && n < 10){
+    ranges.push({f:cur, t:Math.min(cur+49, max)});
+    cur += 50; n++;
+  }
+  qc.innerHTML = '<span class="lbl">⚡ سريع:</span>' +
+    ranges.map(r => `<button class="chip" data-f="${r.f}" data-t="${r.t}">${r.f}-${r.t}</button>`).join('');
+}
+
+/* ═══════════════ Cat Filter ═══════════════ */
+function updateCatFilter(){
+  const cats = [...new Set(Object.values(db.questions).map(q => q.category||'غير مصنّف'))].sort();
+  const sel = $('catFilter');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">كل التخصصات</option>' + cats.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
+  if(cats.includes(cur)) sel.value = cur;
+}
+
+/* ═══════════════ Search Results ═══════════════ */
+function getSearchResults(){
+  const q = searchQ.toLowerCase();
+  const f = parseInt($('rFrom').value) || 0;
+  const t = parseInt($('rTo').value) || 0;
+  const hasRange = f > 0 && t > 0;
+
+  return Object.values(db.questions).filter(item => {
+    if(searchCat && (item.category||'غير مصنّف') !== searchCat) return false;
+    if(hasRange && (item.num < f || item.num > t)) return false;
+    if(!q) return true;
+    const hay = (item.body + ' ' + (item.category||'') + ' ' + (item.topic||'')).toLowerCase();
+    return hay.includes(q) || String(item.num).includes(q);
+  }).sort((a,b) => a.num - b.num);
+}
+
+function renderSearch(){
+  const list = getSearchResults();
+  const info = list.length
+    ? `<div class="results-info">📊 عدد النتائج: <b>${list.length}</b>${searchCat ? ` · التخصص: <b>${esc(searchCat)}</b>` : ''}</div>`
+    : '';
+  $('searchResults').innerHTML = info + (list.length
+    ? renderList(list, true)
+    : `<div class="empty"><span class="empty-ico">🔍</span><b>لا توجد نتائج</b><p>جرّب كلمة مفتاحية أخرى أو غيّر النطاق</p></div>`);
+}
+
+/* ═══════════════ Switch Views ═══════════════ */
+function switchView(v){
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.view === v));
+  document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+  const el = $('v' + v.charAt(0).toUpperCase() + v.slice(1));
+  if(el){ el.classList.add('active'); el.style.display = 'block'; }
+  window.scrollTo({top:0, behavior:'smooth'});
+  if(v === 'groups') renderGroups();
+  if(v === 'search') renderSearch();
+}
+
+function openGroup(groupName){
+  currentGroup = groupName;
+  groupSearchQ = '';
+  $('groupSearchInput').value = '';
+  document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+  $('vGroupDetail').classList.add('active');
+  $('vGroupDetail').style.display = 'block';
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  renderGroupDetail(groupName);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function backToGroups(){
+  document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+  $('vGroups').classList.add('active');
+  $('vGroups').style.display = 'block';
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.view === 'groups'));
+  currentGroup = '';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ═══════════════ Refresh Card ═══════════════ */
+function refreshCard(num){
+  const q = db.questions[num];
+  if(!q) return;
+  const el = document.getElementById('q' + num);
+  if(!el) return;
+  const tmp = document.createElement('div');
+  tmp.innerHTML = renderQ(q);
+  el.replaceWith(tmp.firstElementChild);
+}
+
+/* ═══════════════ Translation ═══════════════ */
+async function fetchT(url, ms, opts){
+  const c = new AbortController();
+  const t = setTimeout(()=>c.abort(), ms);
+  try{ const r = await fetch(url, Object.assign({signal:c.signal}, opts||{})); clearTimeout(t); return r; }
+  catch(e){ clearTimeout(t); throw e; }
+}
+async function s1(t){
+  const r = await fetchT('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ar&dt=t&q=' + encodeURIComponent(t.slice(0,4500)), 12000);
+  if(!r.ok) throw 0;
+  const d = await r.json();
+  if(Array.isArray(d) && Array.isArray(d[0])){
+    const o = d[0].map(x => Array.isArray(x) ? x[0] : '').filter(Boolean).join('');
+    if(o && o.trim()) return o.trim();
+  }
+  throw 0;
+}
+async function s2(t){
+  const u = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ar&dt=t&q=' + encodeURIComponent(t.slice(0,4000)));
+  const r = await fetchT(u, 18000);
+  if(!r.ok) throw 0;
+  const d = await r.json();
+  if(Array.isArray(d) && Array.isArray(d[0])){
+    const o = d[0].map(x => Array.isArray(x) ? x[0] : '').filter(Boolean).join('');
+    if(o && o.trim()) return o.trim();
+  }
+  throw 0;
+}
+async function s3(t){
+  const u = 'https://corsproxy.io/?' + encodeURIComponent('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ar&dt=t&q=' + encodeURIComponent(t.slice(0,4000)));
+  const r = await fetchT(u, 15000);
+  if(!r.ok) throw 0;
+  const d = await r.json();
+  if(Array.isArray(d) && Array.isArray(d[0])){
+    const o = d[0].map(x => Array.isArray(x) ? x[0] : '').filter(Boolean).join('');
+    if(o && o.trim()) return o.trim();
+  }
+  throw 0;
+}
+async function s4(t){
+  const r = await fetchT('https://api.mymemory.translated.net/get?langpair=en|ar&q=' + encodeURIComponent(t.slice(0,500)), 10000);
+  if(!r.ok) throw 0;
+  const d = await r.json();
+  if(d && d.responseData && d.responseData.translatedText){
+    const o = d.responseData.translatedText;
+    if(o && !/^MYMEMORY WARNING/i.test(o) && !/INVALID/i.test(o)) return o;
+  }
+  throw 0;
+}
+async function s5(t){
+  const r = await fetchT('https://lingva.ml/api/v1/en/ar/' + encodeURIComponent(t.slice(0,1500)), 10000);
+  if(!r.ok) throw 0;
+  const d = await r.json();
+  if(d && d.translation && d.translation.trim()) return d.translation.trim();
+  throw 0;
+}
+function hashT(t){
+  let h = 0;
+  for(let i=0; i<t.length; i++){ h = (h<<5) - h + t.charCodeAt(i); h |= 0; }
+  return 'h' + Math.abs(h).toString(36);
+}
+async function translateText(text){
+  if(!text || !text.trim()) return '';
+  const t = String(text).trim();
+  if(t.length < 2) return '';
+  const h = hashT(t);
+  if(trCache[h]) return trCache[h];
+  const svcs = [s1, s2, s3, s4, s5];
+  for(const fn of svcs){
+    try{
+      const r = await fn(t);
+      if(r && r.trim()){ trCache[h] = r; saveTr(); return r; }
+    }catch(e){}
+  }
+  return null;
+}
+async function translateQ(q){
+  const tr = { q:'', opts:'', ans:'' };
+  let any = false;
+  if(q.parts.q){ const t = await translateText(q.parts.q); if(t){ tr.q = t; any = true; } }
+  if(q.parts.opts){ const t = await translateText(q.parts.opts); if(t){ tr.opts = t; any = true; } }
+  if(q.parts.ans){ const t = await translateText(q.parts.ans); if(t){ tr.ans = t; any = true; } }
+  return any ? tr : null;
+}
+
+/* ═══════════════ Format & Share ═══════════════ */
+function formatQ(q){
+  let txt = `*${db.prefix}${q.num}*\n`;
+  if(q.category) txt += `📂 ${q.category}`;
+  if(q.topic) txt += ` · ${q.topic}`;
+  txt += `\n\n${q.parts.q}`;
+  if(q.parts.opts) txt += `\n\n${q.parts.opts}`;
+  if(q.parts.ans) txt += `\n\n*✅ الجواب:* ${q.parts.ans}`;
+  return txt;
+}
+function shareWA(text){
+  window.open('https://wa.me/?text=' + encodeURIComponent(text.slice(0,20000)), '_blank');
+}
+
+/* ═══════════════ Events ═══════════════ */
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => switchView(tab.dataset.view));
+});
+
+$('qaGroups').addEventListener('click', () => switchView('groups'));
+$('qaSearch').addEventListener('click', () => switchView('search'));
+
+// فتح مجموعة — من أي مكان في التطبيق
+document.body.addEventListener('click', e => {
+  const g = e.target.closest('.group-card');
+  if(g && !g.classList.contains('empty')){
+    openGroup(g.dataset.group);
+  }
+});
+
+$('btnBackFromGroup').addEventListener('click', backToGroups);
+
+// البحث داخل المجموعة
+let gsT;
+$('groupSearchInput').addEventListener('input', e => {
+  clearTimeout(gsT);
+  gsT = setTimeout(() => { groupSearchQ = e.target.value.trim(); renderGroupDetail(currentGroup); }, 250);
+});
+
+// بحث عام
+let sT;
+$('searchInput').addEventListener('input', e => {
+  clearTimeout(sT);
+  sT = setTimeout(() => { searchQ = e.target.value.trim(); renderSearch(); }, 250);
+});
+$('catFilter').addEventListener('change', e => { searchCat = e.target.value; renderSearch(); });
+$('rFrom').addEventListener('input', () => { clearTimeout(sT); sT = setTimeout(renderSearch, 400); });
+$('rTo').addEventListener('input', () => { clearTimeout(sT); sT = setTimeout(renderSearch, 400); });
+$('rangeGo').addEventListener('click', () => {
+  const f = parseInt($('rFrom').value), t = parseInt($('rTo').value);
+  if(!f || !t) return toast('أدخل الرقمين','err');
+  if(f > t) return toast('البداية أقل','err');
+  renderSearch();
+  toast(`🎯 ${db.prefix}${f} → ${db.prefix}${t}`, 'ok');
+});
+$('rangeReset').addEventListener('click', () => { $('rFrom').value=''; $('rTo').value=''; renderSearch(); });
+$('rangePrint').addEventListener('click', () => { window.print(); });
+$('quickChips').addEventListener('click', e => {
+  const c = e.target.closest('.chip');
+  if(!c) return;
+  $('rFrom').value = c.dataset.f; $('rTo').value = c.dataset.t;
+  renderSearch();
+});
+
+// بطاقات الأسئلة — ترجمة وواتساب
+document.body.addEventListener('click', async e => {
+  const wa = e.target.closest('[data-wa]');
+  if(wa){
+    const q = db.questions[wa.dataset.wa];
+    if(!q) return;
+    shareWA(formatQ(q));
+    toast('📱 جارٍ المشاركة', 'wa');
+    return;
+  }
+  const tr = e.target.closest('[data-tr]');
+  if(tr){
+    const q = db.questions[tr.dataset.tr];
+    if(!q) return;
+
+    if(q.translation){
+      q.showAr = !q.showAr;
+      saveCache();
+      refreshCard(q.num);
+      toast(q.showAr ? '✓ عُرضت الترجمة' : '✓ رجع إلى الأصلي', 'ok');
+      return;
+    }
+
+    tr.disabled = true;
+    tr.textContent = '⏳';
+    try{
+      const t = await translateQ(q);
+      if(t){
+        q.translation = t; q.showAr = true;
+        saveCache();
+        refreshCard(q.num);
+        toast('✓ تمت الترجمة', 'ok');
+      } else {
+        tr.disabled = false; tr.textContent = '🌐 ترجم';
+        toast('تعذّر الاتصال بخدمة الترجمة', 'err');
+      }
+    }catch(err){
+      tr.disabled = false; tr.textContent = '🌐 ترجم';
+      toast('خطأ','err');
+    }
+  }
+});
+
+/* ═══════════════ Init ═══════════════ */
+async function init(){
+  try{
+    const cfg = JSON.parse($('cfg').textContent);
+    cloud.gistId = cfg.gistId || '';
+    if(cfg.doctor) cloud.doctor = Object.assign(cloud.doctor, cfg.doctor);
+  }catch(e){}
+
+  renderDoctor();
+  loadCache();
+
+  // عرض فوري من الذاكرة
+  if(Object.keys(db.questions).length > 0){
+    $('loader').style.display = 'none';
+    $('vHome').classList.add('active');
+    $('vHome').style.display = 'block';
+    renderHome();
+    renderQuickChips();
+    updateCatFilter();
+    renderSearch();
+  }
+
+  // مزامنة السحابة
+  if(cloud.gistId){
+    const ok = await fetchCloud();
+    $('loader').style.display = 'none';
+    $('vHome').classList.add('active');
+    $('vHome').style.display = 'block';
+    renderHome();
+    renderQuickChips();
+    updateCatFilter();
+    renderSearch();
+    if(!ok && Object.keys(db.questions).length === 0){
+      toast('تعذّر التحميل — تحقق من الإنترنت', 'err');
+    }
+  } else {
+    $('loader').style.display = 'none';
+    $('vHome').classList.add('active');
+    $('vHome').style.display = 'block';
+    renderHome();
+    if(Object.keys(db.questions).length === 0){
+      $('groupsGrid').innerHTML = '<div class="empty" style="grid-column:1/-1"><span class="empty-ico">🔧</span><b>لم يتم الإعداد</b><p>تواصل مع الدكتور</p></div>';
+    }
+  }
+}
+
+init();
+
+})();
+</script>
+</template>
+
+<!-- ═══════════════════════════════════════════════════
+     كود أداة الإضافة
+     ═══════════════════════════════════════════════════ -->
+<script>
+(function(){
+"use strict";
+
+const SPECIALTIES = [
+{id:'internal',ar:'الباطنة',en:'Internal Medicine',icon:'🫀',kw:['diabetes','hypertension','heart failure','myocardial','angina','copd','asthma','thyroid','renal failure','liver','hepatitis','cirrhosis','anemia','leukemia','gastric','peptic','pneumonia','tuberculosis','sepsis','stroke','epilepsy','arthritis','lupus','gout','ketoacidosis','hyperkalemia','السكري','الضغط','القلب','الجلطة','الكبد','التهاب الكبد','فقر الدم','الربو','الغدة الدرقية','السكتة','الصرع','النقرس','الباطنة']},
+{id:'surgery',ar:'الجراحة العامة',en:'General Surgery',icon:'🔪',kw:['appendicitis','cholecystitis','hernia','bowel obstruction','peritonitis','abscess','fistula','thyroidectomy','mastectomy','colostomy','rectal','colon cancer','gastric cancer','breast lump','الزائدة','المرارة','الفتق','الأمعاء','جراحة','استئصال','الثدي','القولون','المعدة']},
+{id:'peds',ar:'الأطفال',en:'Pediatrics',icon:'👶',kw:['neonate','neonatal','infant','newborn','congenital','apgar','premature','kawasaki','measles','mumps','rubella','chickenpox','croup','bronchiolitis','vaccination','kwashiorkor','marasmus','rickets','neonatal jaundice','tetralogy','fallot','حديثي الولادة','الرضع','الأطفال','خلقي','التطعيم','الحصبة','الصفار']},
+{id:'obgyn',ar:'النساء والتوليد',en:'Obstetrics & Gynecology',icon:'🤰',kw:['pregnancy','pregnant','labor','delivery','cesarean','preeclampsia','eclampsia','ectopic','miscarriage','abortion','postpartum','menstrual','pcos','endometriosis','fibroid','ovarian','cervical cancer','pap smear','contraception','infertility','ivf','placenta','الحمل','الولادة','القيصرية','الإجهاض','النزيف','الدورة','تكيس المبايض','بطانة الرحم','العقم']},
+{id:'family',ar:'طب الأسرة',en:'Family Medicine',icon:'👨‍⚕️',kw:['primary care','family medicine','preventive','screening','counseling','lifestyle','smoking cessation','obesity','chronic disease','طب الأسرة','الرعاية الأولية','الطب الوقائي','التدخين','السمنة']},
+{id:'psych',ar:'الطب النفسي',en:'Psychiatry',icon:'🧠',kw:['depression','anxiety','bipolar','mania','schizophrenia','psychosis','hallucination','delusion','ptsd','ocd','panic','phobia','suicide','antidepressant','ssri','lithium','clozapine','addiction','alcohol','opioid','benzodiazepine','الاكتئاب','القلق','الذهان','الفصام','الهلاوس','ثنائي القطب','الوسواس','الانتحار','الإدمان']},
+{id:'derm',ar:'الجلدية',en:'Dermatology',icon:'🧴',kw:['psoriasis','eczema','atopic dermatitis','acne','rosacea','urticaria','vitiligo','melanoma','basal cell','squamous cell','skin cancer','tinea','fungal','scabies','impetigo','cellulitis','herpes','shingles','alopecia','pemphigus','lichen planus','الصدفية','الإكزيما','حب الشباب','الوردية','الأرتيكاريا','البهاق','الميلانوما','سرطان الجلد','الفطريات','الجرب','الحزام الناري','تساقط الشعر']},
+{id:'ent',ar:'الأنف والأذن والحنجرة',en:'ENT',icon:'👂',kw:['otitis','tonsillitis','pharyngitis','laryngitis','sinusitis','epistaxis','rhinitis','adenoid','turbinate','septum','hearing loss','tinnitus','vertigo','meniere','laryngeal','hoarseness','polyp','tracheostomy','mastoiditis','التهاب الأذن','اللوزتين','البلعوم','الجيوب الأنفية','الرعاف','انحراف الحاجز','فقدان السمع','طنين','الدوار','البحّة','لحمية الأنف']},
+{id:'ophth',ar:'طب العيون',en:'Ophthalmology',icon:'👁️',kw:['cornea','corneal','keratoconus','lasik','cxl','riboflavin','keratoplasty','pterygium','fuchs','lattice','macular dystrophy','refractive','astigmatism','topography','prk','epithelium','endothelium','keratitis','glaucoma','trabeculectomy','trabeculoplasty','slt','mitomycin','aqueous','trabecular','angle-closure','pigment dispersion','pseudoexfoliation','krukenberg','schwalbe','bleb','hypotony','timolol','latanoprost','retina','retinal','macula','vitreous','detachment','choroid','retinopathy','amd','retinitis pigmentosa','stargardt','best disease','birdshot','eales','purtscher','crvo','brvo','crao','cataract','iol','intraocular lens','phaco','myopia','hyperopia','presbyopia','retinoscopy','sturm','optic neuritis','rapd','hemianopia','quadrantanopia','parinaud','esotropia','exotropia','strabismus','entropion','ectropion','dacryocystitis','canaliculitis','chalazion','ptosis','lacrimal','eyelid','orbit','neurofibromatosis','vhl','tuberous sclerosis','lisch','sympathetic ophthalmia','canthotomy','القرنية','ليزك','الجلوكوما','الزرق','ضغط العين','الشبكية','الزجاجي','انفصال الشبكية','المياه البيضاء','الساد','العدسة','الجفن','الدمعية','الحول','العصب البصري','الحدقة','بارينو','البقعة','الانكسار','قصر النظر','بعد النظر','العيون']},
+{id:'ortho',ar:'العظام',en:'Orthopedics',icon:'🦴',kw:['fracture','dislocation','sprain','osteoporosis','osteomyelitis','bone tumor','arthroplasty','hip replacement','knee replacement','acl','meniscus','rotator cuff','carpal tunnel','scoliosis','kyphosis','lumbar','disc herniation','sciatica','spinal','amputation','كسر','خلع','التواء','هشاشة العظام','التهاب العظم','استبدال المفصل','الرباط الصليبي','الديسك','العمود الفقري']},
+{id:'uro',ar:'المسالك البولية',en:'Urology',icon:'💧',kw:['kidney stone','renal stone','urolithiasis','hydronephrosis','bph','prostate','prostatectomy','psa','testicular','torsion','hydrocele','varicocele','vasectomy','cystoscopy','turp','nephrectomy','hematuria','incontinence','erectile dysfunction','حصى الكلى','البروستات','الخصية','القيلة','التبول','الدم في البول','المسالك']},
+{id:'anes',ar:'التخدير',en:'Anesthesia',icon:'💉',kw:['anesthesia','anesthetic','epidural','propofol','ketamine','fentanyl','morphine','midazolam','succinylcholine','rocuronium','airway','intubation','mallampati','malignant hyperthermia','التخدير','المخدر','التنبيب','الإنعاش']},
+{id:'emerg',ar:'طب الطوارئ',en:'Emergency Medicine',icon:'🚨',kw:['cardiac arrest','cpr','acls','atls','shock','anaphylaxis','trauma','burn','poisoning','overdose','triage','emergency','resuscitation','defibrillation','tension pneumothorax','tamponade','السكتة القلبية','الإنعاش','الصدمة','الحساسية المفرطة','التسمم','الحرق','الطوارئ','الإصابات']},
+{id:'radio',ar:'الأشعة',en:'Radiology',icon:'📷',kw:['x-ray','ct scan','mri','ultrasound','doppler','mammography','fluoroscopy','contrast','barium','biopsy','angiography','الأشعة','المقطعية','الرنين','الموجات فوق الصوتية','الدوبلر','التصوير','الصبغة','القسطرة']},
+{id:'forensic',ar:'الطب الشرعي',en:'Forensic Medicine',icon:'⚖️',kw:['autopsy','postmortem','forensic','injury','wound','asphyxia','drowning','hanging','toxicology','medicolegal','rigor mortis','الطب الشرعي','التشريح','ما بعد الوفاة','التسمم']},
+{id:'community',ar:'صحة المجتمع',en:'Community Medicine',icon:'🌍',kw:['epidemiology','incidence','prevalence','sensitivity','specificity','screening','odds ratio','relative risk','outbreak','herd immunity','public health','biostatistics','p-value','confidence interval','الوبائيات','الحساسية','الخصوصية','الانتشار','التطعيم','الصحة العامة','الإحصاء الحيوي']},
+{id:'basic',ar:'العلوم الأساسية',en:'Basic Sciences',icon:'🔬',kw:['anatomy','physiology','histology','biochemistry','pathology','pharmacology','microbiology','immunology','genetics','dna','rna','enzyme','hormone','receptor','metabolism','تشريح','فسيولوجيا','نسيج','كيمياء حيوية','باثولوجيا','أحياء دقيقة','مناعة','وراثة','هرمون','خلية']},
+{id:'pharm',ar:'علم الأدوية',en:'Pharmacology',icon:'💊',kw:['pharmacokinetics','pharmacodynamics','half-life','side effect','adverse','drug interaction','contraindication','penicillin','cephalosporin','macrolide','aminoglycoside','vancomycin','statin','ace inhibitor','beta blocker','diuretic','warfarin','heparin','aspirin','clopidogrel','الدواء','الجرعة','الحركية الدوائية','التفاعل الدوائي','الآثار الجانبية','المضاد الحيوي','مضاد التجلط']}
+];
+const SUBTOPICS = [
+{cat:'طب العيون',ar:'القرنية والانكسار',icon:'🔵',kw:['cornea','keratoconus','lasik','cxl','riboflavin','keratoplasty','pterygium','fuchs','lattice','refractive','astigmatism','topography','prk','epithelium','endothelium','keratitis','flap','القرنية','ليزك','انكسار']},
+{cat:'طب العيون',ar:'الجلوكوما',icon:'🟢',kw:['glaucoma','trabeculectomy','trabeculoplasty','slt','mitomycin','aqueous','trabecular','angle-closure','pigment dispersion','bleb','timolol','latanoprost','الجلوكوما','الزرق','ضغط العين']},
+{cat:'طب العيون',ar:'الشبكية والجسم الزجاجي',icon:'🟣',kw:['retina','macula','vitreous','detachment','choroid','retinopathy','amd','retinitis pigmentosa','stargardt','birdshot','eales','crvo','brvo','الشبكية','زجاجي','انفصال الشبكية','البقعة']},
+{cat:'طب العيون',ar:'الساد والعدسة',icon:'🟡',kw:['cataract','iol','intraocular lens','phaco','haptic','الساد','الماء الأبيض','عدسة']},
+{cat:'طب العيون',ar:'البصريات والانكسار',icon:'⚙️',kw:['optics','refraction','sphere','cylinder','jcc','sturm','retinoscopy','myopia','hyperopia','presbyopia','diopter','قصر النظر','بعد النظر','بصريات']},
+{cat:'طب العيون',ar:'الأعصاب العينية والحول',icon:'🔴',kw:['optic neuritis','rapd','hemianopia','chiasmal','ino','mlf','parinaud','esotropia','exotropia','strabismus','papilledema','nystagmus','العصب البصري','حول','بارينو']},
+{cat:'طب العيون',ar:'الجفن والدمعية والحجاج',icon:'🟠',kw:['entropion','ectropion','dacryocystitis','chalazion','ptosis','lacrimal','eyelid','orbit','الجفن','الدمعية']},
+{cat:'الباطنة',ar:'القلب والأوعية',icon:'❤️',kw:['myocardial','angina','heart failure','hypertension','arrhythmia','statin','القلب','الجلطة','ضغط الدم']},
+{cat:'الباطنة',ar:'الغدد والسكري',icon:'💉',kw:['diabetes','insulin','thyroid','hyperthyroid','hypothyroid','السكري','الغدة الدرقية']},
+{cat:'الباطنة',ar:'الجهاز الهضمي',icon:'🫄',kw:['liver','hepatitis','cirrhosis','gastric','peptic','colon','endoscopy','الكبد','المعدة','القولون']},
+{cat:'الأطفال',ar:'حديثي الولادة',icon:'🍼',kw:['neonate','neonatal','newborn','apgar','premature','حديثي الولادة','الوليد']},
+{cat:'الأطفال',ar:'الأمراض المعدية',icon:'🦠',kw:['measles','mumps','rubella','vaccination','immunization','الحصبة','التطعيم']},
+{cat:'النساء والتوليد',ar:'الحمل والولادة',icon:'👶',kw:['pregnancy','labor','delivery','cesarean','preeclampsia','placenta','الحمل','الولادة','القيصرية']},
+{cat:'النساء والتوليد',ar:'أمراض النساء',icon:'🌸',kw:['menstrual','menorrhagia','pcos','endometriosis','fibroid','ovarian','الدورة','تكيس','بطانة الرحم']}
+];
+
+const $ = id => document.getElementById(id);
+const DK = 'add_gist_db_v3', CFK = 'add_gist_cfg_v3';
+let db = { questions:{}, prefix:'Q' };
+let cloud = { gistId:'', token:'', doctor:{name:'د. عبد الله الشميري', title:'استشاري طب وجراحة العيون', photo:''}, lastSync:0 };
+
+const esc = s => String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const toInt = s => parseInt(String(s).replace(/[\u0660-\u0669]/g, d => d.charCodeAt(0)-0x0660).replace(/[\u06F0-\u06F9]/g, d => d.charCodeAt(0)-0x06F0), 10);
+
+let toastT;
+function toast(msg, type){
+  const t = $('toast');
+  if(!t) return;
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' '+type : '');
+  clearTimeout(toastT);
+  toastT = setTimeout(()=>{ t.className='toast'; }, 2500);
+}
+function setStatus(s, text){
+  const el = $('status');
+  el.className = 'status' + (s ? ' '+s : '');
+  el.querySelector('.text').textContent = text;
+}
+function saveDB(){ try{ localStorage.setItem(DK, JSON.stringify(db)); }catch(e){} }
+function saveCfg(){ try{ localStorage.setItem(CFK, JSON.stringify(cloud)); }catch(e){} }
+function loadAll(){
+  try{
+    const raw = localStorage.getItem(DK);
+    if(raw){ const p = JSON.parse(raw); if(p && p.questions) db = p; }
+  }catch(e){}
+  try{
+    const raw = localStorage.getItem(CFK);
+    if(raw){ const c = JSON.parse(raw); if(c) cloud = Object.assign(cloud, c); }
+  }catch(e){}
+  $('gistId').value = cloud.gistId || '';
+  $('ghToken').value = cloud.token || '';
+  if(cloud.doctor){
+    $('doctorName').value = cloud.doctor.name || '';
+    $('doctorTitle').value = cloud.doctor.title || '';
+    renderPhoto();
+  }
+  if(cloud.lastSync) $('lastSync').textContent = new Date(cloud.lastSync).toLocaleString('ar-EG');
+  $('localCount').textContent = Object.keys(db.questions).length;
+}
+function renderPhoto(){
+  const box = $('photoBox');
+  if(cloud.doctor.photo){
+    box.innerHTML = `<img src="${cloud.doctor.photo}" alt="">`;
+  } else {
+    box.innerHTML = `<span class="placeholder">🩺<small>صورة الطبيب</small></span>`;
+  }
+}
+function categorize(text){
+  const lower = ' ' + String(text).toLowerCase() + ' ';
+  const scores = [];
+  for(const sp of SPECIALTIES){
+    let s = 0; const seen = new Set();
+    for(const kw of sp.kw){
+      const k = String(kw).toLowerCase().trim();
+      if(k.length < 3 || seen.has(k)) continue;
+      if(lower.includes(k)){ s++; seen.add(k); }
+    }
+    if(s > 0) scores.push({sp, s});
+  }
+  scores.sort((a,b) => b.s - a.s);
+  if(!scores.length) return {primary:null, secondary:null};
+  const primary = scores[0].sp;
+  let secondary = null;
+  for(let i=1; i<scores.length; i++){
+    if(scores[i].sp.id !== primary.id){ secondary = scores[i].sp; break; }
+  }
+  return {primary, secondary};
+}
+function detectSub(text, cat){
+  const lower = ' ' + String(text).toLowerCase() + ' ';
+  let best = null, bestS = 0;
+  for(const st of SUBTOPICS){
+    if(st.cat !== cat) continue;
+    let s = 0;
+    for(const kw of st.kw){
+      const k = String(kw).toLowerCase().trim();
+      if(k.length < 3) continue;
+      if(lower.includes(k)) s++;
+    }
+    if(s > bestS){ bestS = s; best = st; }
+  }
+  return bestS >= 1 ? best : null;
+}
+function splitQ(body){
+  if(!body) return {q:'', opts:'', ans:''};
+  const text = String(body).trim();
+  const ansRe = /(?:^|\n)\s*(?:Answer|Correct Answer|Ans|الإجابة|الجواب|الاجابة)\s*[:\-]?\s*/i;
+  const am = text.match(ansRe);
+  let main = text, ans = '';
+  if(am){
+    main = text.slice(0, am.index).trim();
+    ans = text.slice(am.index + am[0].length).trim();
+  }
+  const optRe = /(?:^|\n)\s*A\s*[\)\.\-:]\s+/;
+  const om = main.match(optRe);
+  let q = main, opts = '';
+  if(om){ q = main.slice(0, om.index).trim(); opts = main.slice(om.index).trim(); }
+  return {
+    q: q.replace(/[ \t]+$/gm,'').trim(),
+    opts: opts.replace(/[ \t]+$/gm,'').trim(),
+    ans: ans.replace(/[ \t]+$/gm,'').trim()
+  };
+}
+const D = '[0-9\u0660-\u0669\u06F0-\u06F9]';
+function parseText(text){
+  const result = {questions:[], prefix:''};
+  if(!text || !text.trim()) return result;
+  const qRe = new RegExp('(?:^|\\n)[ \\t]*([A-Za-z\\u0600-\\u06FF]{0,6})[ \\t]*[\\-_#]?[ \\t]*(' + D + '{1,6})[ \\t]*[:\\uFF1A.\\-\\u2014)\\]]','g');
+  const marks = []; let m;
+  while((m = qRe.exec(text)) !== null){
+    const num = toInt(m[2]);
+    if(num > 0 && num < 1000000) marks.push({pfx:m[1]||'', num, bodyStart:m.index + m[0].length});
+  }
+  if(!marks.length) return result;
+  const pfxCount = {};
+  marks.forEach(x => { if(x.pfx) pfxCount[x.pfx] = (pfxCount[x.pfx]||0)+1; });
+  let bestPfx = '', bestN = 0;
+  for(const k in pfxCount) if(pfxCount[k] > bestN){ bestN = pfxCount[k]; bestPfx = k; }
+  if(bestPfx) result.prefix = bestPfx;
+  for(let i=0; i<marks.length; i++){
+    const start = marks[i].bodyStart;
+    const end = (i+1 < marks.length) ? marks[i+1].bodyStart : text.length;
+    let raw = text.slice(start, end);
+    raw = raw.replace(/\n\s*[A-Za-z\u0600-\u06FF]{0,6}\s*[\-_#]?\s*[\d\u0660-\u0669\u06F0-\u06F9]{1,6}\s*[:\uFF1A.\-\u2014)\]]\s*$/,'');
+    const body = raw.replace(/\n+$/,'').replace(/^\n+/,'').trim();
+    if(body.length > 5) result.questions.push({num:marks[i].num, body});
+  }
+  return result;
+}
+function buildQ(q){
+  const parts = splitQ(q.body);
+  const full = parts.q + ' ' + parts.opts + ' ' + parts.ans;
+  const cat = categorize(full);
+  const sub = cat.primary ? detectSub(full, cat.primary.ar) : null;
+  return {
+    num:q.num, body:q.body, parts,
+    category: cat.primary ? cat.primary.ar : 'غير مصنّف',
+    categoryEn: cat.primary ? cat.primary.en : '',
+    categoryIcon: cat.primary ? cat.primary.icon : '📄',
+    subCategory: cat.secondary ? cat.secondary.ar : '',
+    subCategoryEn: cat.secondary ? cat.secondary.en : '',
+    subCategoryIcon: cat.secondary ? cat.secondary.icon : '',
+    topic: sub ? sub.ar : '',
+    topicIcon: sub ? sub.icon : '',
+    translation: null, showAr: false,
+    updatedAt: Date.now()
+  };
+}
+function renderPreview(parsed){
+  if(!parsed || !parsed.questions.length){
+    $('previewGrid').innerHTML = '<div class="empty" style="grid-column:1/-1"><span class="ico">🔍</span><b>لا توجد معاينة</b><br>الصق نصًا ثم اضغط «معاينة»</div>';
+    return;
+  }
+  $('previewGrid').innerHTML = parsed.questions.map(q => {
+    const bq = buildQ(q);
+    return `<div class="preview-item">
+      <div class="p-head">
+        <span class="p-num">${parsed.prefix||db.prefix}${bq.num}</span>
+        <span class="p-cat">${bq.categoryIcon||''} ${esc(bq.category)}</span>
+        ${bq.topic ? `<span class="p-topic">${bq.topicIcon||''} ${esc(bq.topic)}</span>` : ''}
+      </div>
+      <div class="p-q">${esc(bq.parts.q) || '—'}</div>
+      ${bq.parts.ans ? `<div class="p-a">✓ ${esc(bq.parts.ans)}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+function addToDb(parsed){
+  let added = 0, updated = 0;
+  for(const q of parsed.questions){
+    const bq = buildQ(q);
+    const key = String(bq.num);
+    if(db.questions[key]){ bq.isNew = false; db.questions[key] = bq; updated++; }
+    else { bq.isNew = true; db.questions[key] = bq; added++; }
+  }
+  if(parsed.prefix) db.prefix = parsed.prefix;
+  saveDB();
+  $('localCount').textContent = Object.keys(db.questions).length;
+  return {added, updated};
+}
+
+async function gistGet(){
+  if(!cloud.gistId) throw new Error('أدخل Gist ID');
+  const r = await fetch(`https://api.github.com/gists/${cloud.gistId}`, {headers:{'Accept':'application/vnd.github+json'}});
+  if(!r.ok) throw new Error('HTTP ' + r.status);
+  const g = await r.json();
+  const f = g.files && (g.files['data.json'] || Object.values(g.files)[0]);
+  if(!f) throw new Error('لا يوجد ملف');
+  let content = f.content;
+  if(f.truncated && f.raw_url){
+    const rr = await fetch(f.raw_url);
+    content = await rr.text();
+  }
+  return JSON.parse(content);
+}
+async function gistPut(payload){
+  if(!cloud.gistId || !cloud.token) throw new Error('أدخل Gist ID و Token');
+  const r = await fetch(`https://api.github.com/gists/${cloud.gistId}`, {
+    method: 'PATCH',
+    headers: {
+      'Accept': 'application/vnd.github+json',
+      'Authorization': 'Bearer ' + cloud.token,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ files: { 'data.json': { content: JSON.stringify(payload) } } })
+  });
+  if(!r.ok){
+    const txt = await r.text();
+    throw new Error('HTTP ' + r.status + ' — ' + txt.slice(0,100));
+  }
+  return await r.json();
+}
+async function pushAll(){
+  const total = Object.keys(db.questions).length;
+  const payload = {
+    questions: db.questions,
+    prefix: db.prefix,
+    doctor: cloud.doctor,
+    uploadedAt: Date.now()
+  };
+  await gistPut(payload);
+  cloud.lastSync = Date.now();
+  saveCfg();
+  $('lastSync').textContent = new Date(cloud.lastSync).toLocaleString('ar-EG');
+  setStatus('ok', `✓ رُفع بنجاح (${total} سؤال)`);
+  return total;
+}
+
+$('photoBox').addEventListener('click', () => $('photoInput').click());
+$('btnUploadPhoto').addEventListener('click', () => $('photoInput').click());
+$('photoInput').addEventListener('change', e => {
+  const f = e.target.files[0];
+  if(!f) return;
+  if(f.size > 2 * 1024 * 1024){ toast('الصورة كبيرة — أقل من 2 ميجابايت','err'); return; }
+  const reader = new FileReader();
+  reader.onload = ev => {
+    cloud.doctor.photo = ev.target.result;
+    saveCfg(); renderPhoto();
+    toast('✓ تم — لا تنسَ رفعها للسحابة','ok');
+  };
+  reader.readAsDataURL(f);
+  e.target.value = '';
+});
+$('btnRemovePhoto').addEventListener('click', () => {
+  cloud.doctor.photo = '';
+  saveCfg(); renderPhoto();
+  toast('تم الإزالة','ok');
+});
+$('doctorName').addEventListener('input', e => { cloud.doctor.name = e.target.value; saveCfg(); });
+$('doctorTitle').addEventListener('input', e => { cloud.doctor.title = e.target.value; saveCfg(); });
+$('btnTest').addEventListener('click', async () => {
+  cloud.gistId = $('gistId').value.trim();
+  cloud.token = $('ghToken').value.trim();
+  if(!cloud.gistId){ setStatus('err','أدخل Gist ID'); return toast('أدخل Gist ID','err'); }
+  setStatus('','جارٍ الاتصال...');
+  try{
+    const d = await gistGet();
+    const n = d.questions ? Object.keys(d.questions).length : 0;
+    setStatus('ok', `✓ متصل — ${n} سؤال في السحابة`);
+    toast(`✓ الاتصال ناجح (${n} سؤال)`,'gh');
+  }catch(e){
+    setStatus('err', '✕ فشل: ' + e.message);
+    toast('فشل: ' + e.message,'err');
+  }
+});
+$('btnSaveCfg').addEventListener('click', () => {
+  cloud.gistId = $('gistId').value.trim();
+  cloud.token = $('ghToken').value.trim();
+  saveCfg();
+  toast('✓ حُفظت','ok');
+});
+$('btnPull').addEventListener('click', async () => {
+  cloud.gistId = $('gistId').value.trim();
+  saveCfg();
+  if(!confirm('استبدال المحلي بالسحابة؟')) return;
+  try{
+    const d = await gistGet();
+    if(d.questions) db.questions = d.questions;
+    if(d.prefix) db.prefix = d.prefix;
+    if(d.doctor) cloud.doctor = Object.assign(cloud.doctor, d.doctor);
+    saveDB(); saveCfg();
+    $('localCount').textContent = Object.keys(db.questions).length;
+    $('doctorName').value = cloud.doctor.name || '';
+    $('doctorTitle').value = cloud.doctor.title || '';
+    renderPhoto();
+    toast(`✓ جُلب ${Object.keys(db.questions).length} سؤال`,'gh');
+  }catch(e){
+    toast('فشل: ' + e.message,'err');
+  }
+});
+$('btnPushNow').addEventListener('click', async () => {
+  cloud.gistId = $('gistId').value.trim();
+  cloud.token = $('ghToken').value.trim();
+  cloud.doctor.name = $('doctorName').value.trim();
+  cloud.doctor.title = $('doctorTitle').value.trim();
+  saveCfg();
+  if(!cloud.gistId || !cloud.token) return toast('أدخل Gist ID و Token','err');
+  try{
+    setStatus('','جارٍ الرفع...');
+    const total = await pushAll();
+    toast(`✓ رُفع (${total} سؤال)`,'gh');
+  }catch(e){
+    setStatus('err','✕ فشل');
+    toast('فشل: ' + e.message,'err');
+  }
+});
+$('btnPreview').addEventListener('click', () => {
+  const text = $('input').value;
+  if(!text.trim()) return toast('الصق نصًا','err');
+  const parsed = parseText(text);
+  if(!parsed.questions.length) return toast('لم يتم التعرف','err');
+  renderPreview(parsed);
+  toast(`✓ ${parsed.questions.length} سؤال`,'ok');
+});
+$('btnAdd').addEventListener('click', async () => {
+  const text = $('input').value;
+  if(!text.trim()) return toast('الصق نصًا','err');
+  const parsed = parseText(text);
+  if(!parsed.questions.length) return toast('لم يتم التعرف','err');
+  cloud.gistId = $('gistId').value.trim();
+  cloud.token = $('ghToken').value.trim();
+  cloud.doctor.name = $('doctorName').value.trim();
+  cloud.doctor.title = $('doctorTitle').value.trim();
+  saveCfg();
+  const r = addToDb(parsed);
+  renderPreview(parsed);
+  toast(`✓ محلي: +${r.added} · ~${r.updated}`,'ok');
+  if($('autoClear').checked) $('input').value = '';
+  if(cloud.gistId && cloud.token){
+    setStatus('','جارٍ الرفع...');
+    try{
+      const total = await pushAll();
+      toast(`✓ رُفع ${total} سؤال`,'gh');
+    }catch(e){
+      setStatus('err','✕ فشل الرفع');
+      toast('فشل الرفع: ' + e.message,'err');
+    }
+  }
+});
+$('btnClear').addEventListener('click', () => {
+  $('input').value = '';
+  $('previewGrid').innerHTML = '<div class="empty" style="grid-column:1/-1"><span class="ico">🔍</span><b>لا توجد معاينة</b></div>';
+});
+$('btnExport').addEventListener('click', () => {
+  cloud.gistId = $('gistId').value.trim();
+  cloud.doctor.name = $('doctorName').value.trim();
+  cloud.doctor.title = $('doctorTitle').value.trim();
+  if(!cloud.gistId) return toast('أدخل Gist ID أولاً','err');
+  saveCfg();
+  const tpl = document.getElementById('studyTpl');
+  const docJson = JSON.stringify(cloud.doctor).replace(/</g,'\\u003c').replace(/>/g,'\\u003e');
+  const content = tpl.innerHTML
+    .replace(/__GIST_ID__/g, JSON.stringify(cloud.gistId).slice(1,-1))
+    .replace('__DOCTOR__', docJson);
+  const html = `<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0f766e">
+<title>بنك أسئلة البورد العربي — ${esc(cloud.doctor.name)}</title>
+</head>
+<body>${content}</body>
+</html>`;
+  const blob = new Blob([html], {type:'text/html;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'study.html';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(a.href), 3000);
+  toast('✓ تم تصدير study.html','gold');
+});
+loadAll();
+})();
+</script>
+</body>
+</html>
